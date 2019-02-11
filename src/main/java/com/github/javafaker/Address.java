@@ -126,4 +126,8 @@ public class Address {
         return distance + direction + " of the " + intersection; 
     }
     
+    public String poBoxAddress() {
+        return faker.numerify(faker.fakeValuesService().resolve("address.pobox_address", this,faker));
+    }
+    
 }
