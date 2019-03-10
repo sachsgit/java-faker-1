@@ -1,5 +1,16 @@
 package com.github.javafaker;
 
+import com.github.javafaker.repeating.Repeat;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.hamcrest.Matchers;
+import org.hamcrest.core.IsNot;
+import org.junit.Test;
+
+import java.util.List;
+import java.util.Locale;
+
 import static com.github.javafaker.matchers.CountOfCharactersMatcher.countOf;
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
 import static java.lang.Integer.parseInt;
@@ -276,5 +287,16 @@ public class InternetTest extends AbstractFakerTest {
         assertThat(f.internet().emailAddress(), not(emptyOrNullString()));
         assertThat(f.internet().safeEmailAddress(), not(emptyOrNullString()));
         assertThat(f.internet().url(), not(emptyOrNullString()));
+    }
+
+    @Test
+    public void testUserAgent() {
+        Internet.UserAgent[] agents = Internet.UserAgent.values();
+        for(Internet.UserAgent agent : agents) {
+            assertThat(faker.internet().userAgent(agent), not(isEmptyOrNullString()));
+        }
+
+        //Test faker.internet().userAgentAny() for random user_agent retrieval.
+        assertThat(faker.internet().userAgentAny(), not(isEmptyOrNullString()));
     }
 }
