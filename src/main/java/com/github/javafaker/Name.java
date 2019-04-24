@@ -1,5 +1,6 @@
 package com.github.javafaker;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.github.javafaker.service.RandomService;
@@ -71,7 +72,19 @@ public class Name {
      * @return a 'given' name of a certain length
      */
 	public String firstName(int length) {
-        return faker.fakeValuesService().resolve("name.first_name", this, faker, length);
+        String firstName = null;
+        try {
+            firstName = faker.fakeValuesService().resolve("name.first_name", this, faker, length);
+        } catch (Exception e) {
+            firstName = faker.fakeValuesService().resolve("name.first_name", this, faker);
+        }
+        
+        if (firstName.length() < length) {
+            firstName = firstName + RandomStringUtils.randomAlphabetic(length - firstName.length());
+        } else if (firstName.length() > length) {
+            firstName = firstName.substring(0, length);
+        }
+        return firstName;
     }
 
     /**
@@ -83,7 +96,19 @@ public class Name {
     }
 
     public String lastName(int length) {
-        return faker.fakeValuesService().resolve("name.last_name", this, faker, length);
+        String lastName = null;
+        try {
+            lastName = faker.fakeValuesService().resolve("name.last_name", this, faker, length);
+        } catch (Exception e) {
+            lastName = faker.fakeValuesService().resolve("name.last_name", this, faker);
+        }
+        
+        if (lastName.length() < length) {
+            lastName = lastName + RandomStringUtils.randomAlphabetic(length - lastName.length());
+        } else if (lastName.length() > length) {
+            lastName = lastName.substring(0, length);
+        }
+        return lastName;
     }
     
     /**
@@ -136,14 +161,11 @@ public class Name {
      * @see Name#lastName()
      */
     public String username() {
-
-        String username = StringUtils.join(new String[]{
+        return StringUtils.deleteWhitespace(StringUtils.join(new String[]{
                 firstName().replaceAll("'", "").toLowerCase(),
                 ".",
                 lastName().replaceAll("'", "").toLowerCase()}
-        );
-
-        return StringUtils.deleteWhitespace(username);
+        ));
     }
     
     /**
