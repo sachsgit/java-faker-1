@@ -1,5 +1,6 @@
 package com.github.javafaker.service;
 
+import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -17,11 +18,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import com.github.javafaker.AbstractFakerTest;
-import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.CombinableMatcher.both;
-import static org.junit.Assert.assertThat;
+
 
 /**
  * @author pmiklos
