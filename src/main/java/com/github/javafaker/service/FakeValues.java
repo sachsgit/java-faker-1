@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public class FakeValues implements FakeValuesInterface {
     private final Locale locale;
     private final String filename;
     private final String path;
-    @SuppressWarnings("rawtypes")
     private Map values;
 
     FakeValues(Locale locale) {
@@ -61,8 +61,8 @@ public class FakeValues implements FakeValuesInterface {
 
         List<String> paths = Arrays.asList(pathWithLocaleAndFilename, pathWithFilename, pathWithLocale);
         InputStream stream = null;
-        for (String path : paths) {
-            stream = findStream(path);
+        for (String strPath : paths) {
+            stream = findStream(strPath);
             if (stream != null) {
                 break;
             }
