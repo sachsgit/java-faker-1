@@ -1,23 +1,13 @@
 package com.github.javafaker.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.JarURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -25,12 +15,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.yaml.snakeyaml.Yaml;
 
 import com.github.javafaker.Address;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
-import com.github.javafaker.service.files.En;
+import com.github.javafaker.service.files.EnFile;
 import com.mifmif.common.regex.Generex;
 
 public class FakeValuesService {
@@ -38,8 +27,7 @@ public class FakeValuesService {
 
     private final Logger log = Logger.getLogger("faker");
 
-    private final List<Map<String, Object>> fakeValuesMaps;
-
+    private final List<FakeValuesInterface> fakeValuesList;
     private final RandomService randomService;
 
     /**
@@ -71,105 +59,22 @@ public class FakeValuesService {
         locale = normalizeLocale(locale);
 
         final List<Locale> locales = localeChain(locale);
-        final List<Map<String, Object>> all = new ArrayList<Map<String, Object>>(locales.size());
-        final Set<Locale> loadedLocales = new HashSet<Locale>();
+        final List<FakeValuesInterface> all = new ArrayList<FakeValuesInterface>(locales.size());
 
         for (final Locale l : locales) {
-            final StringBuilder filename = new StringBuilder(language(l));
-            if (!"".equals(l.getCountry())) {
-                filename.append("-").append(l.getCountry());
-            }
-
             boolean isEnglish = l.equals(Locale.ENGLISH);
             if (isEnglish) {
-                for (String file : En.FILES) {
-                    final InputStream stream = findStream("/en/" + file.toString());
-                    if (stream != null) {
-                        all.add(fakerFromStream(stream, filename.toString()));
-                        loadedLocales.add(l);
-                    }
+                FakeValuesGrouping fakeValuesGrouping = new FakeValuesGrouping();
+                for (EnFile file : EnFile.getFiles()) {
+                    fakeValuesGrouping.add(new FakeValues(l, file.getFile(), file.getPath()));
                 }
-                loadedLocales.add(l);
+                all.add(fakeValuesGrouping);
             } else {
-                final InputStream stream = findStream("/" + filename.toString() + ".yml");
-                if (stream != null) {
-                    all.add(fakerFromStream(stream, filename.toString()));
-                    loadedLocales.add(l);
-                }
+                all.add(new FakeValues(locale));
             }
         }
 
-        if (loadedLocales.size() == 1 && loadedLocales.contains(Locale.ENGLISH) && !locale.equals(Locale.ENGLISH)) {
-            // if we have only successfully loaded ENGLISH and the requested locale
-            // wasn't english that means we were unable to load the requested locale
-            // in that case we vomit.
-            // If someone requests FRANCE ("fr","FR") and we can't load fr_FR but we
-            // load "fr", then that's ok. we picked up a variant. only if we ONLY pick up
-            // the default do we throw that exception.
-            throw new LocaleDoesNotExistException(locale.toString() + " does not exist");
-        }
-
-        this.fakeValuesMaps = Collections.unmodifiableList(all);
-    }
-
-    public void loadFromJarFile(List<Map<String, Object>> all, Set<Locale> loadedLocales, Locale locale, StringBuilder filename) {
-        try {
-            ClassLoader loader = getClass().getClassLoader();
-            URL url = loader.getResource(filename.toString());
-            JarURLConnection connection = (JarURLConnection) url.openConnection();
-            JarFile jarFile = connection.getJarFile();
-            Enumeration<JarEntry> entries = jarFile.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry jarEntry = entries.nextElement();
-                String jarEntryName = jarEntry.getName();
-                if (jarEntryName.contains(filename.toString() + "/") && jarEntryName.endsWith(".yml")) {
-                    InputStream inputStream = jarFile.getInputStream(jarEntry);
-                    if (inputStream != null) {
-                        all.add(fakerFromStream(inputStream, filename.toString()));
-                        loadedLocales.add(locale);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new LocaleDoesNotExistException(filename.toString());
-        }
-    }
-
-    public boolean isJarFile(String fileName) {
-        ClassLoader loader = getClass().getClassLoader();
-        URL url = loader.getResource(fileName);
-        return url != null && url.getProtocol().equals("jar");
-    }
-
-    public File[] listFilesInDirectoryOnClasspath(String dir) {
-        ClassLoader loader = getClass().getClassLoader();
-        URL url = loader.getResource(dir);
-        if (url == null) {
-            return new File[0];
-        } else {
-            return new File(url.getPath()).listFiles();
-        }
-    }
-
-    /**
-     * If you new up a locale with "he", it gets converted to "iw" which is old.
-     * This addresses that unfortunate condition.
-     */
-    private String language(Locale l) {
-        if (l.getLanguage().equals("iw")) {
-            return "he";
-        }
-        return l.getLanguage();
-    }
-
-    /**
-     * @return the embedded faker: clause from the loaded Yml by the localeName, so .yml > en-us: > faker:
-     */
-    @SuppressWarnings("unchecked")
-	protected Map<String, Object> fakerFromStream(InputStream stream, String localeName) {
-        final Map<String, Object> valuesMap = new Yaml().loadAs(stream, Map.class);
-        final Map<String, Object> localeBased = ((Map<String, Object>)valuesMap.get(localeName));
-        return (Map<String, Object>) localeBased.get("faker");
+        this.fakeValuesList = Collections.unmodifiableList(all);
     }
 
     /**
@@ -208,14 +113,6 @@ public class FakeValuesService {
         } else {
             return new Locale(parts[0], parts[1]);
         }
-    }
-
-    private InputStream findStream(String filename) {
-        InputStream streamOnClass = getClass().getResourceAsStream(filename);
-        if (streamOnClass != null) {
-            return streamOnClass;
-        }
-        return ClassLoader.getSystemResourceAsStream(filename);
     }
 
     /**
@@ -304,15 +201,20 @@ public class FakeValuesService {
      *            dot. E.g. name.first_name
      * @return
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Object fetchObject(String key) {
         String[] path = key.split("\\.");
 
         Object result = null;
-        for (Map<String, Object> fakeValuesMap : fakeValuesMaps) {
-            Object currentValue = fakeValuesMap;
+        for (FakeValuesInterface fakeValuesInterface : fakeValuesList) {
+            Object currentValue = fakeValuesInterface;
             for (int p = 0; currentValue != null && p < path.length; p++) {
-                currentValue = ((Map<String, Object>) currentValue).get(path[p]);
+                String currentPath = path[p];
+                if (currentValue instanceof Map) {
+                    currentValue = ((Map) currentValue).get(currentPath);
+                } else  {
+                    currentValue = ((FakeValuesInterface) currentValue).get(currentPath);
+                }
             }
             result = currentValue;
             if (result != null) {
@@ -424,6 +326,7 @@ public class FakeValuesService {
      */
     public String resolve(String key, Object current, Faker root) {
         final String expression = safeFetch(key, null);
+
         if (expression == null) {
             throw new RuntimeException(key + " resulted in null expression");
         }
