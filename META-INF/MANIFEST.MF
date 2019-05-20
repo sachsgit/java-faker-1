@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Name: javaFaker
 Built-Originally-By: ricky
 Updated-By: sachsgit
-Build-Jdk: 11.0.1
+Build-JDK: Java(TM) SE Runtime Environment (build 1.8.0_211-b12)
 Created-By: Apache Maven 3.5.4
 Specification-Title: Java Faker Classes
-Specification-Version: SS-0.2
+Specification-Version: 0.17.3

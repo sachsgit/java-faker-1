@@ -571,10 +571,16 @@ en:
       - "#{Name.last_name} #{street_suffix}"
       street_address:
       - "#{building_number} #{street_name}"
+      street_only_address:
+      - "#{street_address}, #{city}, #{state_abbr} #{zip_code}"
       full_address:
       - "#{street_address}, #{city}, #{state_abbr} #{zip_code}"
       - "#{secondary_address} #{street_address}, #{city}, #{state_abbr} #{zip_code}"
+      apt_address:
+      - "#{secondary_address} #{street_address}, #{city}, #{state_abbr} #{zip_code}"
       pobox_address:
       - "#{postbox}, #{city}, #{state_abbr} #{zip_code}"
+      regular_address:
+      - "#{street_address}, #{city}, #{state_abbr} #{zip_code}"
       default_country: [United States of America]
 
