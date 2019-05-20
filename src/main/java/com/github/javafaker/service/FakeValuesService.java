@@ -115,7 +115,7 @@ public class FakeValuesService {
         }
     }
 
-   /**
+    /**
      * Fetch a random value from an array item specified by the key
      *
      * @param key
@@ -201,7 +201,7 @@ public class FakeValuesService {
      *            dot. E.g. name.first_name
      * @return
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Object fetchObject(String key) {
         String[] path = key.split("\\.");
 
@@ -578,10 +578,16 @@ public class FakeValuesService {
 
             Class<?> toType = ClassUtils.primitiveToWrapper(accessor.getParameterTypes()[i]);
             try {
-                final Constructor<?> ctor = toType.getConstructor(String.class);
-                final Object coercedArgument = ctor.newInstance(args.get(i));
-
-                coerced.add(coercedArgument);
+                if (toType.isEnum()) {
+                    Method method = toType.getMethod( "valueOf", String.class );
+                    String enumArg = args.get( i ).substring( args.get( i ).indexOf( "." ) + 1 );
+                    Object coercedArg = method.invoke( null, enumArg );
+                    coerced.add( coercedArg );
+                } else {
+                    final Constructor<?> ctor = toType.getConstructor(String.class);
+                    final Object coercedArgument = ctor.newInstance(args.get(i));
+                    coerced.add(coercedArgument);
+                }
             } catch (Exception e) {
                 log.fine("Unable to coerce " + args.get(i) + " to " + toType.getSimpleName() + " via " + toType.getSimpleName() + "(String) constructor.");
                 return null;

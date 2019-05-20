@@ -126,4 +126,16 @@ public class Address {
         return distance + direction + " of the " + intersection; 
     }
     
+    public String poBoxAddress() {
+        return faker.numerify(faker.fakeValuesService().resolve("address.pobox_address", this,faker));
+    }
+    
+    public String aptAddress() {
+        return faker.fakeValuesService().resolve("address.apt_address", this, faker);
+    }
+    
+    public String fullRegularAddress() {
+        return faker.fakeValuesService().resolve("address.regular_address", this, faker);
+    }
+    
 }

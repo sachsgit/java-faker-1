@@ -121,11 +121,16 @@ public class AddressTest extends AbstractFakerTest {
     
     @Test
     public void testPhysicalDescription() {
-    	String physicalDescription = faker.address().physicalDescription();
-    	System.out.println("Physical Description: \"" + physicalDescription + "\"");
-        assertThat(physicalDescription, 
+    	assertThat(faker.address().physicalDescription(), 
             matchesRegularExpression("[1-5] mile(s){0,1} " + EXPRESSION 
                 + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
+    }
+    
+    @Test
+    public void testPOBoxAddress() {
+        faker = new Faker(new Locale("en-US"));
+        assertThat(faker.address().poBoxAddress(), 
+            matchesRegularExpression("PO Box \\d{2,5}, [A-Za-z'() ]+, \\w{2} \\d{5}(-\\d{4}){0,1}"));
     }
     
 }
