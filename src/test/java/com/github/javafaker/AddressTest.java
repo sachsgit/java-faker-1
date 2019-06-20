@@ -13,12 +13,13 @@ import static org.junit.Assert.assertThat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import org.junit.Test;
 
 public class AddressTest extends AbstractFakerTest {
-    private final static String EXPRESSION = "(north|east|west|south)+\\s{0,1}"
-        + "((by|-)\\s{0,1}(north|east|west|south)+){0,1}";
+    private static final Logger logger = Logger.getLogger("AddressTest");
+    private static final String EXPRESSION = "(north|east|west|south)+\\s{0,1}((by|-)\\s{0,1}(north|east|west|south)+){0,1}";
     private static final char decimalSeparator = new DecimalFormatSymbols().getDecimalSeparator();
 
     @Test
@@ -61,7 +62,8 @@ public class AddressTest extends AbstractFakerTest {
 
     @Test
     public void testTimeZone() {
-        assertThat(faker.address().timeZone(), matchesRegularExpression("[A-Za-z_]+/[A-Za-z_]+[/A-Za-z_]*"));
+        assertThat(faker.address().timeZone(),
+            matchesRegularExpression("[A-Za-z_]+/[A-Za-z_]+[/A-Za-z_]*"));
     }
 
     @Test
@@ -110,22 +112,46 @@ public class AddressTest extends AbstractFakerTest {
     @Test
     public void testZipCodeByState() {
         faker = new Faker(new Locale("en-US"));
-        assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()), matchesRegularExpression("[0-9]{5}"));
+        assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()),
+            matchesRegularExpression("[0-9]{5}"));
     }
 
     @Test
     public void testCountyByZipCode() {
         faker = new Faker(new Locale("en-US"));
-        assertThat(faker.address().countyByZipCode(faker.address().zipCodeByState(faker.address().stateAbbr())), not(isEmptyOrNullString()));
+        assertThat(
+            faker.address()
+                .countyByZipCode(faker.address().zipCodeByState(faker.address().stateAbbr())),
+            not(isEmptyOrNullString()));
     }
-    
+
     @Test
     public void testPhysicalDescription() {
-    	String physicalDescription = faker.address().physicalDescription();
-    	System.out.println("Physical Description: \"" + physicalDescription + "\"");
-        assertThat(physicalDescription, 
-            matchesRegularExpression("[1-5] mile(s){0,1} " + EXPRESSION 
-                + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
+        String physicalDescription = faker.address().physicalDescription();
+        logger.info("Physical Description: \"" + physicalDescription + "\"");
+        assertThat(physicalDescription, matchesRegularExpression(
+            "[1-5] mile(s){0,1} " + EXPRESSION + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
     }
-    
+
+    @Test
+    public void poBoxAddressTest() {
+        String poBoxAddress = faker.address().poBoxAddress();
+        logger.info("PO BOX Address: \"" + poBoxAddress + "\".");
+        assertThat(poBoxAddress, matchesRegularExpression("PO BOX \\d{2,5}, (?:[\\w']+(?: [\\w']+)*), \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
+    public void aptAddressTest() {
+        String aptAddress = faker.address().aptAddress();
+        logger.info("APT Address: \"" + aptAddress + "\"");
+        assertThat(aptAddress, matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)* (Apt.|Suite \\d+', (?:[\\w']+(?: [\\w']+)*, \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
+    public void fullRegularAddressTest() {
+        String regularAddress = faker.address().fullRegularAddress();
+        logger.info("Full Regular Address: \"" + regularAddress + "\".");
+        assertThat(regularAddress, matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)*, (?:[\\w']+(?: [\\w']+)*, \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
 }
