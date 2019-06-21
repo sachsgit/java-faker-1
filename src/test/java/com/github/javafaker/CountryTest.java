@@ -29,12 +29,12 @@ public class CountryTest extends AbstractFakerTest {
 
     @Test
     public void testCapital() {
-        assertThat(faker.country().capital(), matchesRegularExpression("([\\w-]+ ?)+"));
+        assertThat(faker.country().capital(), matchesRegularExpression("([\\w\\-]+ ?)+"));
     }
 
     @Test
     public void testCurrency() {
-        assertThat(faker.country().currency(), matchesRegularExpression("([\\w-]+ ?)+"));
+        assertThat(faker.country().currency(), matchesRegularExpression("([\\w\\-\\(\\)]+ ?)+"));
     }
 
     @Test
