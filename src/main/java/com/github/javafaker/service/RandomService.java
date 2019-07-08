@@ -64,5 +64,18 @@ public class RandomService {
     public String randomNumbersString(int length) {
         return RandomStringUtils.randomNumeric(length);
     }
+
+    public String hex() {
+        return hex(8);
+    }
+
+    public String hex(int length) {
+        char[] hexValues = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        StringBuilder hexString = new StringBuilder();
+        for(int i = 0; i < length; i++) {
+            hexString.append(hexValues[nextInt(hexValues.length)]);
+        }
+        return hexString.toString();
+    }
     
 }

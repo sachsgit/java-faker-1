@@ -1,5 +1,6 @@
 package com.github.javafaker.service;
 
+import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -65,5 +66,10 @@ public class RandomServiceTest extends AbstractFakerTest {
         for (int i = 1; i < 100; i++) {
             assertThat(randomService.nextInt(-5, 5), both(lessThanOrEqualTo(5)).and(greaterThanOrEqualTo(-5)));
         }
+    }
+
+    @Test
+    public void testHex() {
+        assertThat(randomService.hex(8), matchesRegularExpression("^[0-9A-F]{8}$"));
     }
 }
