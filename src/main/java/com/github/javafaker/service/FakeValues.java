@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public class FakeValues implements FakeValuesInterface {
     private final Locale locale;
     private final String filename;
