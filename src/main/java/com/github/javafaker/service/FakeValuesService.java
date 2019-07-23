@@ -51,6 +51,7 @@ public class FakeValuesService {
      * @param locale
      * @param randomService
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public FakeValuesService(Locale locale, RandomService randomService) {
         if (locale == null) {
             throw new IllegalArgumentException("locale is required");
@@ -59,7 +60,7 @@ public class FakeValuesService {
         locale = normalizeLocale(locale);
 
         final List<Locale> locales = localeChain(locale);
-        final List<FakeValuesInterface> all = new ArrayList<FakeValuesInterface>(locales.size());
+        final List<FakeValuesInterface> all = new ArrayList(locales.size());
 
         for (final Locale l : locales) {
             boolean isEnglish = l.equals(Locale.ENGLISH);
@@ -75,6 +76,7 @@ public class FakeValuesService {
         }
 
         this.fakeValuesList = Collections.unmodifiableList(all);
+
     }
 
     /**
@@ -122,7 +124,7 @@ public class FakeValuesService {
      * @return
      */
     @SuppressWarnings("unchecked")
-	public Object fetch(String key) {
+    public Object fetch(String key) {
         List<Object> valuesArray = (List<Object>)fetchObject(key);
         return valuesArray == null ? null : valuesArray.get(randomService.nextInt(valuesArray.size()));
     }
@@ -179,14 +181,17 @@ public class FakeValuesService {
             if (values.size() == 0) {
                 return defaultIfNull;
             }
-            List<String> subset = new ArrayList<String>();
-            for (int i = 0; i < values.size(); i++)
-                if (values.get(i).length() == size && StringUtils.isNoneEmpty(values.get(i)))
-                    subset.add(values.get(i));
-            if (subset.size() == 0) {
-                return defaultIfNull;
-            }
-            return subset.get(randomService.nextInt(subset.size()));
+            if (!values.get(0).matches("#\\{\\w+\\}")) {
+                List<String> subset = new ArrayList<String>();
+                for (int i = 0; i < values.size(); i++)
+                    if (values.get(i).length() == size && StringUtils.isNoneEmpty(values.get(i)))
+                        subset.add(values.get(i));
+                if (subset.size() == 0) {
+                    return defaultIfNull;
+                }
+                return subset.get(randomService.nextInt(subset.size()));
+            } else
+                return values.get(randomService.nextInt(values.size()));
         } else if (isSlashDelimitedRegex(o.toString())) {
             return String.format("#{regexify '%s'}", trimRegexSlashes(o.toString()));
         } else {
@@ -340,7 +345,7 @@ public class FakeValuesService {
             throw new RuntimeException(key + " with size " + size + " resulted in null expression");
         }
 
-        return resolveExpression(expression, current, root);
+        return resolveExpression(expression, current, root, size);
     }
 
     /**
@@ -395,6 +400,30 @@ public class FakeValuesService {
         }
         return result;
     }
+    
+    protected String resolveExpression(String expression, Object current, Faker root, int size) {
+        final Matcher matcher = EXPRESSION_PATTERN.matcher(expression);
+
+        String result = expression;
+        while (matcher.find()) {
+            final String escapedDirective = matcher.group(0);
+            final String directive = matcher.group(1);
+            List<String> args = new ArrayList<String>();
+            for (int i = 2; i < matcher.groupCount() + 1 && matcher.group(i) != null; i++) {
+                args.add(matcher.group(i));
+            }
+
+            // resolve the expression and reprocess it to handle recursive templates
+            String resolved = resolveExpression(directive, args, current, root, size);
+            if (resolved == null) {
+                throw new RuntimeException("Unable to resolve " + escapedDirective + " directive.");
+            }
+
+            resolved = resolveExpression(resolved, current, root);
+            result = StringUtils.replaceOnce(result, escapedDirective, resolved);
+        }
+        return result;
+    }
 
     /**
      * <h1>Search Order</h1>
@@ -426,6 +455,49 @@ public class FakeValuesService {
         // car.wheel will be looked up in the YAML file.
         if (resolved == null) {
             resolved = safeFetch(simpleDirective, null);
+        }
+
+        // resolve method references on faker object like #{regexify '[a-z]'}
+        if (resolved == null && !isDotDirective(directive)) {
+            resolved = resolveFromMethodOn(root, directive, args);
+        }
+
+        // Resolve Faker Object method references like #{ClassName.method_name}
+        if (resolved == null && isDotDirective(directive)) {
+            resolved = resolveFakerObjectAndMethod(root, directive, args);
+        }
+
+        // last ditch effort.  Due to Ruby's dynamic nature, something like 'Address.street_title' will resolve
+        // because 'street_title' is a dynamic method on the Address object.  We can't do this in Java so we go
+        // thru the normal resolution above, but if we will can't resolve it, we once again do a 'safeFetch' as we
+        // did first but FIRST we change the Object reference Class.method_name with a yml style internal refernce ->
+        // class.method_name (lowercase)
+        if (resolved == null && isDotDirective(directive)) {
+            resolved = safeFetch(javaNameToYamlName(simpleDirective), null);
+        }
+
+        return resolved;
+    }
+    
+    private String resolveExpression(String directive, List<String> args, Object current, Faker root, int size) {
+        // name.name (resolve locally)
+        // Name.first_name (resolve to faker.name().firstName())
+        final String simpleDirective = (isDotDirective(directive) || current == null)
+                ? directive
+                : classNameToYamlName(current) + "." + directive;
+
+        String resolved = null;
+        // resolve method references on CURRENT object like #{number_between '1','10'} on Number or
+        // #{ssn_valid} on IdNumber
+        if (!isDotDirective(directive)) {
+            resolved = resolveFromMethodOn(current, directive, args);
+        }
+
+        // simple fetch of a value from the yaml file. the directive may have been mutated
+        // such that if the current yml object is car: and directive is #{wheel} then
+        // car.wheel will be looked up in the YAML file.
+        if (resolved == null) {
+            resolved = safeFetch(simpleDirective, null, size);
         }
 
         // resolve method references on faker object like #{regexify '[a-z]'}

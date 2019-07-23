@@ -64,7 +64,7 @@ public class RandomService {
     public String randomNumbersString(int length) {
         return RandomStringUtils.randomNumeric(length);
     }
-    
+
     public String hex() {
         return hex(8);
     }
@@ -78,4 +78,5 @@ public class RandomService {
         }
         return hexString.toString();
     }
+    
 }

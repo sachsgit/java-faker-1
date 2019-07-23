@@ -2,10 +2,10 @@ package com.github.javafaker.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -106,15 +106,15 @@ public class FakerIT {
     public void testAllFakerMethodsThatReturnStrings() throws Exception {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker);
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.ancient());
-        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.address());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.app());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.artist());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.aviation());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.backToTheFuture());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.business());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.book());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.chuckNorris());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.color());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.commerce());
-        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.compass());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.company());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.country());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.crypto());
@@ -166,6 +166,9 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.witcher());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.weather());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.lebowski());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.animal());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.princessBride());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.elderScrolls());
     }
 
     private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object) throws Exception {

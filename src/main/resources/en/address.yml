@@ -583,4 +583,7 @@ en:
       regular_address:
       - "#{street_address}, #{city}, #{state_abbr} #{zip_code}"
       default_country: [United States of America]
-
+      pobox_number: ['##', '###', '####', '#####']
+      pobox_address: "PO BOX #{pobox_number}, #{city}, #{state_abbr} #{zip_code}"
+      apt_address: "#{street_address} #{secondary_address}, #{city}, #{state_abbr} #{zip_code}"
+      regular_address: "#{street_address}, #{city}, #{state_abbr} #{zip_code}"
