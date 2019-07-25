@@ -7,6 +7,8 @@ import static org.hamcrest.core.IsNot.not;
 
 import org.junit.Test;
 
+import org.junit.Test;
+
 public class FriendsTest extends AbstractFakerTest {
 
     @Test

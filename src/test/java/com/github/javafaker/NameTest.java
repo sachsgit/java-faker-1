@@ -93,7 +93,7 @@ public class NameTest  extends AbstractFakerTest {
         final Name name = spy(new Name(faker));
         doReturn("Compound Name").when(name).firstName();
         doReturn(name).when(faker).name();
-        assertThat(faker.name().username(), matchesRegularExpression("^(\\w+)\\.(\\w+)$"));
+        assertThat(faker.name().username(), matchesRegularExpression("^(\\w+) (\\w+)\\.(\\w+)$"));
     }
 
     @Test

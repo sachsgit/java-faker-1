@@ -26,6 +26,17 @@ import com.github.javafaker.repeating.Repeat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.commons.validator.routines.EmailValidator;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+
+import com.github.javafaker.repeating.Repeat;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
 public class InternetTest extends AbstractFakerTest {
 
     @Test

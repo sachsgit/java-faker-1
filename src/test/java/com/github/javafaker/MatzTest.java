@@ -12,4 +12,5 @@ public class MatzTest extends AbstractFakerTest {
     public void quote() {
         assertThat(faker.matz().quote(), not(emptyOrNullString()));
     }
+    
 }

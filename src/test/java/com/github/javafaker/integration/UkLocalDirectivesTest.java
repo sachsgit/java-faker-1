@@ -47,6 +47,5 @@ public class UkLocalDirectivesTest {
                 startsWithFemPrefix || startsWithMascPrefix, 
                 is(true));
     }
-    
-    
+   
 }
