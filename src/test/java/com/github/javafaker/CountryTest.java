@@ -2,7 +2,11 @@ package com.github.javafaker;
 
 import static com.github.javafaker.matchers.IsStringWithContents.isStringWithContents;
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.junit.Test;
+
+import com.github.javafaker.repeating.Repeat;
 
 import org.junit.Test;
 
@@ -30,12 +34,12 @@ public class CountryTest extends AbstractFakerTest {
 
     @Test
     public void testCapital() {
-        assertThat(faker.country().capital(), matchesRegularExpression("([\\w'-]+ ?)+"));
+        assertThat(faker.country().capital(), matchesRegularExpression("([\\w\\-]+ ?)+"));
     }
 
     @Test
     public void testCurrency() {
-        assertThat(faker.country().currency(), matchesRegularExpression("([\\w-]+ ?)+"));
+        assertThat(faker.country().currency(), matchesRegularExpression("([\\w\\-\\(\\)]+ ?)+"));
     }
 
     @Test

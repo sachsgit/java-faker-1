@@ -2,13 +2,13 @@ package com.github.javafaker;
 
 import static com.github.javafaker.matchers.IsANumber.isANumber;
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.isEmptyString;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -17,7 +17,8 @@ import java.util.Random;
 import org.junit.Test;
 
 public class AddressTest extends AbstractFakerTest {
-
+    private final static String EXPRESSION = "(north|east|west|south)+\\s{0,1}"
+        + "((by|-)\\s{0,1}(north|east|west|south)+){0,1}";
     private static final char decimalSeparator = new DecimalFormatSymbols().getDecimalSeparator();
 
     @Test
@@ -39,7 +40,7 @@ public class AddressTest extends AbstractFakerTest {
         for (int i = 0; i < 100; i++) {
             latStr = faker.address().latitude().replace(decimalSeparator, '.');
             assertThat(latStr, isANumber());
-            lat = new Double(latStr);
+            lat = Double.parseDouble(latStr);
             assertThat("Latitude is less then -90", lat, greaterThanOrEqualTo(-90.0));
             assertThat("Latitude is greater than 90", lat, lessThanOrEqualTo(90.0));
         }
@@ -52,7 +53,7 @@ public class AddressTest extends AbstractFakerTest {
         for (int i = 0; i < 100; i++) {
             longStr = faker.address().longitude().replace(decimalSeparator, '.');
             assertThat(longStr, isANumber());
-            lon = new Double(longStr);
+            lon = Double.parseDouble(longStr);
             assertThat("Longitude is less then -180", lon, greaterThanOrEqualTo(-180.0));
             assertThat("Longitude is greater than 180", lon, lessThanOrEqualTo(180.0));
         }
@@ -90,7 +91,7 @@ public class AddressTest extends AbstractFakerTest {
 
     @Test
     public void testStreetAddressIncludeSecondary() {
-        assertThat(faker.address().streetAddress(true), not(isEmptyString()));
+        assertThat(faker.address().streetAddress(true), not(emptyString()));
     }
 
     @Test
@@ -103,7 +104,7 @@ public class AddressTest extends AbstractFakerTest {
 
     @Test
     public void testFullAddress() {
-        assertThat(faker.address().fullAddress(), not(isEmptyOrNullString()));
+        assertThat(faker.address().fullAddress(), not(emptyOrNullString()));
     }
 
     @Test
@@ -111,10 +112,39 @@ public class AddressTest extends AbstractFakerTest {
         faker = new Faker(new Locale("en-US"));
         assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()), matchesRegularExpression("[0-9]{5}"));
     }
-
+    
     @Test
     public void testCountyByZipCode() {
         faker = new Faker(new Locale("en-US"));
-        assertThat(faker.address().countyByZipCode("47732"), not(isEmptyOrNullString()));
+        assertThat(faker.address().countyByZipCode(faker.address().zipCodeByState(faker.address().stateAbbr())), not(emptyOrNullString()));
     }
+    
+    @Test
+    public void testPhysicalDescription() {
+        assertThat(faker.address().physicalDescription(), 
+            matchesRegularExpression("[1-5] mile(s){0,1} " + EXPRESSION 
+                + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
+    }
+    
+    @Test
+    public void testPOBoxAddress() {
+        faker = new Faker(new Locale("en-US")); // For US P.O. Boxes only
+        assertThat(faker.address().poBoxAddress(), 
+            matchesRegularExpression(
+                "PO BOX \\d{2,5}, (?:[\\w']+(?: [\\w']+)*), \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
+    public void aptAddressTest() {
+        assertThat(faker.address().aptAddress(), 
+            matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)* (Apt.|Suite \\d+', (?:[\\w']+(?: [\\w']+)*,"
+                + "\\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
+    public void fullRegularAddressTest() {
+        assertThat(faker.address().fullRegularAddress(), matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)*, (?:[\\w']+(?: [\\w']+)*,"
+                + " \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
 }

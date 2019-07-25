@@ -2,7 +2,7 @@ package com.github.javafaker;
 
 import static com.github.javafaker.matchers.IsStringWithContents.isStringWithContents;
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
@@ -25,7 +25,6 @@ public class TeamTest extends AbstractFakerTest {
         assertThat(faker.team().state(), matchesRegularExpression("(\\w+( )?){1,2}"));
     }
 
-
     @Test
     public void testStateWithZaLocale() {
         Faker zaFaker = new Faker(new Locale("en-ZA"));
@@ -35,6 +34,5 @@ public class TeamTest extends AbstractFakerTest {
     public void testSport() {
         assertThat(faker.team().sport(), matchesRegularExpression("(\\p{L}|\\s)+"));
     }
-
 
 }

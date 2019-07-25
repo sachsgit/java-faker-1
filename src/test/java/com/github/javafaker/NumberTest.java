@@ -1,12 +1,12 @@
 package com.github.javafaker;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -172,13 +172,11 @@ public class NumberTest extends AbstractFakerTest {
     @Test
     public void randomDoubleRandomizationQuality() {
         Function<Pair<Long, Long>, Double> minMaxRangeToUniquePercentageFunction = new Function<Pair<Long, Long>, Double>() {
-            @Override
             public Double apply(Pair<Long, Long> minMax) {
                 final int min = minMax.getLeft().intValue(), max = minMax.getRight().intValue();
                 long numbersToGet = calculateNumbersToGet(min, max);
 
                 return uniquePercentageOfResults(numbersToGet, new Callable<Double>() {
-                    @Override
                     public Double call() throws Exception {
                         return faker.number().randomDouble(0, min, max);
                     }
@@ -209,14 +207,12 @@ public class NumberTest extends AbstractFakerTest {
     @Test
     public void numberBetweenIntIntRandomizationQuality() {
         Function<Pair<Long, Long>, Double> minMaxRangeToUniquePercentageFunction = new Function<Pair<Long, Long>, Double>() {
-            @Override
             public Double apply(Pair<Long, Long> minMax) {
                 final int min = minMax.getLeft().intValue();
                 final int max = minMax.getRight().intValue();
                 long numbersToGet = calculateNumbersToGet(min, max);
 
                 return uniquePercentageOfResults(numbersToGet, new Callable<Integer>() {
-                    @Override
                     public Integer call() throws Exception {
                         return faker.number().numberBetween(min, max);
                     }
@@ -247,13 +243,11 @@ public class NumberTest extends AbstractFakerTest {
     @Test
     public void numberBetweenLongLongRandomizationQuality() {
         Function<Pair<Long, Long>, Double> minMaxRangeToUniquePercentageFunction = new Function<Pair<Long, Long>, Double>() {
-            @Override
             public Double apply(Pair<Long, Long> minMax) {
                 final long min = minMax.getLeft(), max = minMax.getRight();
                 long numbersToGet = calculateNumbersToGet(min, max);
 
                 return uniquePercentageOfResults(numbersToGet, new Callable<Long>() {
-                    @Override
                     public Long call() throws Exception {
                         return faker.number().numberBetween(min, max);
                     }
@@ -331,4 +325,5 @@ public class NumberTest extends AbstractFakerTest {
         if (numbersToGet == 0) numbersToGet = RANDOMIZATION_TESTS_MAX_NUMBERS_TO_GET;
         return numbersToGet;
     }
+    
 }

@@ -59,8 +59,8 @@ public class FakeValues implements FakeValuesInterface {
 
         List<String> paths = Arrays.asList(pathWithLocaleAndFilename, pathWithFilename, pathWithLocale);
         InputStream stream = null;
-        for (String path : paths) {
-            stream = findStream(path);
+        for (String strPath : paths) {
+            stream = findStream(strPath);
             if (stream != null) {
                 break;
             }

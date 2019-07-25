@@ -34,6 +34,7 @@ public class Faker {
     private final ChuckNorris chuckNorris;
     private final Color color;
     private final Commerce commerce;
+    private final Compass compass;
     private final Country country;
     private final Currency currency;
     private final Company company;
@@ -89,6 +90,7 @@ public class Faker {
     private final Animal animal;
     private final BackToTheFuture backToTheFuture;
     private final PrincessBride princessBride;
+    private final Relationships relationships;
 
     public Faker() {
         this(Locale.ENGLISH);
@@ -175,10 +177,12 @@ public class Faker {
         this.weather = new Weather(this);
         this.lebowski = new Lebowski(this);
         this.medical = new Medical(this);
+        this.compass = new Compass(this);
         this.country = new Country(this);
         this.animal = new Animal(this);
         this.backToTheFuture = new BackToTheFuture(this);
         this.princessBride = new PrincessBride(this);
+        this.relationships = new Relationships(this);
     }
 
     /**
@@ -571,9 +575,17 @@ public class Faker {
         return lebowski;
     }
 
-    public Medical medical(){return medical;}
+    public Medical medical(){
+    	return medical;
+    }
 
-    public Country country(){ return country;}
+    public Compass compass() {
+        return compass;
+    }
+
+	public Country country(){
+		return country;
+	}
 
     public Animal animal(){ return animal; }
 
@@ -585,6 +597,10 @@ public class Faker {
         return princessBride;
     }
 
+    public Relationships relationships() {
+        return relationships;
+    }
+    
     public String resolve(String key) {
         return this.fakeValuesService.resolve(key, this, this);
     }
@@ -608,4 +624,5 @@ public class Faker {
     public String expression(String expression) {
         return this.fakeValuesService.expression(expression, this);
     }
+
 }

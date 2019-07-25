@@ -1,7 +1,9 @@
 package com.github.javafaker;
 
 import static com.github.javafaker.matchers.IsStringWithContents.isStringWithContents;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.junit.Test;
 
 import org.junit.Test;
 
@@ -26,6 +28,5 @@ public class MedicalTest extends AbstractFakerTest {
     public void testSymptom() {
         assertThat(faker.medical().symptoms(), isStringWithContents());
     }
-
-
+    
 }

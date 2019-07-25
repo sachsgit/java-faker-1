@@ -1,0 +1,4 @@
+en:
+     faker:
+          relationships:
+               family: ["Spouse", "Father", "Child", "Daughter", "Son", "Mother", "Mother-in-law", "Father-in-law", "Daughter-in-law", "Son-in-law", "Brother", "Sister", "Grandparent", "Grandfather", "Grandmother", "Grandchild", "Grandson", "Granddaughter", "Step-parent", "Step-father", "Step-mother", "Stepchild", "Family", "Cousin", "Niece", "Nephew"]

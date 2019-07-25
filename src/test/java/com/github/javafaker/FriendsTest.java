@@ -1,9 +1,11 @@
 package com.github.javafaker;
 
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
 
 import org.junit.Test;
 
@@ -21,6 +23,6 @@ public class FriendsTest extends AbstractFakerTest {
 
     @Test
     public void quote() {
-        assertThat(faker.friends().quote(), not(isEmptyOrNullString()));
+        assertThat(faker.friends().quote(), not(emptyOrNullString()));
     }
 }
