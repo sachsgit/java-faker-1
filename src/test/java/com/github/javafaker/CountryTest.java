@@ -8,10 +8,6 @@ import org.junit.Test;
 
 import com.github.javafaker.repeating.Repeat;
 
-import org.junit.Test;
-
-import com.github.javafaker.repeating.Repeat;
-
 public class CountryTest extends AbstractFakerTest {
 
     @Test
