@@ -5,11 +5,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
+import org.junit.Test;
+
 public class FoodTest extends AbstractFakerTest {
 
     @Test
     public void ingredient() {
-        assertThat(faker.food().ingredient(), matchesRegularExpression("[A-Za-z ]+"));
+        assertThat(faker.food().ingredient(), matchesRegularExpression("[-A-Za-z ]+"));
     }
 
     @Test

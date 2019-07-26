@@ -5,6 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
+import org.junit.Test;
+
 public class EsportsTest extends AbstractFakerTest {
 
     @Test
