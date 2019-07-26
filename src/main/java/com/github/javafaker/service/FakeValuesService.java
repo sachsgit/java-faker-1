@@ -168,7 +168,7 @@ public class FakeValuesService {
         } else if (isSlashDelimitedRegex(o.toString())) {
             return String.format("#{regexify '%s'}", trimRegexSlashes(o.toString()));
         } else {
-            return (String) o;
+            return o.toString();
         }
     }
 
