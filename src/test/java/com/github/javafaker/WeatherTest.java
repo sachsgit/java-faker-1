@@ -7,10 +7,6 @@ import static org.hamcrest.Matchers.emptyOrNullString;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
-import org.junit.Test;
-
 public class WeatherTest extends AbstractFakerTest {
 
     @Test
