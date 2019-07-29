@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 public class SlackEmojiTest extends AbstractFakerTest {
 
     private static final String EMOTICON_REGEX = ":([\\w-]+):";

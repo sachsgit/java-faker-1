@@ -7,9 +7,6 @@ import static org.hamcrest.Matchers.is;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.junit.Test;
 
-import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
-import org.junit.Test;
-
 public class FinanceTest extends AbstractFakerTest {
 
     @Test

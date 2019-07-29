@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import org.junit.Test;
 
+import org.junit.Test;
+
 public class FriendsTest extends AbstractFakerTest {
 
     @Test

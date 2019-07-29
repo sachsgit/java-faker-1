@@ -161,7 +161,7 @@ public class FakeValuesService {
         if (o == null) return defaultIfNull;
         if (o instanceof List) {
             List<String> values = (List<String>) o;
-            if (values.size() == 0) {
+            if (values.isEmpty()) {
                 return defaultIfNull;
             }
             return values.get(randomService.nextInt(values.size()));
@@ -206,7 +206,6 @@ public class FakeValuesService {
      *            dot. E.g. name.first_name
      * @return
      */
-    @SuppressWarnings("rawtypes")
     public Object fetchObject(String key) {
         String[] path = key.split("\\.");
 
@@ -216,7 +215,7 @@ public class FakeValuesService {
             for (int p = 0; currentValue != null && p < path.length; p++) {
                 String currentPath = path[p];
                 if (currentValue instanceof Map) {
-                    currentValue = ((Map) currentValue).get(currentPath);
+                    currentValue = ((Map<?,?>) currentValue).get(currentPath);
                 } else  {
                     currentValue = ((FakeValuesInterface) currentValue).get(currentPath);
                 }

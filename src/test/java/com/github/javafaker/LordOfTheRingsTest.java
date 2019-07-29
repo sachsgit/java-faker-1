@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 /**
  * @author Luka Obradovic (luka@vast.com)
  */

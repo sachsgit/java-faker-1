@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 public class StarTrekTest extends AbstractFakerTest {
 
     @Test
@@ -28,4 +26,5 @@ public class StarTrekTest extends AbstractFakerTest {
     public void villain() {
         assertThat(faker.starTrek().villain(), matchesRegularExpression("^(\\w+'?\\.?\\s?)+$"));
     }
+    
 }

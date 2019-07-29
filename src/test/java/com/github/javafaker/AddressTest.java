@@ -112,7 +112,7 @@ public class AddressTest extends AbstractFakerTest {
         faker = new Faker(new Locale("en-US"));
         assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()), matchesRegularExpression("[0-9]{5}"));
     }
-    
+
     @Test
     public void testCountyByZipCode() {
         faker = new Faker(new Locale("en-US"));
@@ -132,7 +132,7 @@ public class AddressTest extends AbstractFakerTest {
         assertThat(faker.address().poBoxAddress(), 
             matchesRegularExpression(
                 "PO BOX \\d{2,5}, (?:[\\w']+(?: [\\w']+)*), \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
-    }
+}
 
     public void aptAddressTest() {
         assertThat(faker.address().aptAddress(), 

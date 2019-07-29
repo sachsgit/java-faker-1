@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import org.junit.Test;
 
+import org.junit.Test;
+
 public class PrincessBrideTest extends AbstractFakerTest {
     @Test
     public void character() {

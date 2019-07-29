@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 public class UniversityTest extends AbstractFakerTest {
 
     @Test
@@ -23,4 +21,5 @@ public class UniversityTest extends AbstractFakerTest {
     public void testSuffix() {
         assertThat(faker.university().suffix(), matchesRegularExpression("\\w+"));
     }
+    
 }

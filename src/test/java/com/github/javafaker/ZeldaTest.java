@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 public class ZeldaTest extends AbstractFakerTest {
 
     @Test
@@ -18,4 +16,5 @@ public class ZeldaTest extends AbstractFakerTest {
     public void character() {
         assertThat(faker.zelda().character(), matchesRegularExpression("(?U)([\\w'\\-.\\(\\)]+ ?)+"));
     }
+    
 }

@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import org.junit.Test;
 
+import org.junit.Test;
+
 public class HowIMetYourMotherTest extends AbstractFakerTest {
 
     @Test

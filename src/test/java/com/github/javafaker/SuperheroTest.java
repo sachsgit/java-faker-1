@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 public class SuperheroTest extends AbstractFakerTest {
 
     @Test
@@ -33,4 +31,5 @@ public class SuperheroTest extends AbstractFakerTest {
     public void testDescriptor() {
         assertThat(faker.superhero().descriptor(), matchesRegularExpression("[A-Za-z' -]+"));
     }
+    
 }
