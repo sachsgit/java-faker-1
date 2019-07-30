@@ -6,8 +6,6 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
-import org.junit.Test;
-
 public class LeagueOfLegendsTest extends AbstractFakerTest {
 
     @Test
