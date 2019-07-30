@@ -31,4 +31,5 @@ public class SuperheroTest extends AbstractFakerTest {
     public void testDescriptor() {
         assertThat(faker.superhero().descriptor(), matchesRegularExpression("[A-Za-z' -]+"));
     }
+    
 }
