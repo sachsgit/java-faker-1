@@ -24,8 +24,8 @@ public class RelationshipTest extends AbstractFakerTest {
     }
     
     @Test
-    public void in_lawTest() {
-        assertThat(faker.relationships().in_law(), not(emptyOrNullString()));
+    public void inLawTest() {
+        assertThat(faker.relationships().inLaw(), not(emptyOrNullString()));
     }
     
     @Test
