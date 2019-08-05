@@ -3,7 +3,7 @@ package com.github.javafaker;
 import org.junit.Test;
 
 import static com.github.javafaker.matchers.IsStringWithContents.isStringWithContents;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BuffyTest extends AbstractFakerTest {
     @Test
@@ -30,4 +30,5 @@ public class BuffyTest extends AbstractFakerTest {
     public void testEpisodes() {
         assertThat(faker.buffy().episodes(), isStringWithContents());
     }
+    
 }
