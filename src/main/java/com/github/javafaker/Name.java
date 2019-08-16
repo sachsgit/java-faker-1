@@ -195,5 +195,13 @@ public class Name {
         String username = firstName().substring(0, 1) + lastName().substring(0, 1) + numString;
         return username.toLowerCase();
     }
+    
+    /**
+     * <p>Returns a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+</p>
+     * @return a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+
+     */
+    public String bloodGroup() {
+        return faker.fakeValuesService().resolve("name.blood_group", this, faker);
+    }
 
 }
