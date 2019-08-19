@@ -22,4 +22,5 @@ public class OverwatchTest extends AbstractFakerTest {
     public void quote() {
         assertFalse(faker.overwatch().quote().isEmpty());
     }
+
 }

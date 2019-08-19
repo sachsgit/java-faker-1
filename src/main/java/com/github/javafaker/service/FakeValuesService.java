@@ -1,5 +1,13 @@
 package com.github.javafaker.service;
 
+import com.github.javafaker.Address;
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
+import com.github.javafaker.service.files.EnFile;
+import com.mifmif.common.regex.Generex;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,15 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.github.javafaker.Address;
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import com.github.javafaker.service.files.EnFile;
-import com.mifmif.common.regex.Generex;
 
 public class FakeValuesService {
     private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?(?:'([^']+)')?(?:,'([^']+)')*\\}");
@@ -123,7 +122,7 @@ public class FakeValuesService {
      * @return
      */
     public Object fetch(String key) {
-        List<?> valuesArray = new ArrayList<Object>(); 
+        List<?> valuesArray = new ArrayList<Object>();
         if (fetchObject(key) instanceof ArrayList)
             valuesArray = (ArrayList<?>)fetchObject(key);
         return valuesArray == null ? null : valuesArray.get(randomService.nextInt(valuesArray.size()));
@@ -477,7 +476,7 @@ public class FakeValuesService {
 
         return resolved;
     }
-    
+
     private String resolveExpression(String directive, List<String> args, Object current, Faker root, int size) {
         // name.name (resolve locally)
         // Name.first_name (resolve to faker.name().firstName())
@@ -676,7 +675,7 @@ public class FakeValuesService {
      * this is useful as we get to find the method and coerce the arguments in one
      * shot, returning both when successful.  This saves us from doing it more than once (coercing args).
      */
-    private class MethodAndCoercedArgs {
+    private static class MethodAndCoercedArgs {
 
         private final Method method;
 
@@ -701,5 +700,5 @@ public class FakeValuesService {
             return instance;
         }
     }
-    
+
 }

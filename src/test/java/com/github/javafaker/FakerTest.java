@@ -138,6 +138,12 @@ public class FakerTest extends AbstractFakerTest {
     }
 
     @Test
+    @Repeat(times = 100)
+    public void numberBetweenRepeated() {
+        assertThat(faker.expression("#{number.number_between '1','10'}"), matchesRegularExpression("[1-9]"));
+    }
+
+    @Test
     public void regexifyShouldGenerateSameValueForFakerWithSameSeed() {
         long seed = 1L;
         String regex = "\\d";

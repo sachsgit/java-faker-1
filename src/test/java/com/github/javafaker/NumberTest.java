@@ -127,6 +127,26 @@ public class NumberTest extends AbstractFakerTest {
     }
 
     @Test
+    @Repeat(times = 100)
+    public void testLongNumberBetweenRepeated() {
+        long low = 1;
+        long high = 10;
+        long v = faker.number().numberBetween(low, high);
+        assertThat(v, is(lessThan(high)));
+        assertThat(v, is(greaterThanOrEqualTo(low)));
+    }
+
+    @Test
+    @Repeat(times = 100)
+    public void testIntNumberBetweenRepeated() {
+        int low = 1;
+        int high = 10;
+        int v = faker.number().numberBetween(low, high);
+        assertThat(v, is(lessThan(high)));
+        assertThat(v, is(greaterThanOrEqualTo(low)));
+    }
+
+    @Test
     public void testNumberBetweenOneAndThree() {
         Set<Integer> nums = Sets.newHashSet();
         final int lowerLimit = 0;
@@ -138,6 +158,20 @@ public class NumberTest extends AbstractFakerTest {
             nums.add(value);
         }
         assertThat(nums, contains(0, 1, 2));
+    }
+
+    @Test
+    public void testLongBetweenOneAndThree() {
+        Set<Long> nums = Sets.newHashSet();
+        final long lowerLimit = 0;
+        final long upperLimit = 3;
+        for (int i = 0; i < 1000; ++i) {
+            long value = faker.number().numberBetween(lowerLimit, upperLimit);
+            assertThat(value, is(lessThan(upperLimit)));
+            assertThat(value, is(greaterThanOrEqualTo(lowerLimit)));
+            nums.add(value);
+        }
+        assertThat(nums, contains(0L, 1L, 2L));
     }
 
     @Test
