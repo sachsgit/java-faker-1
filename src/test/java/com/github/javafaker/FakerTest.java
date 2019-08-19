@@ -13,6 +13,8 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import com.github.javafaker.repeating.Repeat;
+
 public class FakerTest extends AbstractFakerTest {
 
     @Test
