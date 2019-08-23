@@ -43,7 +43,7 @@ public class Number {
     public long numberBetween(long min, long max) {
         if (min == max) return min;
 
-        long value = decimalBetween(min, max).setScale(0, BigDecimal.ROUND_HALF_DOWN).longValue();
+        long value = decimalBetween(min, max).setScale(0, RoundingMode.HALF_DOWN).longValue();
         return value == max ? value - 1 : value;
     }
     

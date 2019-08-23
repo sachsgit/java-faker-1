@@ -2,7 +2,6 @@ package com.github.javafaker;
 
 import java.util.List;
 
-@SuppressWarnings("unchecked")
 public class Options {
     private final Faker faker;
 
