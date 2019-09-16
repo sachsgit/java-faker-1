@@ -650,7 +650,7 @@ public class FakeValuesService {
             try {
                 if (toType.isEnum()) {
                     Method method = toType.getMethod( "valueOf", String.class );
-                    String enumArg = args.get( i ).substring( args.get( i ).indexOf( "." ) + 1 );
+                    String enumArg = args.get( i ).substring( args.get( i ).indexOf( '.' ) + 1 );
                     Object coercedArg = method.invoke( null, enumArg );
                     coerced.add( coercedArg );
                 } else {
