@@ -143,7 +143,7 @@ public class NumberTest extends AbstractFakerTest {
         int low = 1;
         int high = 10;
         int v = faker.number().numberBetween(low, high);
-        assertThat(v, is(lessThan(high)));
+        assertThat(v, is(lessThanOrEqualTo(high)));
         assertThat(v, is(greaterThanOrEqualTo(low)));
     }
 
