@@ -13,6 +13,8 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import com.github.javafaker.repeating.Repeat;
+
 public class FakerTest extends AbstractFakerTest {
 
     @Test
@@ -135,6 +137,12 @@ public class FakerTest extends AbstractFakerTest {
         assertThat(faker.expression("#{Name.first_name} #{Name.first_name} #{Name.last_name}"), matchesRegularExpression("[a-zA-Z']+ [a-zA-Z']+ [a-zA-Z']+"));
         assertThat(faker.expression("#{number.number_between '1','10'}"), matchesRegularExpression("[1-9]"));
         assertThat(faker.expression("#{color.name}"), matchesRegularExpression("[a-z\\s]+"));
+    }
+
+    @Test
+    @Repeat(times = 100)
+    public void numberBetweenRepeated() {
+        assertThat(faker.expression("#{number.number_between '1','10'}"), matchesRegularExpression("[1-9]"));
     }
 
     @Test

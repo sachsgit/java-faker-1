@@ -42,5 +42,10 @@ public class ElderScrollsTest extends AbstractFakerTest  {
     public void testRegion() {
         assertThat(faker.elderScrolls().region(), not(emptyOrNullString()));
     }
-    
+
+    @Test
+    public void testQuote() {
+        assertThat(faker.elderScrolls().quote(), not(emptyOrNullString()));
+    }
+
 }

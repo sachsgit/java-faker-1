@@ -6,14 +6,14 @@ import org.apache.commons.lang3.StringUtils;
 import com.github.javafaker.service.RandomService;
 
 public class Name {
-    
+
     private static final String NAME_FIRSTNAME = "name.first_name";
     private static final String NAME_LASTNAME = "name.last_name";
     private final Faker faker;
     private final RandomService random = new RandomService();
 
     /**
-     * Internal constructor, not to be used by clients.  Instances of {@link Name} should be accessed via 
+     * Internal constructor, not to be used by clients.  Instances of {@link Name} should be accessed via
      * {@link Faker#name()}.
      */
     protected Name(Faker faker) {
@@ -38,7 +38,7 @@ public class Name {
     /**
      * <p>
      *      A multipart name composed of an optional prefix, a given and family name,
-     *      another 'firstname' for the middle name and an optional suffix such as Jr. 
+     *      another 'firstname' for the middle name and an optional suffix such as Jr.
      *      Examples:
      *      <ul>
      *          <li>Mrs. Ella Geraldine Fitzgerald</li>
@@ -54,7 +54,7 @@ public class Name {
 
     /**
      * <p>Returns the same value as {@link #name()}</p>
-     * @see Name#name() 
+     * @see Name#name()
      */
     public String fullName() {
         return name();
@@ -67,10 +67,10 @@ public class Name {
     public String firstName() {
         return faker.fakeValuesService().resolve(NAME_FIRSTNAME, this, faker);
     }
-    
+
     /**
-     * <p>REturns a random 'given' name of given length</p>
-     * @param length 
+     * <p>Returns a random 'given' name of given length</p>
+     * @param length
      * @return a 'given' name of a certain length
      */
     public String firstName(int length) {
@@ -80,7 +80,7 @@ public class Name {
         } catch (Exception e) {
             firstName = faker.fakeValuesService().resolve(NAME_FIRSTNAME, this, faker);
         }
-        
+
         if (firstName.length() < length) {
             firstName = firstName + RandomStringUtils.randomAlphabetic(length - firstName.length());
         } else if (firstName.length() > length) {
@@ -104,7 +104,7 @@ public class Name {
         } catch (Exception e) {
             lastName = faker.fakeValuesService().resolve(NAME_LASTNAME, this, faker);
         }
-        
+
         if (lastName.length() < length) {
             lastName = lastName + RandomStringUtils.randomAlphabetic(length - lastName.length());
         } else if (lastName.length() > length) {
@@ -112,7 +112,7 @@ public class Name {
         }
         return lastName;
     }
-    
+
     /**
      * <p>Returns a name prefix such as Mr., Mrs., Ms., Miss, or Dr.</p>
      * @return a name prefix such as Mr., Mrs., Ms., Miss, or Dr.
@@ -143,8 +143,8 @@ public class Name {
      */
     public String title() {
         return StringUtils.join(new String[] {
-            faker.fakeValuesService().resolve("name.title.descriptor", this, faker), 
-            faker.fakeValuesService().resolve("name.title.level", this, faker), 
+            faker.fakeValuesService().resolve("name.title.descriptor", this, faker),
+            faker.fakeValuesService().resolve("name.title.level", this, faker),
             faker.fakeValuesService().resolve("name.title.job", this, faker) }, " ");
     }
 
@@ -159,20 +159,24 @@ public class Name {
      *     </ul>
      * </p>
      * @return a random two part user name.
-     * @see Name#firstName() 
+     * @see Name#firstName()
      * @see Name#lastName()
      */
     public String username() {
-        String firstName = firstName().replaceAll("'", "").toLowerCase();
-        String lastName = lastName().replaceAll("'", "").toLowerCase();
-        return firstName + "." + lastName;
+        String username = StringUtils.join(
+                firstName().replaceAll("'", "").toLowerCase(),
+                ".",
+                lastName().replaceAll("'", "").toLowerCase()
+        );
+
+        return StringUtils.deleteWhitespace(username);
     }
-    
+
     /**
      * <p>
      *     A lowercase username composed of the first_name initial and last_name initial followed by
-     *     some random numbers. 
-     *     
+     *     some random numbers.
+     *
      *     Some examples are:
      *     <ul>
      *         <li>(template) {@link #firstName()[0]}{@link #lastName()[0]}{@link RandomNumberString</li>
@@ -182,7 +186,7 @@ public class Name {
      *     </ul>
      * </p>
      * @return a random two part user name.
-     * @see Name#firstName() 
+     * @see Name#firstName()
      * @see Name#lastName()
      */
     public String username(int length) {
@@ -194,6 +198,14 @@ public class Name {
         numString = StringUtils.leftPad(numString, length - 2, '0');
         String username = firstName().substring(0, 1) + lastName().substring(0, 1) + numString;
         return username.toLowerCase();
+    }
+
+    /**
+     * <p>Returns a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+</p>
+     * @return a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+
+     */
+    public String bloodGroup() {
+        return faker.fakeValuesService().resolve("name.blood_group", this, faker);
     }
 
 }
