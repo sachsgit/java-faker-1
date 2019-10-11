@@ -95,6 +95,7 @@ public class Faker {
     private final Nation nation;
     private final Dune dune;
     private final Babylon5 babylon5;
+    private final AquaTeenHungerForce aquaTeenHungerForce;
 
     public Faker() {
         this(Locale.ENGLISH);
@@ -191,6 +192,7 @@ public class Faker {
         this.nation = new Nation(this);
         this.dune = new Dune(this);
         this.babylon5 = new Babylon5(this);
+        this.aquaTeenHungerForce = new AquaTeenHungerForce(this);
     }
 
     /**
@@ -619,6 +621,10 @@ public class Faker {
 
     public Dune dune() {
         return dune;
+    }
+
+    public AquaTeenHungerForce aquaTeenHungerForce() {
+        return aquaTeenHungerForce;
     }
     
     public Babylon5 babylon5() {

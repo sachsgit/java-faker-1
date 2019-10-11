@@ -5,8 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 
 import org.junit.Test;
 
@@ -88,14 +86,6 @@ public class NameTest  extends AbstractFakerTest {
         assertThat(faker.name().username(), matchesRegularExpression("^(\\w+)\\.(\\w+)$"));
     }
 
-    @Test
-    public void testUsernameWithSpaces() {
-        final Name name = spy(new Name(faker));
-        doReturn("Compound Name").when(name).firstName();
-        doReturn(name).when(faker).name();
-        assertThat(faker.name().username(), matchesRegularExpression("^(\\w+) (\\w+)\\.(\\w+)$"));
-    }
-    
     @Test
     public void testBloodGroup() {
         assertThat(faker.name().bloodGroup(), matchesRegularExpression("(A|B|AB|O)[+-]"));

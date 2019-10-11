@@ -175,6 +175,7 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.nation());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.dune());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.babylon5());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.aquaTeenHungerForce());
     }
 
     private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object) throws Exception {

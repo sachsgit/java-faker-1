@@ -77,20 +77,20 @@ hu:
       #  abbreviation:  ['É-K', 'Ék-Ny', 'ÉK-É', 'K-É', 'K-D', 'DK-K', 'DK-D', 'D-K', 'D-Ny', 'DNy-D', 'DNy-Ny', 'Ny-D', 'Ny-É', 'ÉNy-Ny', 'ÉNy-É', 'É-Ny']
       #  azimuth:  ['11.25', '33.75', '56.25', '78.75', '101.25', '123.75', '146.25', '168.75', '191.25', '213.75', '236.25', '258.75', '281.25', '303.75', '326.25', '348.75']
       direction:
-        - "#{cardinal}"
-        - "#{ordinal}"
-        - "#{half_wind}"
-        #- "#{quarter_wind}"
+        - "#{compass.cardinal.word}"
+        - "#{compass.ordinal.word}"
+        - "#{compass.half_wind.word}"
+        #- "#{compass.quarter_wind.word}"
       abbreviation:
-        - "#{cardinal_abbreviation}"
-        - "#{ordinal_abbreviation}"
-        - "#{half_wind_abbreviation}"
-        #- "#{quarter_wind_abbreviation}"
+        - "#{compass.cardinal.abbreviation}"
+        - "#{compass.ordinal.abbreviation}"
+        - "#{compass.half_wind.abbreviation}"
+        #- "#{compass.quarter_wind.abbreviation}"
       azimuth:
-        - "#{cardinal_azimuth}"
-        - "#{ordinal_azimuth}"
-        - "#{half_wind_azimuth}"
-        #- "#{quarter_wind_azimuth}"
+        - "#{compass.cardinal.azimuth}"
+        - "#{compass.ordinal.azimuth}"
+        - "#{compass.half_wind.azimuth}"
+        #- "#{compass.quarter_wind.azimuth}"
 
     creature:
       animal:
