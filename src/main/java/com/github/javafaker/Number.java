@@ -29,7 +29,7 @@ public class Number {
      */
     public int numberBetween(int min, int max) {
         if (min == max) return min;
-        return decimalBetween(min,max).setScale(0, RoundingMode.HALF_EVEN).intValue();
+        return decimalBetween(min,max).setScale(0, RoundingMode.HALF_DOWN).intValue();
     }
 
     /**
