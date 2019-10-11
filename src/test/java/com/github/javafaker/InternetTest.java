@@ -198,7 +198,7 @@ public class InternetTest extends AbstractFakerTest {
         assertThat(faker.internet().ipV4Cidr(), countOf('/', is(1)));
         
         for (int i = 0; i < 1000; i++) {
-            assertThat(parseInt(faker.internet().ipV4Cidr().split("\\/")[1]),
+            assertThat(parseInt(faker.internet().ipV4Cidr().split("/")[1]),
                     both(greaterThanOrEqualTo(1)).and(lessThan(32)));
         }
     }
@@ -257,7 +257,7 @@ public class InternetTest extends AbstractFakerTest {
         assertThat(faker.internet().ipV6Cidr(), countOf('/', is(1)));
 
         for (int i = 0; i < 1000; i++) {
-            assertThat(parseInt(faker.internet().ipV6Cidr().split("\\/")[1]),
+            assertThat(parseInt(faker.internet().ipV6Cidr().split("/")[1]),
                     both(greaterThanOrEqualTo(1)).and(lessThan(128)));
         }
     }
@@ -302,4 +302,5 @@ public class InternetTest extends AbstractFakerTest {
         //Test faker.internet().userAgentAny() for random user_agent retrieval.
         assertThat(faker.internet().userAgentAny(), not(emptyOrNullString()));
     }
+    
 }

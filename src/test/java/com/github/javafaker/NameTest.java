@@ -95,6 +95,11 @@ public class NameTest  extends AbstractFakerTest {
         doReturn(name).when(faker).name();
         assertThat(faker.name().username(), matchesRegularExpression("^(\\w+) (\\w+)\\.(\\w+)$"));
     }
+    
+    @Test
+    public void testBloodGroup() {
+        assertThat(faker.name().bloodGroup(), matchesRegularExpression("(A|B|AB|O)[+-]"));
+    }
 
     @Test
     public void testUsernameAlt() {
