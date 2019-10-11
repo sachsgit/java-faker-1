@@ -164,9 +164,9 @@ public class Name {
      */
     public String username() {
         String username = StringUtils.join(
-                firstName().replaceAll("'", "").toLowerCase(),
+                firstName().replace("'", "").toLowerCase(),
                 ".",
-                lastName().replaceAll("'", "").toLowerCase()
+                lastName().replace("'", "").toLowerCase()
         );
 
         return StringUtils.deleteWhitespace(username);
