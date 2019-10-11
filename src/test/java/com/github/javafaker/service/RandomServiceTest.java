@@ -19,7 +19,6 @@ import org.junit.runners.Parameterized;
 
 import com.github.javafaker.AbstractFakerTest;
 
-
 /**
  * @author pmiklos
  *

@@ -1,12 +1,13 @@
 package com.github.javafaker;
 
 import static com.github.javafaker.matchers.IsANumber.isANumber;
+import static com.github.javafaker.matchers.IsStringWithContents.isStringWithContents;
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
 
@@ -112,7 +113,7 @@ public class AddressTest extends AbstractFakerTest {
         faker = new Faker(new Locale("en-US"));
         assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()), matchesRegularExpression("[0-9]{5}"));
     }
-    
+
     @Test
     public void testCountyByZipCode() {
         faker = new Faker(new Locale("en-US"));
@@ -120,17 +121,36 @@ public class AddressTest extends AbstractFakerTest {
     }
     
     @Test
+    public void testStreetPrefix() {
+        assertThat(faker.address().streetPrefix(), isStringWithContents());
+    }
+    
+    @Test
     public void testPhysicalDescription() {
-    	assertThat(faker.address().physicalDescription(), 
+        assertThat(faker.address().physicalDescription(), 
             matchesRegularExpression("[1-5] mile(s){0,1} " + EXPRESSION 
                 + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
     }
     
     @Test
     public void testPOBoxAddress() {
-        faker = new Faker(new Locale("en-US"));
+        faker = new Faker(new Locale("en-US")); // For US P.O. Boxes only
         assertThat(faker.address().poBoxAddress(), 
-            matchesRegularExpression("PO Box \\d{2,5}, [A-Za-z'() ]+, \\w{2} \\d{5}(-\\d{4}){0,1}"));
+            matchesRegularExpression(
+                "PO BOX \\d{2,5}, (?:[\\w']+(?: [\\w']+)*), \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+}
+
+    public void aptAddressTest() {
+        assertThat(faker.address().aptAddress(), 
+            matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)* (Apt.|Suite \\d+', (?:[\\w']+(?: [\\w']+)*,"
+                + "\\w{2} \\d{5}(?:-\\d{4}){0,1}"));
     }
-    
+
+    public void fullRegularAddressTest() {
+        assertThat(faker.address().fullRegularAddress(), matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)*, (?:[\\w']+(?: [\\w']+)*,"
+                + " \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
+    }
+
 }

@@ -2,10 +2,10 @@ package com.github.javafaker.integration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -51,7 +51,7 @@ public class FakerIT {
     /**
      * a collection of Locales -> Exceptions.
      * In the case of 'pt', city_prefix is '' by design. This test fails because it's testing that all string returning
-     * methods return a non blank string. But pt city_prefix is blank ,but the test shouldn't fail. So we add put 
+     * methods return a non blank string. But pt city_prefix is blank ,but the test shouldn't fail. So we add put
      * exceptions like this into this collection.
      */
     private static final Map<Locale, List<String>> exceptions = Maps.newHashMap();
@@ -106,13 +106,15 @@ public class FakerIT {
     public void testAllFakerMethodsThatReturnStrings() throws Exception {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker);
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.ancient());
-        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.address());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.app());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.artist());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.aviation());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.backToTheFuture());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.business());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.book());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.chuckNorris());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.color());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.compass());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.commerce());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.company());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.country());
@@ -165,6 +167,11 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.witcher());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.weather());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.lebowski());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.animal());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.princessBride());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.elderScrolls());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.buffy());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.relationships());
     }
 
     private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object) throws Exception {

@@ -115,9 +115,9 @@ public class Address {
         // Example: 2 miles east of the Washington and Jefferson intersection
         String distance = Integer.toString(faker.random().nextInt(1, 5));
         if (distance.equals("1"))
-        	distance = distance + " mile ";
+            distance = distance + " mile ";
         else
-        	distance = distance + " miles ";
+            distance = distance + " miles ";
         String direction = faker.expression("#{compass.direction}");
         String intersection = streetName() + " and " + streetName() + " intersection";
         return distance + direction + " of the " + intersection; 
@@ -126,13 +126,13 @@ public class Address {
     public String poBoxAddress() {
         return faker.numerify(faker.fakeValuesService().resolve("address.pobox_address", this,faker));
     }
-    
+
     public String aptAddress() {
         return faker.fakeValuesService().resolve("address.apt_address", this, faker);
     }
-    
+
     public String fullRegularAddress() {
         return faker.fakeValuesService().resolve("address.regular_address", this, faker);
     }
-    
+
 }

@@ -26,4 +26,5 @@ public class StarTrekTest extends AbstractFakerTest {
     public void villain() {
         assertThat(faker.starTrek().villain(), matchesRegularExpression("^(\\w+'?\\.?\\s?)+$"));
     }
+    
 }

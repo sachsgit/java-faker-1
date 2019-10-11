@@ -60,4 +60,5 @@ public class OptionsTest extends AbstractFakerTest {
     public enum Day {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
+    
 }

@@ -325,4 +325,5 @@ public class NumberTest extends AbstractFakerTest {
         if (numbersToGet == 0) numbersToGet = RANDOMIZATION_TESTS_MAX_NUMBERS_TO_GET;
         return numbersToGet;
     }
+    
 }
