@@ -5,11 +5,11 @@ import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.core.IsNot.not;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class RelationshipTest extends AbstractFakerTest {
 

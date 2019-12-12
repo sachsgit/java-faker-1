@@ -1,5 +1,6 @@
 package com.github.javafaker;
 
+import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.greaterThan;
@@ -7,6 +8,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.equalTo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -299,6 +301,29 @@ public class NumberTest extends AbstractFakerTest {
         final double extremeRunUniquePercent = minMaxRangeToUniquePercentageFunction.apply(Pair.of(Long.MIN_VALUE, Long.MAX_VALUE));
         assertThat("Percentage of extreme runs > 80%",
                 extremeRunUniquePercent, greaterThanOrEqualTo(individualRunGtPercentUnique));
+    }
+
+    @Test
+    public void testRandomDoubleMaxEqualsMin() {
+        double actual = faker.number().randomDouble(1, 42, 42);
+
+        double expected = BigDecimal.valueOf(42).doubleValue();
+
+        assertThat(actual, equalTo(expected));
+    }
+
+    @Test
+    public void testDigit() {
+        String digit = faker.number().digit();
+
+        assertThat(digit, matchesRegularExpression("[0-9]"));
+    }
+
+    @Test
+    public void testDigits() {
+        String digits = faker.number().digits(5);
+
+        assertThat(digits, matchesRegularExpression("[0-9]{5}"));
     }
 
     /**
