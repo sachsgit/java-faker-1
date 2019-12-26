@@ -1,13 +1,5 @@
 package com.github.javafaker.service;
 
-import com.github.javafaker.Address;
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import com.github.javafaker.service.files.EnFile;
-import com.mifmif.common.regex.Generex;
-import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,6 +12,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.github.javafaker.Address;
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
+import com.github.javafaker.service.files.EnFile;
+import com.mifmif.common.regex.Generex;
 
 public class FakeValuesService {
     private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?(?:'([^']+)')?(?:,'([^']+)')*\\}");
@@ -169,6 +170,23 @@ public class FakeValuesService {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public String safeFetch(String key, String defaultIfNull, int length) {
+        Object o = fetchObject(key);
+        if (o == null) return defaultIfNull;
+        if (o instanceof List) {
+            List<String> values = (List<String>) o;
+            if (values.isEmpty()) {
+                return defaultIfNull;
+            }
+            return values.get(randomService.nextInt(values.size()));
+        } else if (isSlashDelimitedRegex(o.toString())) {
+            return String.format("#{regexify '%s'}", trimRegexSlashes(o.toString()));
+        } else {
+            return (String) o;
+        }
+    }
+    
     /**
      * Return the object selected by the key from yaml file.
      *
@@ -301,6 +319,16 @@ public class FakeValuesService {
      */
     public String resolve(String key, Object current, Faker root) {
         final String expression = safeFetch(key, null);
+
+        if (expression == null) {
+            throw new RuntimeException(key + " resulted in null expression");
+        }
+
+        return resolveExpression(expression, current, root);
+    }
+    
+    public String resolve(String key, Object current, Faker root, int length) {
+        final String expression = safeFetch(key, null, length);
 
         if (expression == null) {
             throw new RuntimeException(key + " resulted in null expression");

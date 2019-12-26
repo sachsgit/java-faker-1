@@ -1,4 +1,4 @@
-?package com.github.javafaker;
+package com.github.javafaker;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
@@ -25,7 +25,7 @@ public class RelationshipTest extends AbstractFakerTest {
 
     @Test
     public void in_lawTest() {
-        assertThat(faker.relationships().in_law(), not(emptyOrNullString()));
+        assertThat(faker.relationships().inLaw(), not(emptyOrNullString()));
     }
 
     @Test
