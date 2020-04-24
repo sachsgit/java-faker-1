@@ -564,7 +564,7 @@ public class FakeValuesService {
 
         for (Method m : onObject.getClass().getMethods()) {
             if (m.getName().equalsIgnoreCase(name) && m.getParameterTypes().length == args.size()) {
-                final List<Object> coercedArguments  = coerceArguments(m, args);
+                final List<Object> coercedArguments = coerceArguments(m, args);
                 return new MethodAndCoercedArgs(m, coercedArguments);
             }
         }
