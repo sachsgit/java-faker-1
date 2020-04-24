@@ -30,7 +30,7 @@ public class Number {
     public int numberBetween(int min, int max) {
         if (min == max) return min;
 
-        int value = decimalBetween(min,max).setScale(0, BigDecimal.ROUND_HALF_DOWN).intValue();
+        int value = decimalBetween(min,max).setScale(0, RoundingMode.HALF_DOWN).intValue();
         return value == max ? value - 1 : value;
     }
 
@@ -45,7 +45,7 @@ public class Number {
     public long numberBetween(long min, long max) {
         if (min == max) return min;
 
-        long value = decimalBetween(min, max).setScale(0, BigDecimal.ROUND_HALF_DOWN).longValue();
+        long value = decimalBetween(min, max).setScale(0, RoundingMode.HALF_DOWN).longValue();
         return value == max ? value - 1 : value;
     }
     
@@ -56,7 +56,7 @@ public class Number {
     public long randomNumber(int numberOfDigits, boolean strict) {
         long max = (long) Math.pow(10, numberOfDigits);
         if (strict) {
-            long min = (long) Math.pow(10, numberOfDigits - 1);
+            long min = (long) Math.pow(10, ((double)numberOfDigits - 1));
             return faker.random().nextLong(max - min) + min;
         }
 
@@ -107,7 +107,7 @@ public class Number {
 
         final double chunkStart = trueMin + randomChunk * chunkSize;
         final double adj = chunkSize * faker.random().nextDouble();
-        return new BigDecimal(chunkStart + adj);
+        return BigDecimal.valueOf(chunkStart + adj);
     }
 
     public String digits(int count) {

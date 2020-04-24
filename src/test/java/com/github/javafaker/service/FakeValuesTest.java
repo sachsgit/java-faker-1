@@ -10,7 +10,6 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class FakeValuesTest {
 
     private static final String PATH = "address";

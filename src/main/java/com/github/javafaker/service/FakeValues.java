@@ -1,5 +1,6 @@
 package com.github.javafaker.service;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -53,9 +54,9 @@ public class FakeValues implements FakeValuesInterface {
     }
 
     private Map<?,?> loadValues() {
-        String pathWithLocaleAndFilename = "/" + locale.getLanguage() + "/" + this.filename;
-        String pathWithFilename = "/" + filename + ".yml";
-        String pathWithLocale = "/" + locale.getLanguage() + ".yml";
+        String pathWithLocaleAndFilename = File.separator + locale.getLanguage() + File.separator + this.filename;
+        String pathWithFilename = File.separator + filename + ".yml";
+        String pathWithLocale = File.separator + locale.getLanguage() + ".yml";
 
         List<String> paths = Arrays.asList(pathWithLocaleAndFilename, pathWithFilename, pathWithLocale);
         InputStream stream = null;

@@ -291,6 +291,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             assertThat(re.getMessage(), is(errorMessage));
         }
     }
+    
     @Test
     public void resolveUsingTheSameKeyTwice() {
         // #{hello} -> DummyService.hello
@@ -320,4 +321,5 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             return "Hello";
         }
     }
+
 }

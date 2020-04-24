@@ -36,7 +36,8 @@ public class RandomService {
             throw new IllegalArgumentException("bound must be positive");
         }
 
-        long bits, val;
+        long bits;
+        long val;
         do {
             long randomLong = random.nextLong();
             bits = (randomLong << 1) >>> 1;
@@ -56,14 +57,6 @@ public class RandomService {
     public Integer nextInt(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }
-    
-    public String randomAlphaNumeric(int lenght) {
-        return RandomStringUtils.randomAlphanumeric(lenght);
-    }
-    
-    public String randomNumbersString(int length) {
-        return RandomStringUtils.randomNumeric(length);
-    }
 
     public String hex() {
         return hex(8);
@@ -78,5 +71,13 @@ public class RandomService {
         }
         return hexString.toString();
     }
+ 
+    public String randomAlphaNumeric(int lenght) {
+        return RandomStringUtils.randomAlphanumeric(lenght);
+    }
     
+    public String randomNumbersString(int length) {
+        return RandomStringUtils.randomNumeric(length);
+    }
+
 }
