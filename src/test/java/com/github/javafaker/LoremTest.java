@@ -1,20 +1,14 @@
 package com.github.javafaker;
 
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
-<<<<<<< HEAD
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.emptyString;
-=======
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.isEmptyString;
->>>>>>> 1850b033d466f1710d0075f9c7f491f697d2c81b
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class LoremTest extends AbstractFakerTest {
