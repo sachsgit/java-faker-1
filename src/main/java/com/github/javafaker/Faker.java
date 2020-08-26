@@ -649,7 +649,6 @@ public class Faker {
         return babylon5;
     }
     
-
     public ProgrammingLanguage programmingLanguage() {
         return programmingLanguage;
     }

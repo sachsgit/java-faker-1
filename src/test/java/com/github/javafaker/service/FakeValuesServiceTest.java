@@ -14,7 +14,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
@@ -138,7 +138,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         // then
         assertThat(actual, is("Yo!"));
         verify(dummy).hello();
-        verifyZeroInteractions(faker);
+        verifyNoInteractions(faker);
     }
 
     @Test
@@ -246,7 +246,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void futureDateExpression() throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH  );
+        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
 
         Date now = new Date();
         Date nowPlus10Days = new Date( now.getTime() + MILLIS_IN_A_DAY * 10 );
@@ -259,7 +259,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void pastDateExpression() throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH );
+        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
 
         Date now = new Date();
         Date nowMinus5Hours = new Date( now.getTime() - MILLIS_IN_AN_HOUR * 5 );
@@ -298,6 +298,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             assertThat(re.getMessage(), is(errorMessage));
         }
     }
+    
     @Test
     public void resolveUsingTheSameKeyTwice() {
         // #{hello} -> DummyService.hello
@@ -311,7 +312,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
         // then
         assertThat(actual, is("1 2"));
-        verifyZeroInteractions(faker);
+        verifyNoInteractions(faker);
     }
 
     public static class DummyService {
@@ -327,4 +328,5 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             return "Hello";
         }
     }
+
 }

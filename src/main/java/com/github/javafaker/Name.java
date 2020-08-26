@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.github.javafaker.service.RandomService;
 
 public class Name {
-
     private static final String NAME_FIRSTNAME = "name.first_name";
     private static final String NAME_LASTNAME = "name.last_name";
     private final Faker faker;
@@ -201,6 +200,7 @@ public class Name {
     }
 
     /**
+     * <p>
      * <p>Returns a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+</p>
      * @return a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+
      */

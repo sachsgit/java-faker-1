@@ -302,5 +302,5 @@ public class InternetTest extends AbstractFakerTest {
         //Test faker.internet().userAgentAny() for random user_agent retrieval.
         assertThat(faker.internet().userAgentAny(), not(emptyOrNullString()));
     }
-    
+   
 }
