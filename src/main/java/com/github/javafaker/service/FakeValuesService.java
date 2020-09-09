@@ -26,8 +26,7 @@ import com.mifmif.common.regex.Generex;
 
 public class FakeValuesService {
     private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?((?:,?'([^']+)')*)\\}");
-    private static final Pattern EXPRESSION_ARGUMENTS_PATTERN = Pattern.compile("(?:'(.*?)')");
-
+    
     private final Logger log = Logger.getLogger("faker");
 
     private final List<FakeValuesInterface> fakeValuesList;
