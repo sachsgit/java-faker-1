@@ -25,17 +25,19 @@ public class Commerce {
         }
         if (departments.size() > 1) {
             String lastDepartment = departments.last();
-            return StringUtils.join(departments.headSet(lastDepartment), ", ") + " & " + lastDepartment;
+            return StringUtils.join(departments.headSet(lastDepartment), ", ") + " & "
+                + lastDepartment;
         } else {
             return departments.first();
         }
     }
 
     public String productName() {
-        return StringUtils.join(new String[] { 
-            faker.fakeValuesService().resolve("commerce.product_name.adjective", this,faker), 
-            faker.fakeValuesService().resolve("commerce.product_name.material", this, faker),
-            faker.fakeValuesService().resolve("commerce.product_name.product", this, faker) }, " ");
+        return StringUtils.join(new String[] {
+                faker.fakeValuesService().resolve("commerce.product_name.adjective", this, faker),
+                faker.fakeValuesService().resolve("commerce.product_name.material", this, faker),
+                faker.fakeValuesService().resolve("commerce.product_name.product", this, faker) },
+            " ");
     }
 
     public String material() {
@@ -43,14 +45,14 @@ public class Commerce {
     }
 
     /**
-     * Generate a random price between 0.00 and 100.00 
+     * Generate a random price between 0.00 and 100.00
      */
     public String price() {
         return price(0, 100);
     }
 
     public String price(double min, double max) {
-        double price =  min + (faker.random().nextDouble() * (max - min));
+        double price = min + (faker.random().nextDouble() * (max - min));
         return new DecimalFormat("#0.00").format(price);
     }
 
@@ -60,7 +62,6 @@ public class Commerce {
 
     public String promotionCode(int digits) {
         return StringUtils.join(faker.resolve("commerce.promotion_code.adjective"),
-                faker.resolve("commerce.promotion_code.noun"),
-                faker.number().digits(digits));
+            faker.resolve("commerce.promotion_code.noun"), faker.number().digits(digits));
     }
 }

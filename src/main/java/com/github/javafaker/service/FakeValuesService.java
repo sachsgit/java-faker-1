@@ -25,8 +25,11 @@ import com.github.javafaker.service.files.EnFile;
 import com.mifmif.common.regex.Generex;
 
 public class FakeValuesService {
-    private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?((?:,?'([^']+)')*)\\}");
-    
+
+    private static final Pattern EXPRESSION_PATTERN = Pattern
+        .compile("#\\{([a-z0-9A-Z_.]+)\\s?((?:,?'([^']+)')*)\\}");
+    private static final Pattern EXPRESSION_ARGUMENTS_PATTERN = Pattern.compile("(?:'(.*?)')");
+
     private final Logger log = Logger.getLogger("faker");
 
     private final List<FakeValuesInterface> fakeValuesList;
@@ -40,8 +43,10 @@ public class FakeValuesService {
      * <li>/en-US.yml</li>
      * <li>/en.yml</li>
      * </ol>
-     * The search is case-insensitive, so the following will all resolve correctly.  Also, either a hyphen or
-     * an underscore can be used when constructing a {@link Locale} instance.  This is legacy behavior and not
+     * The search is case-insensitive, so the following will all resolve correctly. Also, either a
+     * hyphen or
+     * an underscore can be used when constructing a {@link Locale} instance. This is legacy
+     * behavior and not
      * condoned, but it will work.
      * <ul>
      * <li>EN_US</li>
@@ -72,7 +77,7 @@ public class FakeValuesService {
                 }
                 all.add(fakeValuesGrouping);
             } else {
-                all.add(new FakeValues(locale));
+                all.add(new FakeValues(l));
             }
         }
 
@@ -80,7 +85,8 @@ public class FakeValuesService {
     }
 
     /**
-     * Convert the specified locale into a chain of locales used for message resolution. For example:
+     * Convert the specified locale into a chain of locales used for message resolution. For
+     * example:
      * <p>
      * {@link Locale#FRANCE} (fr_FR) -> [ fr_FR, anotherTest, en ]
      *
@@ -95,7 +101,8 @@ public class FakeValuesService {
 
         final List<Locale> chain = new ArrayList<>(3);
         chain.add(normalized);
-        if (!"".equals(normalized.getCountry()) && !Locale.ENGLISH.getLanguage().equals(normalized.getLanguage())) {
+        if (!"".equals(normalized.getCountry())
+            && !Locale.ENGLISH.getLanguage().equals(normalized.getLanguage())) {
             chain.add(new Locale(normalized.getLanguage()));
         }
         chain.add(Locale.ENGLISH); // default
@@ -104,11 +111,11 @@ public class FakeValuesService {
 
     /**
      * @return a proper {@link Locale} instance with language and country code set regardless of how
-     * it was instantiated.  new Locale("pt-br") will be normalized to a locale constructed
-     * with new Locale("pt","BR").
+     *         it was instantiated. new Locale("pt-br") will be normalized to a locale constructed
+     *         with new Locale("pt","BR").
      */
     private Locale normalizeLocale(Locale locale) {
-        final String[] parts = locale.toString().split("[-\\_]");
+        final String[] parts = locale.toString().split("[-_]");
 
         if (parts.length == 1) {
             return new Locale(parts[0]);
@@ -128,7 +135,8 @@ public class FakeValuesService {
         Object o = fetchObject(key);
         if (o instanceof List)
             valuesArray = Arrays.asList(o);
-        return valuesArray == null ? null : valuesArray.get(randomService.nextInt(valuesArray.size()));
+        return valuesArray == null ? null
+            : valuesArray.get(randomService.nextInt(valuesArray.size()));
     }
 
     /**
@@ -142,12 +150,10 @@ public class FakeValuesService {
     }
 
     public List<String> castListFromObjectToString(Object o) {
-        List<Object> list = Arrays.asList(o);           
-        return list.stream()
-            .map( Object::toString )
-            .collect( Collectors.toList() );
+        List<Object> list = Arrays.asList(o);
+        return list.stream().map(Object::toString).collect(Collectors.toList());
     }
-    
+
     /**
      * Safely fetches a key.
      * <p>
@@ -156,17 +162,21 @@ public class FakeValuesService {
      * If it is a list, it will assume it is a list of strings and select a random value from it.
      * <p>
      * If the retrieved value is an slash encoded regular expression such as {@code /[a-b]/} then
-     * the regex will be converted to a regexify expression and returned (ex. {@code #regexify '[a-b]'})
+     * the regex will be converted to a regexify expression and returned (ex.
+     * {@code #regexify '[a-b]'})
      * <p>
      * Otherwise it will just return the value as a string.
      *
-     * @param key           the key to fetch from the YML structure.
-     * @param defaultIfNull the value to return if the fetched value is null
+     * @param key
+     *            the key to fetch from the YML structure.
+     * @param defaultIfNull
+     *            the value to return if the fetched value is null
      * @return see above
      */
     public String safeFetch(String key, String defaultIfNull) {
         Object o = fetchObject(key);
-        if (o == null) return defaultIfNull;
+        if (o == null)
+            return defaultIfNull;
         if (o instanceof List) {
             List<String> values = castListFromObjectToString(o);
             if (values.isEmpty()) {
@@ -182,7 +192,8 @@ public class FakeValuesService {
 
     public String safeFetch(String key, String defaultIfNull, int size) {
         Object o = fetchObject(key);
-        if (o == null) return defaultIfNull;
+        if (o == null)
+            return defaultIfNull;
         if (o instanceof List) {
             List<String> values = castListFromObjectToString(o);
             if (values.isEmpty()) {
@@ -206,7 +217,8 @@ public class FakeValuesService {
     /**
      * Return the object selected by the key from yaml file.
      *
-     * @param key key contains path to an object. Path segment is separated by
+     * @param key
+     *            key contains path to an object. Path segment is separated by
      *            dot. E.g. name.first_name
      * @return
      */
@@ -219,8 +231,8 @@ public class FakeValuesService {
             for (int p = 0; currentValue != null && p < path.length; p++) {
                 String currentPath = path[p];
                 if (currentValue instanceof Map) {
-                    currentValue = ((Map<?,?>) currentValue).get(currentPath);
-                } else  {
+                    currentValue = ((Map<?, ?>) currentValue).get(currentPath);
+                } else {
                     currentValue = ((FakeValuesInterface) currentValue).get(currentPath);
                 }
             }
@@ -233,7 +245,8 @@ public class FakeValuesService {
     }
 
     /**
-     * Returns a string with the '#' characters in the parameter replaced with random digits between 0-9 inclusive.
+     * Returns a string with the '#' characters in the parameter replaced with random digits between
+     * 0-9 inclusive.
      * <p/>
      * For example, the string "ABC##EFG" could be replaced with a string like "ABC99EFG".
      *
@@ -305,7 +318,8 @@ public class FakeValuesService {
      * For example, the string "12??34" could be replaced with a string like "12AB34".
      *
      * @param letterString
-     * @param isUpper      specifies whether or not letters should be upper case
+     * @param isUpper
+     *            specifies whether or not letters should be upper case
      * @return
      */
     public String letterify(String letterString, boolean isUpper) {
@@ -345,8 +359,8 @@ public class FakeValuesService {
     public String resolve(String key, Object current, Faker root, int size) {
         final String expression = safeFetch(key, null, size);
         if (expression == null) {
-            throw new ResolveToNullException(key + " with size " + size 
-                + " resulted in null expression");
+            throw new ResolveToNullException(
+                key + " with size " + size + " resulted in null expression");
         }
 
         return resolveExpression(expression, current, root);
@@ -364,11 +378,14 @@ public class FakeValuesService {
     }
 
     /**
-     * <p>processes a expression in the style #{X.y} using the current objects as the 'current' location
+     * <p>
+     * processes a expression in the style #{X.y} using the current objects as the 'current'
+     * location
      * within the yml file (or the {@link Faker} object hierarchy as it were).
      * </p>
      * <p>
-     * #{Address.streetName} would get resolved to {@link Faker#address()}'s {@link Address#streetName()}
+     * #{Address.streetName} would get resolved to {@link Faker#address()}'s
+     * {@link Address#streetName()}
      * </p>
      * <p>
      * #{address.street} would get resolved to the YAML > locale: faker: address: street:
@@ -377,7 +394,8 @@ public class FakeValuesService {
      * Combinations are supported as well: "#{x} #{y}"
      * </p>
      * <p>
-     * Recursive templates are supported.  if "#{x}" resolves to "#{Address.streetName}" then "#{x}" resolves to
+     * Recursive templates are supported. if "#{x}" resolves to "#{Address.streetName}" then "#{x}"
+     * resolves to
      * {@link Faker#address()}'s {@link Address#streetName()}.
      * </p>
      */
@@ -388,16 +406,18 @@ public class FakeValuesService {
         while (matcher.find()) {
             final String escapedDirective = matcher.group(0);
             final String directive = matcher.group(1);
+            final String arguments = matcher.group(2);
+            final Matcher argsMatcher = EXPRESSION_ARGUMENTS_PATTERN.matcher(arguments);
             List<String> args = new ArrayList<>();
-            for (int i = 2; i < matcher.groupCount() + 1 && matcher.group(i) != null; i++) {
-                args.add(matcher.group(i));
+            while (argsMatcher.find()) {
+                args.add(argsMatcher.group(1));
             }
 
             // resolve the expression and reprocess it to handle recursive templates
             String resolved = resolveExpression(directive, args, current, root);
             if (resolved == null) {
-                throw new ResolveToNullException("Unable to resolve " + escapedDirective 
-                    + " directive.");
+                throw new ResolveToNullException(
+                    "Unable to resolve " + escapedDirective + " directive.");
             }
 
             resolved = resolveExpression(resolved, current, root);
@@ -417,12 +437,12 @@ public class FakeValuesService {
      *
      * @return null if unable to resolve
      */
-    private String resolveExpression(String directive, List<String> args, Object current, Faker root) {
+    private String resolveExpression(String directive, List<String> args, Object current,
+        Faker root) {
         // name.name (resolve locally)
         // Name.first_name (resolve to faker.name().firstName())
-        final String simpleDirective = (isDotDirective(directive) || current == null)
-                ? directive
-                : classNameToYamlName(current) + "." + directive;
+        final String simpleDirective = (isDotDirective(directive) || current == null) ? directive
+            : classNameToYamlName(current) + "." + directive;
 
         String resolved = null;
         // resolve method references on CURRENT object like #{number_between '1','10'} on Number or
@@ -438,7 +458,7 @@ public class FakeValuesService {
             resolved = safeFetch(simpleDirective, null);
         }
 
-        // "references on 'faker object like #{regexify '[a-z]'}"
+        // "resolve method references on faker object like #{regexify '[a-z]'}"
         if (resolved == null && !isDotDirective(directive)) {
             resolved = resolveFromMethodOn(root, directive, args);
         }
@@ -448,10 +468,14 @@ public class FakeValuesService {
             resolved = resolveFakerObjectAndMethod(root, directive, args);
         }
 
-        // last ditch effort.  Due to Ruby's dynamic nature, something like 'Address.street_title' will resolve
-        // because 'street_title' is a dynamic method on the Address object.  We can't do this in Java so we go
-        // thru the normal resolution above, but if we will can't resolve it, we once again do a 'safeFetch' as we
-        // did first but FIRST we change the Object reference Class.method_name with a yml style internal refernce ->
+        // last ditch effort. Due to Ruby's dynamic nature, something like 'Address.street_title'
+        // will resolve
+        // because 'street_title' is a dynamic method on the Address object. We can't do this in
+        // Java so we go
+        // thru the normal resolution above, but if we will can't resolve it, we once again do a
+        // 'safeFetch' as we
+        // did first but FIRST we change the Object reference Class.method_name with a yml style
+        // internal refernce ->
         // class.method_name (lowercase)
         if (resolved == null && isDotDirective(directive)) {
             resolved = safeFetch(javaNameToYamlName(simpleDirective), null);
@@ -460,9 +484,9 @@ public class FakeValuesService {
         return resolved;
     }
 
-
     /**
-     * @param expression input expression
+     * @param expression
+     *            input expression
      * @return true if s is non null and is a slash delimited regex (ex. {@code /[ab]/})
      */
     private boolean isSlashDelimitedRegex(String expression) {
@@ -470,9 +494,11 @@ public class FakeValuesService {
     }
 
     /**
-     * Given a {@code slashDelimitedRegex} such as {@code /[ab]/}, removes the slashes and returns only {@code [ab]}
+     * Given a {@code slashDelimitedRegex} such as {@code /[ab]/}, removes the slashes and returns
+     * only {@code [ab]}
      *
-     * @param slashDelimitedRegex a non null slash delimited regex (ex. {@code /[ab]/})
+     * @param slashDelimitedRegex
+     *            a non null slash delimited regex (ex. {@code /[ab]/})
      * @return the regex without the slashes (ex. {@code [ab]})
      */
     private String trimRegexSlashes(String slashDelimitedRegex) {
@@ -484,7 +510,8 @@ public class FakeValuesService {
     }
 
     /**
-     * @return a yaml style name from the classname of the supplied object (PhoneNumber => phone_number)
+     * @return a yaml style name from the classname of the supplied object (PhoneNumber =>
+     *         phone_number)
      */
     private String classNameToYamlName(Object current) {
         return javaNameToYamlName(current.getClass().getSimpleName());
@@ -494,15 +521,14 @@ public class FakeValuesService {
      * @return a yaml style name like 'phone_number' from a java style name like 'PhoneNumber'
      */
     private String javaNameToYamlName(String expression) {
-        return expression.replaceAll("([A-Z])", "_$1")
-                .substring(1)
-                .toLowerCase();
+        return expression.replaceAll("([A-Z])", "_$1").substring(1).toLowerCase();
     }
 
-
     /**
-     * Given a directive like 'firstName', attempts to resolve it to a method.  For example if obj is an instance of
-     * {@link Name} then this method would return {@link Name#firstName()}.  Returns null if the directive is nested
+     * Given a directive like 'firstName', attempts to resolve it to a method. For example if obj is
+     * an instance of
+     * {@link Name} then this method would return {@link Name#firstName()}. Returns null if the
+     * directive is nested
      * (i.e. has a '.') or the method doesn't exist on the <em>obj</em> object.
      */
     private String resolveFromMethodOn(Object obj, String directive, List<String> args) {
@@ -511,9 +537,7 @@ public class FakeValuesService {
         }
         try {
             final MethodAndCoercedArgs accessor = accessor(obj, directive, args);
-            return (accessor == null)
-                    ? null
-                    : string(accessor.invoke(obj));
+            return (accessor == null) ? null : string(accessor.invoke(obj));
         } catch (Exception e) {
             log.log(Level.FINE, "Can't call " + directive + " on " + obj, e);
             return null;
@@ -521,28 +545,32 @@ public class FakeValuesService {
     }
 
     /**
-     * Accepts a {@link Faker} instance and a name.firstName style 'key' which is resolved to the return value of:
+     * Accepts a {@link Faker} instance and a name.firstName style 'key' which is resolved to the
+     * return value of:
      * {@link Faker#name()}'s {@link Name#firstName()} method.
      *
-     * @throws RuntimeException if there's a problem invoking the method or it doesn't exist.
+     * @throws RuntimeException
+     *             if there's a problem invoking the method or it doesn't exist.
      */
     private String resolveFakerObjectAndMethod(Faker faker, String key, List<String> args) {
         final String[] classAndMethod = key.split("\\.", 2);
 
         try {
             String fakerMethodName = classAndMethod[0].replace("_", "");
-            MethodAndCoercedArgs fakerAccessor = accessor(faker, fakerMethodName, Collections.<String>emptyList());
+            MethodAndCoercedArgs fakerAccessor = accessor(faker, fakerMethodName,
+                Collections.<String>emptyList());
             if (fakerAccessor == null) {
-                String msg = "Can't find top level faker object named " + fakerMethodName + "."; 
+                String msg = "Can't find top level faker object named " + fakerMethodName + ".";
                 log.fine(msg);
                 return null;
             }
             Object objectWithMethodToInvoke = fakerAccessor.invoke(faker);
             String nestedMethodName = classAndMethod[1].replace("_", "");
-            final MethodAndCoercedArgs accessor = accessor(objectWithMethodToInvoke, classAndMethod[1].replace("_", ""), args);
+            final MethodAndCoercedArgs accessor = accessor(objectWithMethodToInvoke,
+                classAndMethod[1].replace("_", ""), args);
             if (accessor == null) {
-                throw new CannotFindMethodException("Can't find method on "
-                        + objectWithMethodToInvoke.getClass().getSimpleName()
+                throw new CannotFindMethodException(
+                    "Can't find method on " + objectWithMethodToInvoke.getClass().getSimpleName()
                         + " called " + nestedMethodName + ".");
             }
 
@@ -553,12 +581,11 @@ public class FakeValuesService {
         }
     }
 
-
     /**
      * Find an accessor by name ignoring case.
      */
     private MethodAndCoercedArgs accessor(Object onObject, String name, List<String> args) {
-        String msg = "Find accessor named " + name + " on " + onObject.getClass().getSimpleName() 
+        String msg = "Find accessor named " + name + " on " + onObject.getClass().getSimpleName()
             + " with args " + args;
         log.log(Level.FINE, msg);
 
@@ -576,11 +603,13 @@ public class FakeValuesService {
     }
 
     /**
-     * Coerce arguments in <em>args</em> into the appropriate types (if possible) for the parameter arguments
+     * Coerce arguments in <em>args</em> into the appropriate types (if possible) for the parameter
+     * arguments
      * to <em>accessor</em>.
      *
      * @return array of coerced values if successful, null otherwise
-     * @throws Exception if unable to coerce
+     * @throws Exception
+     *             if unable to coerce
      */
     private List<Object> coerceArguments(Method accessor, List<String> args) {
         final List<Object> coerced = new ArrayList<>();
@@ -589,17 +618,17 @@ public class FakeValuesService {
             Class<?> toType = ClassUtils.primitiveToWrapper(accessor.getParameterTypes()[i]);
             try {
                 if (toType.isEnum()) {
-                    Method method = toType.getMethod( "valueOf", String.class );
-                    String enumArg = args.get( i ).substring( args.get( i ).indexOf( '.' ) + 1 );
-                    Object coercedArg = method.invoke( null, enumArg );
-                    coerced.add( coercedArg );
+                    Method method = toType.getMethod("valueOf", String.class);
+                    String enumArg = args.get(i).substring(args.get(i).indexOf('.') + 1);
+                    Object coercedArg = method.invoke(null, enumArg);
+                    coerced.add(coercedArg);
                 } else {
                     final Constructor<?> ctor = toType.getConstructor(String.class);
                     final Object coercedArgument = ctor.newInstance(args.get(i));
                     coerced.add(coercedArgument);
                 }
             } catch (Exception e) {
-                String msg = "Unable to coerce " + args.get(i) + " to " + toType.getSimpleName() 
+                String msg = "Unable to coerce " + args.get(i) + " to " + toType.getSimpleName()
                     + " via " + toType.getSimpleName() + "(String) constructor.";
                 log.fine(msg);
                 return new ArrayList<>();
@@ -615,7 +644,8 @@ public class FakeValuesService {
     /**
      * simple wrapper class around an accessor and a list of coerced arguments.
      * this is useful as we get to find the method and coerce the arguments in one
-     * shot, returning both when successful.  This saves us from doing it more than once (coercing args).
+     * shot, returning both when successful. This saves us from doing it more than once (coercing
+     * args).
      */
     private static class MethodAndCoercedArgs {
 

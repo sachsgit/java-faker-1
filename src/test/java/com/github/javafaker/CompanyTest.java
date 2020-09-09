@@ -19,7 +19,8 @@ public class CompanyTest extends AbstractFakerTest {
 
     @Test
     public void testIndustry() {
-        assertThat(faker.company().industry(), matchesRegularExpression("(\\w+([ ,&/-]{1,3})?){1,4}+"));
+        assertThat(faker.company().industry(),
+            matchesRegularExpression("(\\w+([ ,&/-]{1,3})?){1,4}+"));
     }
 
     @Test
@@ -39,7 +40,8 @@ public class CompanyTest extends AbstractFakerTest {
 
     @Test
     public void testLogo() {
-        assertThat(faker.company().logo(), matchesRegularExpression("https://pigment.github.io/fake-logos/logos/medium/color/\\d+\\.png"));
+        assertThat(faker.company().logo(), matchesRegularExpression(
+            "https://pigment.github.io/fake-logos/logos/medium/color/\\d+\\.png"));
     }
 
     @Test

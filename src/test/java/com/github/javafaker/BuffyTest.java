@@ -30,5 +30,5 @@ public class BuffyTest extends AbstractFakerTest {
     public void testEpisodes() {
         assertThat(faker.buffy().episodes(), isStringWithContents());
     }
-    
+
 }

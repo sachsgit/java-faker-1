@@ -12,7 +12,8 @@ public class PhoneNumber {
     }
 
     public String phoneNumber() {
-        return faker.numerify(faker.fakeValuesService().resolve("phone_number.formats", this, faker));
+        return faker
+            .numerify(faker.fakeValuesService().resolve("phone_number.formats", this, faker));
     }
 
     public String extension() {

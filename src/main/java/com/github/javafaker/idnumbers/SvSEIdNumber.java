@@ -13,7 +13,7 @@ import com.github.javafaker.Faker;
  * https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)
  */
 public class SvSEIdNumber {
-    private static final String[] validPatterns = {"######-####", "######+####"};
+    private static final String[] validPatterns = { "######-####", "######+####" };
 
     public String getValidSsn(Faker f) {
         String candidate = "";
@@ -62,7 +62,8 @@ public class SvSEIdNumber {
         String dateString = ssn.substring(0, 6);
         Date date = sdf.parse(dateString);
 
-        // want to check that the parsed date is equal to the supplied data, most of the attempts will fail
+        // want to check that the parsed date is equal to the supplied data, most of the attempts
+        // will fail
         String reversed = sdf.format(date);
         return !reversed.equals(dateString);
     }

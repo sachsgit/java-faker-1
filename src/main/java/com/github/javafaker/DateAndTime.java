@@ -25,7 +25,8 @@ public class DateAndTime {
     }
 
     /**
-     * Generates a future date from now. Note that there is a 1 second slack to avoid generating a past date.
+     * Generates a future date from now. Note that there is a 1 second slack to avoid generating a
+     * past date.
      *
      * @param atMost
      *            at most this amount of time ahead from now exclusive.
@@ -141,7 +142,8 @@ public class DateAndTime {
      */
     public Date between(Date from, Date to) throws IllegalArgumentException {
         if (to.before(from)) {
-            throw new IllegalArgumentException("Invalid date range, the upper bound date is before the lower bound.");
+            throw new IllegalArgumentException(
+                "Invalid date range, the upper bound date is before the lower bound.");
         }
 
         if (from.equals(to)) {

@@ -69,6 +69,7 @@ public class SpaceTest extends AbstractFakerTest {
 
     @Test
     public void meteorite() {
-        assertThat(faker.space().meteorite(), matchesRegularExpression("(?U)([\\w()]+[ -–]?){1,4}"));
+        assertThat(faker.space().meteorite(),
+            matchesRegularExpression("(?U)([\\w()]+[ -–]?){1,4}"));
     }
 }

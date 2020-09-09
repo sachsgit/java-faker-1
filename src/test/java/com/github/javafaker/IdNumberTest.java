@@ -16,7 +16,8 @@ public class IdNumberTest extends AbstractFakerTest {
 
     @Test
     public void testInvalid() {
-        assertThat(faker.idNumber().invalid(), matchesRegularExpression("[0-9]\\d{2}-\\d{2}-\\d{4}"));
+        assertThat(faker.idNumber().invalid(),
+            matchesRegularExpression("[0-9]\\d{2}-\\d{2}-\\d{4}"));
     }
 
     @Test
@@ -39,5 +40,5 @@ public class IdNumberTest extends AbstractFakerTest {
             assertThat(f.idNumber().invalid(), matchesRegularExpression("\\d{6}[-+]\\d{4}"));
         }
     }
-    
+
 }

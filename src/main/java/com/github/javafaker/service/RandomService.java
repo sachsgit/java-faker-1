@@ -16,7 +16,8 @@ public class RandomService {
     }
 
     /**
-     * @param random If null is passed in, a default Random is assigned
+     * @param random
+     *            If null is passed in, a default Random is assigned
      */
     public RandomService(Random random) {
         this.random = random != null ? random : SHARED_RANDOM;
@@ -63,19 +64,25 @@ public class RandomService {
     }
 
     public String hex(int length) {
-        char[] hexValues = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            'A', 'B', 'C', 'D', 'E', 'F'};
-        StringBuilder hexString = new StringBuilder();
-        for(int i = 0; i < length; i++) {
-            hexString.append(hexValues[nextInt(hexValues.length)]);
+        if (length <= 0) {
+            return ""; // Keep the existing behavior instead of throwing an error.
         }
-        return hexString.toString();
+        final char[] hexChars = new char[length];
+        for (int i = 0; i < length; i++) {
+            final int nextHex = nextInt(16);
+            if (nextHex < 10) {
+                hexChars[i] = (char) ('0' + nextHex);
+            } else {
+                hexChars[i] = (char) ('A' + nextHex - 10);
+            }
+        }
+        return new String(hexChars);
     }
- 
+
     public String randomAlphaNumeric(int lenght) {
         return RandomStringUtils.randomAlphanumeric(lenght);
     }
-    
+
     public String randomNumbersString(int length) {
         return RandomStringUtils.randomNumeric(length);
     }

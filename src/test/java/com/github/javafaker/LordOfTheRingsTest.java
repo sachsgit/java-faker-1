@@ -12,11 +12,13 @@ public class LordOfTheRingsTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.lordOfTheRings().character(), matchesRegularExpression("(?U)([\\w ]+ ?)+"));
+        assertThat(faker.lordOfTheRings().character(),
+            matchesRegularExpression("(?U)([\\w ]+ ?)+"));
     }
 
     @Test
     public void location() {
-        assertThat(faker.lordOfTheRings().location(), matchesRegularExpression("(?U)([\\w'\\- ]+ ?)+"));
+        assertThat(faker.lordOfTheRings().location(),
+            matchesRegularExpression("(?U)([\\w'\\- ]+ ?)+"));
     }
 }

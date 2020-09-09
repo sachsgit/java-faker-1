@@ -16,7 +16,7 @@ public class OptionsTest extends AbstractFakerTest {
 
     @Before
     public void setupOptions() {
-        options = new String[]{"A", "B", "C"};
+        options = new String[] { "A", "B", "C" };
     }
 
     @Test
@@ -31,7 +31,7 @@ public class OptionsTest extends AbstractFakerTest {
 
     @Test
     public void testOptionWithVarargsInteger() {
-        Integer[] integerOptions = new Integer[] { 1, 3, 4, 5};
+        Integer[] integerOptions = new Integer[] { 1, 3, 4, 5 };
         assertThat(faker.options().option(1, 3, 4, 5), oneOf(integerOptions));
     }
 
@@ -60,5 +60,5 @@ public class OptionsTest extends AbstractFakerTest {
     public enum Day {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
-    
+
 }

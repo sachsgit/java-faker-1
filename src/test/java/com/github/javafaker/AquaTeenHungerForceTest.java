@@ -9,7 +9,8 @@ public class AquaTeenHungerForceTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.aquaTeenHungerForce().character(), matchesRegularExpression("[A-Za-z .]+"));
+        assertThat(faker.aquaTeenHungerForce().character(),
+            matchesRegularExpression("[A-Za-z .]+"));
     }
 
 }

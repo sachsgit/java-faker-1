@@ -20,7 +20,8 @@ public class LeagueOfLegends {
     }
 
     public String summonerSpell() {
-        return faker.fakeValuesService().resolve("games.league_of_legends.summoner_spell", this, faker);
+        return faker.fakeValuesService().resolve("games.league_of_legends.summoner_spell", this,
+            faker);
     }
 
     public String masteries() {

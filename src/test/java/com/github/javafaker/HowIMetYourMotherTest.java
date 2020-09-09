@@ -10,7 +10,8 @@ public class HowIMetYourMotherTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.howIMetYourMother().character(), matchesRegularExpression("^(\\w+\\.?\\s?)+$"));
+        assertThat(faker.howIMetYourMother().character(),
+            matchesRegularExpression("^(\\w+\\.?\\s?)+$"));
     }
 
     @Test
@@ -20,7 +21,8 @@ public class HowIMetYourMotherTest extends AbstractFakerTest {
 
     @Test
     public void highFive() {
-        assertThat(faker.howIMetYourMother().highFive(), matchesRegularExpression("^(\\w+-?\\s?)+$"));
+        assertThat(faker.howIMetYourMother().highFive(),
+            matchesRegularExpression("^(\\w+-?\\s?)+$"));
     }
 
     @Test

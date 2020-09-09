@@ -12,5 +12,5 @@ public class ChuckNorrisTest extends AbstractFakerTest {
     public void testFact() {
         assertThat(faker.chuckNorris().fact(), not(emptyOrNullString()));
     }
-    
+
 }

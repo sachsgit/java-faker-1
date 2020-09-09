@@ -14,13 +14,13 @@ public class CompassTest extends AbstractFakerTest {
     public void testDirections() {
         assertThat(faker.compass().direction(), matchesRegularExpression(EXPRESSION));
     }
-    
+
     @Test
     public void testAbbreviation() {
-        assertThat(faker.compass().abbreviation(), 
+        assertThat(faker.compass().abbreviation(),
             matchesRegularExpression("^(([NEWS]){1,3}|[NEWS]{1,2}b[NEWS]{1,2})$"));
     }
-    
+
     @Test
     public void testAzimuth() {
         Double expected = Double.parseDouble(faker.compass().azimuth());
@@ -28,5 +28,5 @@ public class CompassTest extends AbstractFakerTest {
         Double epilison = 1.0;
         assertEquals(expected % 11.25, remainer, epilison);
     }
-    
+
 }

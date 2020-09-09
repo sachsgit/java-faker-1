@@ -26,5 +26,5 @@ public class MedicalTest extends AbstractFakerTest {
     public void testSymptom() {
         assertThat(faker.medical().symptoms(), isStringWithContents());
     }
-    
+
 }

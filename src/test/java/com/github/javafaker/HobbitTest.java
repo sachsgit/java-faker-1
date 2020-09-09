@@ -10,7 +10,8 @@ public class HobbitTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.hobbit().character(), matchesRegularExpression("^(\\(?\\w+\\.?\\s?\\)?)+$"));
+        assertThat(faker.hobbit().character(),
+            matchesRegularExpression("^(\\(?\\w+\\.?\\s?\\)?)+$"));
     }
 
     @Test

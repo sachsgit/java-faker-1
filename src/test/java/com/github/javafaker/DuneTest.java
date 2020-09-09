@@ -32,9 +32,8 @@ public class DuneTest extends AbstractFakerTest {
     @Test
     @Repeat(times = 10000)
     public void randomQuote() {
-        assertThat(
-                faker.dune().quote(faker.options().option(Dune.Quote.class)),
-                matchesRegularExpression("\\P{Cc}+"));
+        assertThat(faker.dune().quote(faker.options().option(Dune.Quote.class)),
+            matchesRegularExpression("\\P{Cc}+"));
     }
 
     @Test
@@ -45,9 +44,8 @@ public class DuneTest extends AbstractFakerTest {
     @Test
     @Repeat(times = 10000)
     public void randomSaying() {
-        assertThat(
-                faker.dune().saying(faker.options().option(Dune.Saying.class)),
-                matchesRegularExpression("\\P{Cc}+"));
+        assertThat(faker.dune().saying(faker.options().option(Dune.Saying.class)),
+            matchesRegularExpression("\\P{Cc}+"));
     }
 
 }

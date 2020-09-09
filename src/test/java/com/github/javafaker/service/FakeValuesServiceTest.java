@@ -68,7 +68,8 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void fetchObjectShouldReturnValue() {
-        assertThat(fakeValuesService.fetchObject("property.dummy"), Is.<Object>is(Arrays.asList("x", "y", "z")));
+        assertThat(fakeValuesService.fetchObject("property.dummy"),
+            Is.<Object>is(Arrays.asList("x", "y", "z")));
     }
 
     @Test
@@ -150,7 +151,8 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         doReturn("Luke Cage").when(person).name();
 
         // when
-        final String actual = fakeValuesService.resolve("property.advancedResolution", dummy, faker);
+        final String actual = fakeValuesService.resolve("property.advancedResolution", dummy,
+            faker);
 
         // then
         assertThat(actual, is("Luke Cage"));
@@ -169,7 +171,8 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         doReturn("Yo!").when(dummy).hello();
 
         // when
-        final String actual = fakeValuesService.resolve("property.resolutionWithList", dummy, faker);
+        final String actual = fakeValuesService.resolve("property.resolutionWithList", dummy,
+            faker);
 
         // then
         assertThat(actual, is("Yo!"));
@@ -221,13 +224,13 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
     @Test
     public void expressionWithInvalidFakerObject() {
         expressionShouldFailWith("#{ObjectNotOnFaker.methodName}",
-                "Unable to resolve #{ObjectNotOnFaker.methodName} directive.");
+            "Unable to resolve #{ObjectNotOnFaker.methodName} directive.");
     }
 
     @Test
     public void expressionWithValidFakerObjectButInvalidMethod() {
         expressionShouldFailWith("#{Name.nonExistentMethod}",
-                "Unable to resolve #{Name.nonExistentMethod} directive.");
+            "Unable to resolve #{Name.nonExistentMethod} directive.");
     }
 
     /**
@@ -241,39 +244,44 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
     @Test
     public void expressionWithValidFakerObjectValidMethodInvalidArgs() {
         expressionShouldFailWith("#{Number.number_between 'x','y'}",
-                "Unable to resolve #{Number.number_between 'x','y'} directive.");
+            "Unable to resolve #{Number.number_between 'x','y'} directive.");
     }
 
     @Test
     public void futureDateExpression() throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",
+            Locale.ENGLISH);
 
         Date now = new Date();
-        Date nowPlus10Days = new Date( now.getTime() + MILLIS_IN_A_DAY * 10 );
+        Date nowPlus10Days = new Date(now.getTime() + MILLIS_IN_A_DAY * 10);
 
-        Date date = dateFormat.parse( fakeValuesService.expression( "#{date.future '10','TimeUnit.DAYS'}", faker ));
+        Date date = dateFormat
+            .parse(fakeValuesService.expression("#{date.future '10','TimeUnit.DAYS'}", faker));
 
-        assertThat( date.getTime(), greaterThan( now.getTime() ));
-        assertThat( date.getTime(), lessThan( nowPlus10Days.getTime() ));
+        assertThat(date.getTime(), greaterThan(now.getTime()));
+        assertThat(date.getTime(), lessThan(nowPlus10Days.getTime()));
     }
 
     @Test
     public void pastDateExpression() throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",
+            Locale.ENGLISH);
 
         Date now = new Date();
-        Date nowMinus5Hours = new Date( now.getTime() - MILLIS_IN_AN_HOUR * 5 );
+        Date nowMinus5Hours = new Date(now.getTime() - MILLIS_IN_AN_HOUR * 5);
 
-        Date date = dateFormat.parse( fakeValuesService.expression( "#{date.past '5','TimeUnit.HOURS'}", faker ));
+        Date date = dateFormat
+            .parse(fakeValuesService.expression("#{date.past '5','TimeUnit.HOURS'}", faker));
 
-        assertThat( date.getTime(), greaterThan( nowMinus5Hours.getTime() ));
-        assertThat( date.getTime(), lessThan( now.getTime() ));
+        assertThat(date.getTime(), greaterThan(nowMinus5Hours.getTime()));
+        assertThat(date.getTime(), lessThan(now.getTime()));
     }
 
     @Test
     public void expressionWithFourArguments() throws ParseException {
 
-        assertThat(fakeValuesService.expression("#{Internet.password '5','8','true','true'}", faker),
+        assertThat(
+            fakeValuesService.expression("#{Internet.password '5','8','true','true'}", faker),
             matchesRegularExpression("[\\w\\d\\!%#$@_\\^&\\*]{5,8}"));
     }
 
@@ -298,7 +306,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             assertThat(re.getMessage(), is(errorMessage));
         }
     }
-    
+
     @Test
     public void resolveUsingTheSameKeyTwice() {
         // #{hello} -> DummyService.hello
@@ -313,6 +321,17 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         // then
         assertThat(actual, is("1 2"));
         verifyNoInteractions(faker);
+    }
+
+    @Test
+    @SuppressWarnings("unused")
+    public void FakeValuesServiceWithNullLocaleTest() {
+        try {
+            RandomService r = new RandomService();
+            FakeValuesService f = new FakeValuesService(null, r);
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("locale is required"));
+        }
     }
 
     public static class DummyService {

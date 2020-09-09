@@ -47,6 +47,7 @@ public class Faker {
     private final Finance finance;
     private final Food food;
     private final GameOfThrones gameOfThrones;
+    private final Gender gender;
     private final DateAndTime dateAndTime;
     private final Demographic demographic;
     private final Dog dog;
@@ -99,13 +100,19 @@ public class Faker {
     private final AquaTeenHungerForce aquaTeenHungerForce;
     private final ProgrammingLanguage programmingLanguage;
     private final Kaamelott kaamelott;
+    private final StarCraft starCraft;
+    private final BojackHorseman bojackHorseman;
+    private final Disease disease;
+    private final Basketball basketball;
+    private final Barcode barcode;
+    private final Sip sip;
 
     public Faker() {
         this(Locale.ENGLISH);
     }
 
     public Faker(Locale locale) {
-        this(locale, (Random)null);
+        this(locale, (Random) null);
     }
 
     public Faker(Random random) {
@@ -154,6 +161,7 @@ public class Faker {
         this.finance = new Finance(this);
         this.food = new Food(this);
         this.gameOfThrones = new GameOfThrones(this);
+        this.gender = new Gender(this);
         this.dateAndTime = new DateAndTime(this);
         this.demographic = new Demographic(this);
         this.dog = new Dog(this);
@@ -207,6 +215,12 @@ public class Faker {
         this.aquaTeenHungerForce = new AquaTeenHungerForce(this);
         this.programmingLanguage = new ProgrammingLanguage(this);
         this.kaamelott = new Kaamelott(this);
+        this.starCraft = new StarCraft(this);
+        this.bojackHorseman = new BojackHorseman(this);
+        this.disease = new Disease(this);
+        this.basketball = new Basketball(this);
+        this.barcode = new Barcode(this);
+        this.sip = new Sip(this);
     }
 
     /**
@@ -221,7 +235,8 @@ public class Faker {
     /**
      * Constructs Faker instance with provided {@link Locale}.
      *
-     * @param locale - {@link Locale}
+     * @param locale
+     *            - {@link Locale}
      * @return {@link Faker#Faker(Locale)}
      */
     public static Faker instance(Locale locale) {
@@ -231,7 +246,8 @@ public class Faker {
     /**
      * Constructs Faker instance with provided {@link Random}.
      *
-     * @param random - {@link Random}
+     * @param random
+     *            - {@link Random}
      * @return {@link Faker#Faker(Random)}
      */
     public static Faker instance(Random random) {
@@ -241,8 +257,10 @@ public class Faker {
     /**
      * Constructs Faker instance with provided {@link Locale} and {@link Random}.
      *
-     * @param locale - {@link Locale}
-     * @param random - {@link Random}
+     * @param locale
+     *            - {@link Locale}
+     * @param random
+     *            - {@link Random}
      * @return {@link Faker#Faker(Locale, Random)}
      */
     public static Faker instance(Locale locale, Random random) {
@@ -250,7 +268,8 @@ public class Faker {
     }
 
     /**
-     * Returns a string with the '#' characters in the parameter replaced with random digits between 0-9 inclusive.
+     * Returns a string with the '#' characters in the parameter replaced with random digits between
+     * 0-9 inclusive.
      * <p>
      * For example, the string "ABC##EFG" could be replaced with a string like "ABC99EFG".
      *
@@ -455,6 +474,10 @@ public class Faker {
         return gameOfThrones;
     }
 
+    public Gender gender() {
+        return gender;
+    }
+
     public DateAndTime date() {
         return dateAndTime;
     }
@@ -607,22 +630,24 @@ public class Faker {
         return lebowski;
     }
 
-    public Medical medical(){
-    	return medical;
+    public Medical medical() {
+        return medical;
     }
 
     public Compass compass() {
         return compass;
     }
 
-	public Country country(){
-		return country;
-	}
+    public Country country() {
+        return country;
+    }
 
-    public Animal animal(){ return animal; }
+    public Animal animal() {
+        return animal;
+    }
 
     public BackToTheFuture backToTheFuture() {
-        return  backToTheFuture;
+        return backToTheFuture;
     }
 
     public PrincessBride princessBride() {
@@ -644,17 +669,41 @@ public class Faker {
     public AquaTeenHungerForce aquaTeenHungerForce() {
         return aquaTeenHungerForce;
     }
-    
+
     public Babylon5 babylon5() {
         return babylon5;
     }
-    
+
     public ProgrammingLanguage programmingLanguage() {
         return programmingLanguage;
     }
 
     public Kaamelott kaamelott() {
         return kaamelott;
+    }
+
+    public StarCraft starCraft() {
+        return starCraft;
+    }
+
+    public BojackHorseman bojackHorseman() {
+        return bojackHorseman;
+    }
+
+    public Disease disease() {
+        return disease;
+    }
+
+    public Basketball basketball() {
+        return basketball;
+    }
+
+    public Barcode barcode() {
+        return barcode;
+    }
+
+    public Sip sip() {
+        return sip;
     }
 
     public String resolve(String key) {
@@ -673,9 +722,11 @@ public class Faker {
      * <li>#{number.number_between '1','10'}</li>
      * </ul>
      *
-     * @param expression (see examples above)
+     * @param expression
+     *            (see examples above)
      * @return the evaluated string expression
-     * @throws RuntimeException if unable to evaluate the expression
+     * @throws RuntimeException
+     *             if unable to evaluate the expression
      */
     public String expression(String expression) {
         return this.fakeValuesService.expression(expression, this);

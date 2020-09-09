@@ -35,7 +35,8 @@ public class Company {
 
     public String buzzword() {
         @SuppressWarnings("unchecked")
-        List<List<String>> buzzwordLists = (List<List<String>>) faker.fakeValuesService().fetchObject("company.buzzwords");
+        List<List<String>> buzzwordLists = (List<List<String>>) faker.fakeValuesService()
+            .fetchObject("company.buzzwords");
         List<String> buzzwords = new ArrayList<String>();
         for (List<String> buzzwordList : buzzwordLists) {
             buzzwords.addAll(buzzwordList);
@@ -48,7 +49,8 @@ public class Company {
      */
     public String catchPhrase() {
         @SuppressWarnings("unchecked")
-        List<List<String>> catchPhraseLists = (List<List<String>>) faker.fakeValuesService().fetchObject("company.buzzwords");
+        List<List<String>> catchPhraseLists = (List<List<String>>) faker.fakeValuesService()
+            .fetchObject("company.buzzwords");
         return joinSampleOfEachList(catchPhraseLists, " ");
     }
 
@@ -57,7 +59,8 @@ public class Company {
      */
     public String bs() {
         @SuppressWarnings("unchecked")
-        List<List<String>> buzzwordLists = (List<List<String>>) faker.fakeValuesService().fetchObject("company.bs");
+        List<List<String>> buzzwordLists = (List<List<String>>) faker.fakeValuesService()
+            .fetchObject("company.bs");
         return joinSampleOfEachList(buzzwordLists, " ");
     }
 
@@ -70,17 +73,12 @@ public class Company {
     }
 
     public String url() {
-        return join(
-                "www",
-                ".",
-                FakerIDN.toASCII(domainName()),
-                ".",
-                domainSuffix()
-        );
+        return join("www", ".", FakerIDN.toASCII(domainName()), ".", domainSuffix());
     }
 
-    private String domainName(){
-        return StringUtils.deleteWhitespace(name().toLowerCase().replaceAll(",", "").replaceAll("'", ""));
+    private String domainName() {
+        return StringUtils
+            .deleteWhitespace(name().toLowerCase().replaceAll(",", "").replaceAll("'", ""));
     }
 
     private String domainSuffix() {
@@ -90,7 +88,7 @@ public class Company {
     private String joinSampleOfEachList(List<List<String>> listOfLists, String separator) {
         List<String> words = new ArrayList<String>();
         for (List<String> list : listOfLists) {
-           words.add(list.get(faker.random().nextInt(list.size())));
+            words.add(list.get(faker.random().nextInt(list.size())));
         }
         return join(words, separator);
     }

@@ -19,7 +19,8 @@ public class FakerTest extends AbstractFakerTest {
 
     @Test
     public void bothifyShouldGenerateLettersAndNumbers() {
-        assertThat(faker.bothify("????##@gmail.com"), matchesRegularExpression("\\w{4}\\d{2}@gmail.com"));
+        assertThat(faker.bothify("????##@gmail.com"),
+            matchesRegularExpression("\\w{4}\\d{2}@gmail.com"));
     }
 
     @Test
@@ -29,7 +30,7 @@ public class FakerTest extends AbstractFakerTest {
 
     @Test
     public void letterifyShouldGenerateUpperCaseLetters() {
-        assertThat(faker.bothify("????",true), matchesRegularExpression("[A-Z]{4}"));
+        assertThat(faker.bothify("????", true), matchesRegularExpression("[A-Z]{4}"));
     }
 
     @Test
@@ -129,20 +130,28 @@ public class FakerTest extends AbstractFakerTest {
 
     @Test
     public void expression() {
-        assertThat(faker.expression("#{regexify '(a|b){2,3}'}"), matchesRegularExpression("(a|b){2,3}"));
-        assertThat(faker.expression("#{regexify '\\.\\*\\?\\+'}"), matchesRegularExpression("\\.\\*\\?\\+"));
-        assertThat(faker.expression("#{bothify '????','true'}"), matchesRegularExpression("[A-Z]{4}"));
-        assertThat(faker.expression("#{bothify '????','false'}"), matchesRegularExpression("[a-z]{4}"));
-        assertThat(faker.expression("#{letterify '????','true'}"), matchesRegularExpression("[A-Z]{4}"));
-        assertThat(faker.expression("#{Name.first_name} #{Name.first_name} #{Name.last_name}"), matchesRegularExpression("[a-zA-Z']+ [a-zA-Z']+ [a-zA-Z']+"));
-        assertThat(faker.expression("#{number.number_between '1','10'}"), matchesRegularExpression("[1-9]"));
+        assertThat(faker.expression("#{regexify '(a|b){2,3}'}"),
+            matchesRegularExpression("(a|b){2,3}"));
+        assertThat(faker.expression("#{regexify '\\.\\*\\?\\+'}"),
+            matchesRegularExpression("\\.\\*\\?\\+"));
+        assertThat(faker.expression("#{bothify '????','true'}"),
+            matchesRegularExpression("[A-Z]{4}"));
+        assertThat(faker.expression("#{bothify '????','false'}"),
+            matchesRegularExpression("[a-z]{4}"));
+        assertThat(faker.expression("#{letterify '????','true'}"),
+            matchesRegularExpression("[A-Z]{4}"));
+        assertThat(faker.expression("#{Name.first_name} #{Name.first_name} #{Name.last_name}"),
+            matchesRegularExpression("[a-zA-Z']+ [a-zA-Z']+ [a-zA-Z']+"));
+        assertThat(faker.expression("#{number.number_between '1','10'}"),
+            matchesRegularExpression("[1-9]"));
         assertThat(faker.expression("#{color.name}"), matchesRegularExpression("[a-z\\s]+"));
     }
 
     @Test
     @Repeat(times = 100)
     public void numberBetweenRepeated() {
-        assertThat(faker.expression("#{number.number_between '1','10'}"), matchesRegularExpression("[1-9]"));
+        assertThat(faker.expression("#{number.number_between '1','10'}"),
+            matchesRegularExpression("[1-9]"));
     }
 
     @Test
