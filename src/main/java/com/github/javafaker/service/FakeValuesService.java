@@ -130,13 +130,13 @@ public class FakeValuesService {
      * @param key
      * @return
      */
+    @SuppressWarnings("unchecked")
     public Object fetch(String key) {
-        List<Object> valuesArray = null;
+        List<Object> valuesArray = new ArrayList<>();
         Object o = fetchObject(key);
         if (o instanceof List)
-            valuesArray = Arrays.asList(o);
-        return valuesArray == null ? null
-            : valuesArray.get(randomService.nextInt(valuesArray.size()));
+            valuesArray = (List<Object>)o;
+        return valuesArray.get(randomService.nextInt(valuesArray.size()));
     }
 
     /**
