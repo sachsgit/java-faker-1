@@ -1,5 +1,13 @@
 package com.github.javafaker.service;
 
+import com.github.javafaker.Address;
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
+import com.github.javafaker.service.files.EnFile;
+import com.mifmif.common.regex.Generex;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,19 +23,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.github.javafaker.Address;
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import com.github.javafaker.service.files.EnFile;
-import com.mifmif.common.regex.Generex;
-
 public class FakeValuesService {
 
-    private static final Pattern EXPRESSION_PATTERN = Pattern
-        .compile("#\\{([a-z0-9A-Z_.]+)\\s?((?:,?'([^']+)')*)\\}");
+    private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?((?:,?'([^']+)')*)\\}");
     private static final Pattern EXPRESSION_ARGUMENTS_PATTERN = Pattern.compile("(?:'(.*?)')");
 
     private final Logger log = Logger.getLogger("faker");
@@ -43,10 +41,8 @@ public class FakeValuesService {
      * <li>/en-US.yml</li>
      * <li>/en.yml</li>
      * </ol>
-     * The search is case-insensitive, so the following will all resolve correctly. Also, either a
-     * hyphen or
-     * an underscore can be used when constructing a {@link Locale} instance. This is legacy
-     * behavior and not
+     * The search is case-insensitive, so the following will all resolve correctly.  Also, either a hyphen or
+     * an underscore can be used when constructing a {@link Locale} instance.  This is legacy behavior and not
      * condoned, but it will work.
      * <ul>
      * <li>EN_US</li>
@@ -85,8 +81,7 @@ public class FakeValuesService {
     }
 
     /**
-     * Convert the specified locale into a chain of locales used for message resolution. For
-     * example:
+     * Convert the specified locale into a chain of locales used for message resolution. For example:
      * <p>
      * {@link Locale#FRANCE} (fr_FR) -> [ fr_FR, anotherTest, en ]
      *
@@ -101,8 +96,7 @@ public class FakeValuesService {
 
         final List<Locale> chain = new ArrayList<>(3);
         chain.add(normalized);
-        if (!"".equals(normalized.getCountry())
-            && !Locale.ENGLISH.getLanguage().equals(normalized.getLanguage())) {
+        if (!"".equals(normalized.getCountry()) && !Locale.ENGLISH.getLanguage().equals(normalized.getLanguage())) {
             chain.add(new Locale(normalized.getLanguage()));
         }
         chain.add(Locale.ENGLISH); // default
@@ -130,13 +124,14 @@ public class FakeValuesService {
      * @param key
      * @return
      */
-    @SuppressWarnings("unchecked")
     public Object fetch(String key) {
-        List<Object> valuesArray = new ArrayList<>();
+        List<?> valuesArray = new ArrayList<>();
         Object o = fetchObject(key);
         if (o instanceof List)
-            valuesArray = (List<Object>)o;
-        return valuesArray.get(randomService.nextInt(valuesArray.size()));
+            valuesArray = (List<?>) o;
+        return valuesArray.isEmpty() 
+            ? null 
+                : valuesArray.get(randomService.nextInt(valuesArray.size()));
     }
 
     /**
@@ -162,15 +157,12 @@ public class FakeValuesService {
      * If it is a list, it will assume it is a list of strings and select a random value from it.
      * <p>
      * If the retrieved value is an slash encoded regular expression such as {@code /[a-b]/} then
-     * the regex will be converted to a regexify expression and returned (ex.
-     * {@code #regexify '[a-b]'})
+     * the regex will be converted to a regexify expression and returned (ex. {@code #regexify '[a-b]'})
      * <p>
      * Otherwise it will just return the value as a string.
      *
-     * @param key
-     *            the key to fetch from the YML structure.
-     * @param defaultIfNull
-     *            the value to return if the fetched value is null
+     * @param key           the key to fetch from the YML structure.
+     * @param defaultIfNull the value to return if the fetched value is null
      * @return see above
      */
     public String safeFetch(String key, String defaultIfNull) {
@@ -217,8 +209,7 @@ public class FakeValuesService {
     /**
      * Return the object selected by the key from yaml file.
      *
-     * @param key
-     *            key contains path to an object. Path segment is separated by
+     * @param key key contains path to an object. Path segment is separated by
      *            dot. E.g. name.first_name
      * @return
      */
@@ -245,8 +236,7 @@ public class FakeValuesService {
     }
 
     /**
-     * Returns a string with the '#' characters in the parameter replaced with random digits between
-     * 0-9 inclusive.
+     * Returns a string with the '#' characters in the parameter replaced with random digits between 0-9 inclusive.
      * <p/>
      * For example, the string "ABC##EFG" could be replaced with a string like "ABC99EFG".
      *
@@ -318,8 +308,7 @@ public class FakeValuesService {
      * For example, the string "12??34" could be replaced with a string like "12AB34".
      *
      * @param letterString
-     * @param isUpper
-     *            specifies whether or not letters should be upper case
+     * @param isUpper      specifies whether or not letters should be upper case
      * @return
      */
     public String letterify(String letterString, boolean isUpper) {
@@ -378,14 +367,11 @@ public class FakeValuesService {
     }
 
     /**
-     * <p>
-     * processes a expression in the style #{X.y} using the current objects as the 'current'
-     * location
+     * <p>processes a expression in the style #{X.y} using the current objects as the 'current' location
      * within the yml file (or the {@link Faker} object hierarchy as it were).
      * </p>
      * <p>
-     * #{Address.streetName} would get resolved to {@link Faker#address()}'s
-     * {@link Address#streetName()}
+     * #{Address.streetName} would get resolved to {@link Faker#address()}'s {@link Address#streetName()}
      * </p>
      * <p>
      * #{address.street} would get resolved to the YAML > locale: faker: address: street:
@@ -394,8 +380,7 @@ public class FakeValuesService {
      * Combinations are supported as well: "#{x} #{y}"
      * </p>
      * <p>
-     * Recursive templates are supported. if "#{x}" resolves to "#{Address.streetName}" then "#{x}"
-     * resolves to
+     * Recursive templates are supported.  if "#{x}" resolves to "#{Address.streetName}" then "#{x}" resolves to
      * {@link Faker#address()}'s {@link Address#streetName()}.
      * </p>
      */
@@ -441,7 +426,8 @@ public class FakeValuesService {
         Faker root) {
         // name.name (resolve locally)
         // Name.first_name (resolve to faker.name().firstName())
-        final String simpleDirective = (isDotDirective(directive) || current == null) ? directive
+        final String simpleDirective = (isDotDirective(directive) || current == null)
+                ? directive
             : classNameToYamlName(current) + "." + directive;
 
         String resolved = null;
@@ -468,14 +454,10 @@ public class FakeValuesService {
             resolved = resolveFakerObjectAndMethod(root, directive, args);
         }
 
-        // last ditch effort. Due to Ruby's dynamic nature, something like 'Address.street_title'
-        // will resolve
-        // because 'street_title' is a dynamic method on the Address object. We can't do this in
-        // Java so we go
-        // thru the normal resolution above, but if we will can't resolve it, we once again do a
-        // 'safeFetch' as we
-        // did first but FIRST we change the Object reference Class.method_name with a yml style
-        // internal refernce ->
+        // last ditch effort.  Due to Ruby's dynamic nature, something like 'Address.street_title' will resolve
+        // because 'street_title' is a dynamic method on the Address object.  We can't do this in Java so we go
+        // thru the normal resolution above, but if we will can't resolve it, we once again do a 'safeFetch' as we
+        // did first but FIRST we change the Object reference Class.method_name with a yml style internal refernce ->
         // class.method_name (lowercase)
         if (resolved == null && isDotDirective(directive)) {
             resolved = safeFetch(javaNameToYamlName(simpleDirective), null);
@@ -485,8 +467,7 @@ public class FakeValuesService {
     }
 
     /**
-     * @param expression
-     *            input expression
+     * @param expression input expression
      * @return true if s is non null and is a slash delimited regex (ex. {@code /[ab]/})
      */
     private boolean isSlashDelimitedRegex(String expression) {
@@ -494,11 +475,9 @@ public class FakeValuesService {
     }
 
     /**
-     * Given a {@code slashDelimitedRegex} such as {@code /[ab]/}, removes the slashes and returns
-     * only {@code [ab]}
+     * Given a {@code slashDelimitedRegex} such as {@code /[ab]/}, removes the slashes and returns only {@code [ab]}
      *
-     * @param slashDelimitedRegex
-     *            a non null slash delimited regex (ex. {@code /[ab]/})
+     * @param slashDelimitedRegex a non null slash delimited regex (ex. {@code /[ab]/})
      * @return the regex without the slashes (ex. {@code [ab]})
      */
     private String trimRegexSlashes(String slashDelimitedRegex) {
@@ -510,8 +489,7 @@ public class FakeValuesService {
     }
 
     /**
-     * @return a yaml style name from the classname of the supplied object (PhoneNumber =>
-     *         phone_number)
+     * @return a yaml style name from the classname of the supplied object (PhoneNumber => phone_number)
      */
     private String classNameToYamlName(Object current) {
         return javaNameToYamlName(current.getClass().getSimpleName());
@@ -521,14 +499,14 @@ public class FakeValuesService {
      * @return a yaml style name like 'phone_number' from a java style name like 'PhoneNumber'
      */
     private String javaNameToYamlName(String expression) {
-        return expression.replaceAll("([A-Z])", "_$1").substring(1).toLowerCase();
+        return expression.replaceAll("([A-Z])", "_$1")
+                .substring(1)
+                .toLowerCase();
     }
 
     /**
-     * Given a directive like 'firstName', attempts to resolve it to a method. For example if obj is
-     * an instance of
-     * {@link Name} then this method would return {@link Name#firstName()}. Returns null if the
-     * directive is nested
+     * Given a directive like 'firstName', attempts to resolve it to a method.  For example if obj is an instance of
+     * {@link Name} then this method would return {@link Name#firstName()}.  Returns null if the directive is nested
      * (i.e. has a '.') or the method doesn't exist on the <em>obj</em> object.
      */
     private String resolveFromMethodOn(Object obj, String directive, List<String> args) {
@@ -537,7 +515,9 @@ public class FakeValuesService {
         }
         try {
             final MethodAndCoercedArgs accessor = accessor(obj, directive, args);
-            return (accessor == null) ? null : string(accessor.invoke(obj));
+            return (accessor == null)
+                    ? null
+                    : string(accessor.invoke(obj));
         } catch (Exception e) {
             log.log(Level.FINE, "Can't call " + directive + " on " + obj, e);
             return null;
@@ -545,12 +525,10 @@ public class FakeValuesService {
     }
 
     /**
-     * Accepts a {@link Faker} instance and a name.firstName style 'key' which is resolved to the
-     * return value of:
+     * Accepts a {@link Faker} instance and a name.firstName style 'key' which is resolved to the return value of:
      * {@link Faker#name()}'s {@link Name#firstName()} method.
      *
-     * @throws RuntimeException
-     *             if there's a problem invoking the method or it doesn't exist.
+     * @throws RuntimeException if there's a problem invoking the method or it doesn't exist.
      */
     private String resolveFakerObjectAndMethod(Faker faker, String key, List<String> args) {
         final String[] classAndMethod = key.split("\\.", 2);
@@ -592,8 +570,10 @@ public class FakeValuesService {
         for (Method m : onObject.getClass().getMethods()) {
             if (m.getName().equalsIgnoreCase(name) && m.getParameterTypes().length == args.size()) {
                 final List<Object> coercedArguments = coerceArguments(m, args);
+                if (coercedArguments != null) {
                 return new MethodAndCoercedArgs(m, coercedArguments);
             }
+        }
         }
 
         if (name.contains("_")) {
@@ -603,13 +583,11 @@ public class FakeValuesService {
     }
 
     /**
-     * Coerce arguments in <em>args</em> into the appropriate types (if possible) for the parameter
-     * arguments
+     * Coerce arguments in <em>args</em> into the appropriate types (if possible) for the parameter arguments
      * to <em>accessor</em>.
      *
      * @return array of coerced values if successful, null otherwise
-     * @throws Exception
-     *             if unable to coerce
+     * @throws Exception if unable to coerce
      */
     private List<Object> coerceArguments(Method accessor, List<String> args) {
         final List<Object> coerced = new ArrayList<>();
@@ -644,8 +622,7 @@ public class FakeValuesService {
     /**
      * simple wrapper class around an accessor and a list of coerced arguments.
      * this is useful as we get to find the method and coerce the arguments in one
-     * shot, returning both when successful. This saves us from doing it more than once (coercing
-     * args).
+     * shot, returning both when successful.  This saves us from doing it more than once (coercing args).
      */
     private static class MethodAndCoercedArgs {
 
