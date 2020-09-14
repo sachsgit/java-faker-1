@@ -25,8 +25,7 @@ public class Commerce {
         }
         if (departments.size() > 1) {
             String lastDepartment = departments.last();
-            return StringUtils.join(departments.headSet(lastDepartment), ", ") + " & "
-                + lastDepartment;
+            return StringUtils.join(departments.headSet(lastDepartment), ", ") + " & " + lastDepartment;
         } else {
             return departments.first();
         }
@@ -36,8 +35,7 @@ public class Commerce {
         return StringUtils.join(new String[] {
                 faker.fakeValuesService().resolve("commerce.product_name.adjective", this, faker),
                 faker.fakeValuesService().resolve("commerce.product_name.material", this, faker),
-                faker.fakeValuesService().resolve("commerce.product_name.product", this, faker) },
-            " ");
+            faker.fakeValuesService().resolve("commerce.product_name.product", this, faker) }, " ");
     }
 
     public String material() {
@@ -62,6 +60,7 @@ public class Commerce {
 
     public String promotionCode(int digits) {
         return StringUtils.join(faker.resolve("commerce.promotion_code.adjective"),
-            faker.resolve("commerce.promotion_code.noun"), faker.number().digits(digits));
+                faker.resolve("commerce.promotion_code.noun"),
+                faker.number().digits(digits));
     }
 }

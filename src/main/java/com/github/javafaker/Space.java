@@ -53,8 +53,7 @@ public class Space {
     }
 
     public String distanceMeasurement() {
-        return faker.number().numberBetween(10, 100) + ' '
-            + faker.resolve("space.distance_measurement");
+        return faker.number().numberBetween(10, 100) + ' ' + faker.resolve("space.distance_measurement");
     }
 
     public String meteorite() {

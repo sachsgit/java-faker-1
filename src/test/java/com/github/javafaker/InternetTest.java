@@ -96,8 +96,7 @@ public class InternetTest extends AbstractFakerTest {
     @Test
     public void testImage() {
         String imageUrl = faker.internet().image();
-        assertThat(imageUrl,
-            matchesRegularExpression("^http:\\/\\/lorempixel\\.com(/g)?/\\d{1,4}/\\d{1,4}/\\w+/$"));
+        assertThat(imageUrl, matchesRegularExpression("^http:\\/\\/lorempixel\\.com(/g)?/\\d{1,4}/\\d{1,4}/\\w+/$"));
     }
 
     @Test
@@ -118,8 +117,7 @@ public class InternetTest extends AbstractFakerTest {
     @Test
     public void testImageWithExplicitParams() {
         String imageUrl = faker.internet().image(800, 600, false, "bugs");
-        assertThat(imageUrl,
-            matchesRegularExpression("^http:\\/\\/lorempixel\\.com/800/600/\\w+/bugs$"));
+        assertThat(imageUrl, matchesRegularExpression("^http:\\/\\/lorempixel\\.com/800/600/\\w+/bugs$"));
     }
 
     @Test
@@ -140,32 +138,23 @@ public class InternetTest extends AbstractFakerTest {
 
     @Test
     public void testPasswordMinLengthMaxLengthIncludeUpperCase() {
-        assertThat(faker.internet().password(1, 2, false),
-            matchesRegularExpression("[a-z\\d]{1,2}"));
-        assertThat(faker.internet().password(10, 25, true),
-            matchesRegularExpression("[a-zA-Z\\d]{10,25}"));
+        assertThat(faker.internet().password(1, 2, false), matchesRegularExpression("[a-z\\d]{1,2}"));
+        assertThat(faker.internet().password(10, 25, true), matchesRegularExpression("[a-zA-Z\\d]{10,25}"));
     }
 
     @Test
     public void testPasswordMinLengthMaxLengthIncludeUpperCaseIncludeSpecial() {
-        assertThat(faker.internet().password(10, 25, false, false),
-            matchesRegularExpression("[a-z\\d]{10,25}"));
-        assertThat(faker.internet().password(10, 25, false, true),
-            matchesRegularExpression("[a-z\\d!@#$%^&*]{10,25}"));
-        assertThat(faker.internet().password(10, 25, true, true),
-            matchesRegularExpression("[a-zA-Z\\d!@#$%^&*]{10,25}"));
+        assertThat(faker.internet().password(10, 25, false, false), matchesRegularExpression("[a-z\\d]{10,25}"));
+        assertThat(faker.internet().password(10, 25, false, true), matchesRegularExpression("[a-z\\d!@#$%^&*]{10,25}"));
+        assertThat(faker.internet().password(10, 25, true, true), matchesRegularExpression("[a-zA-Z\\d!@#$%^&*]{10,25}"));
     }
 
     @Test
     public void testPasswordMinLengthMaxLengthIncludeUpperCaseIncludeSpecialIncludeDigit() {
-        assertThat(faker.internet().password(10, 25, false, false, false),
-            matchesRegularExpression("[a-z]{10,25}"));
-        assertThat(faker.internet().password(10, 25, false, true, true),
-            matchesRegularExpression("[a-z\\d!@#$%^&*]{10,25}"));
-        assertThat(faker.internet().password(10, 25, true, true, false),
-            matchesRegularExpression("[a-zA-Z!@#$%^&*]{10,25}"));
-        assertThat(faker.internet().password(10, 25, true, true, true),
-            matchesRegularExpression("[a-zA-Z\\d!@#$%^&*]{10,25}"));
+        assertThat(faker.internet().password(10, 25, false, false, false), matchesRegularExpression("[a-z]{10,25}"));
+        assertThat(faker.internet().password(10, 25, false, true, true), matchesRegularExpression("[a-z\\d!@#$%^&*]{10,25}"));
+        assertThat(faker.internet().password(10, 25, true, true, false), matchesRegularExpression("[a-zA-Z!@#$%^&*]{10,25}"));
+        assertThat(faker.internet().password(10, 25, true, true, true), matchesRegularExpression("[a-zA-Z\\d!@#$%^&*]{10,25}"));
     }
 
     @Test
@@ -181,7 +170,9 @@ public class InternetTest extends AbstractFakerTest {
 
         // loop through 1000 times just to 'run it through the wringer'
         for (int i = 0; i < 1000; i++) {
-            assertThat("Is valid mac format", faker.internet().macAddress(),
+            assertThat(
+              "Is valid mac format",
+              faker.internet().macAddress(),
                 matchesRegularExpression("[0-9a-fA-F]{2}(\\:([0-9a-fA-F]{1,4})){5}"));
         }
     }
@@ -223,9 +214,10 @@ public class InternetTest extends AbstractFakerTest {
 
         for (int i = 0; i < 1000; i++) {
             String addr = faker.internet().privateIpV4Address();
-            assertThat(addr,
-                anyOf(matchesRegularExpression(tenDot), matchesRegularExpression(oneTwoSeven),
-                    matchesRegularExpression(oneSixNine), matchesRegularExpression(oneNineTwo),
+            assertThat(addr, anyOf(matchesRegularExpression(tenDot),
+                    matchesRegularExpression(oneTwoSeven),
+                    matchesRegularExpression(oneSixNine),
+                    matchesRegularExpression(oneNineTwo),
                     matchesRegularExpression(oneSevenTwo)));
         }
     }
@@ -252,7 +244,9 @@ public class InternetTest extends AbstractFakerTest {
         assertThat(faker.internet().ipV6Address(), countOf(':', is(7)));
 
         for (int i = 0; i < 1000; i++) {
-            assertThat("Is valid ipv6 format", faker.internet().ipV6Address(),
+            assertThat(
+                    "Is valid ipv6 format",
+                    faker.internet().ipV6Address(),
                 matchesRegularExpression("[0-9a-fA-F]{1,4}(\\:([0-9a-fA-F]{1,4})){1,7}"));
         }
     }
@@ -271,8 +265,7 @@ public class InternetTest extends AbstractFakerTest {
     @Test
     @Repeat(times = 10)
     public void testSlugWithParams() {
-        assertThat(faker.internet().slug(ImmutableList.of("a", "b"), "-"),
-            matchesRegularExpression("[a-zA-Z]+\\-[a-zA-Z]+"));
+        assertThat(faker.internet().slug(ImmutableList.of("a", "b"), "-"), matchesRegularExpression("[a-zA-Z]+\\-[a-zA-Z]+"));
     }
 
     @Test
@@ -284,8 +277,7 @@ public class InternetTest extends AbstractFakerTest {
     @Test
     @Repeat(times = 10)
     public void testUuid() {
-        assertThat(faker.internet().uuid(), matchesRegularExpression(
-            "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"));
+        assertThat(faker.internet().uuid(), matchesRegularExpression("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"));
     }
 
     @Test

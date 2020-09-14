@@ -27,16 +27,14 @@ public class WeatherTest extends AbstractFakerTest {
     @Test
     public void temperatureCelsiusInRange() {
         for (int i = 1; i < 100; i++) {
-            assertThat(faker.weather().temperatureCelsius(-5, 5),
-                matchesRegularExpression("[-]?[0-5]°C"));
+            assertThat(faker.weather().temperatureCelsius(-5, 5), matchesRegularExpression("[-]?[0-5]°C"));
         }
     }
 
     @Test
     public void temperatureFahrenheitInRange() {
         for (int i = 1; i < 100; i++) {
-            assertThat(faker.weather().temperatureFahrenheit(-5, 5),
-                matchesRegularExpression("[-]?[0-5]°F"));
+            assertThat(faker.weather().temperatureFahrenheit(-5, 5),matchesRegularExpression("[-]?[0-5]°F"));
         }
     }
 }

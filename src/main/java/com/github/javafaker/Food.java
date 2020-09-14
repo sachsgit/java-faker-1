@@ -33,7 +33,7 @@ public class Food {
     }
 
     public String measurement() {
-        return faker.fakeValuesService().resolve("food.measurement_sizes", this, faker) + " "
-            + faker.fakeValuesService().resolve("food.measurements", this, faker);
+        return faker.fakeValuesService().resolve("food.measurement_sizes", this, faker) +
+            " " + faker.fakeValuesService().resolve("food.measurements", this, faker);
     }
 }

@@ -28,16 +28,13 @@ public class LoremTest extends AbstractFakerTest {
 
     @Test
     public void testCharacter() {
-        assertThat(String.valueOf(faker.lorem().character()),
-            matchesRegularExpression("[a-z\\d]{1}"));
+        assertThat(String.valueOf(faker.lorem().character()), matchesRegularExpression("[a-z\\d]{1}"));
     }
 
     @Test
     public void testCharacterIncludeUpperCase() {
-        assertThat(String.valueOf(faker.lorem().character(false)),
-            matchesRegularExpression("[a-z\\d]{1}"));
-        assertThat(String.valueOf(faker.lorem().character(true)),
-            matchesRegularExpression("[a-zA-Z\\d]{1}"));
+        assertThat(String.valueOf(faker.lorem().character(false)), matchesRegularExpression("[a-z\\d]{1}"));
+        assertThat(String.valueOf(faker.lorem().character(true)), matchesRegularExpression("[a-zA-Z\\d]{1}"));
     }
 
     @Test
@@ -64,8 +61,7 @@ public class LoremTest extends AbstractFakerTest {
         assertThat(faker.lorem().characters(2, false), matchesRegularExpression("[a-z\\d]{2}"));
         assertThat(faker.lorem().characters(500, false), matchesRegularExpression("[a-z\\d]{500}"));
         assertThat(faker.lorem().characters(2, true), matchesRegularExpression("[a-zA-Z\\d]{2}"));
-        assertThat(faker.lorem().characters(500, true),
-            matchesRegularExpression("[a-zA-Z\\d]{500}"));
+        assertThat(faker.lorem().characters(500, true), matchesRegularExpression("[a-zA-Z\\d]{500}"));
         assertThat(faker.lorem().characters(0, false), emptyString());
         assertThat(faker.lorem().characters(-1, true), emptyString());
     }
@@ -77,16 +73,13 @@ public class LoremTest extends AbstractFakerTest {
 
     @Test
     public void testCharactersMinimumMaximumLengthIncludeUppercase() {
-        assertThat(faker.lorem().characters(1, 10, true),
-            matchesRegularExpression("[a-zA-Z\\d]{1,10}"));
+        assertThat(faker.lorem().characters(1, 10), matchesRegularExpression("[a-zA-Z\\d]{1,10}"));
     }
 
     @Test
     public void testCharactersMinimumMaximumLengthIncludeUppercaseIncludeDigit() {
-        assertThat(faker.lorem().characters(1, 10, false, false),
-            matchesRegularExpression("[a-zA-Z]{1,10}"));
-        assertThat(faker.lorem().characters(1, 10, true, true),
-            matchesRegularExpression("[a-zA-Z\\d]{1,10}"));
+        assertThat(faker.lorem().characters(1, 10, false, false), matchesRegularExpression("[a-zA-Z]{1,10}"));
+        assertThat(faker.lorem().characters(1, 10, true, true), matchesRegularExpression("[a-zA-Z\\d]{1,10}"));
     }
 
     @Test
@@ -101,8 +94,7 @@ public class LoremTest extends AbstractFakerTest {
 
     @Test
     public void testSentenceWithWordCountAndRandomWordsToAdd() {
-        assertThat(faker.lorem().sentence(10, 10),
-            matchesRegularExpression("(\\w+\\s?){10,20}\\."));
+        assertThat(faker.lorem().sentence(10, 10), matchesRegularExpression("(\\w+\\s?){10,20}\\."));
     }
 
     @Test
@@ -114,4 +106,5 @@ public class LoremTest extends AbstractFakerTest {
     public void testWords() {
         assertThat(faker.lorem().words(), hasSize(greaterThanOrEqualTo(1)));
     }
+
 }

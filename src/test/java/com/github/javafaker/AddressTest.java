@@ -62,8 +62,7 @@ public class AddressTest extends AbstractFakerTest {
 
     @Test
     public void testTimeZone() {
-        assertThat(faker.address().timeZone(),
-            matchesRegularExpression("[A-Za-z_]+/[A-Za-z_]+[/A-Za-z_]*"));
+        assertThat(faker.address().timeZone(), matchesRegularExpression("[A-Za-z_]+/[A-Za-z_]+[/A-Za-z_]*"));
     }
 
     @Test
@@ -112,17 +111,13 @@ public class AddressTest extends AbstractFakerTest {
     @Test
     public void testZipCodeByState() {
         faker = new Faker(new Locale("en-US"));
-        assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()),
-            matchesRegularExpression("[0-9]{5}"));
+        assertThat(faker.address().zipCodeByState(faker.address().stateAbbr()), matchesRegularExpression("[0-9]{5}"));
     }
 
     @Test
     public void testCountyByZipCode() {
         faker = new Faker(new Locale("en-US"));
-        assertThat(
-            faker.address()
-                .countyByZipCode(faker.address().zipCodeByState(faker.address().stateAbbr())),
-            not(emptyOrNullString()));
+        assertThat(faker.address().countyByZipCode(faker.address().zipCodeByState(faker.address().stateAbbr())), not(emptyOrNullString()));
     }
 
     @Test
@@ -133,15 +128,22 @@ public class AddressTest extends AbstractFakerTest {
     }
 
     @Test
+    public void testStreetPrefix() {
+        assertThat(faker.address().streetPrefix(), isStringWithContents());
+    }
+    
+    @Test
     public void testPhysicalDescription() {
-        assertThat(faker.address().physicalDescription(), matchesRegularExpression(
-            "[1-5] mile(s){0,1} " + EXPRESSION + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
+        assertThat(faker.address().physicalDescription(), 
+            matchesRegularExpression("[1-5] mile(s){0,1} " + EXPRESSION 
+                + " of the \\w+ \\w+ and \\w+ \\w+ intersection"));
     }
 
     @Test
     public void testPOBoxAddress() {
         faker = new Faker(new Locale("en-US")); // For US P.O. Boxes only
-        assertThat(faker.address().poBoxAddress(), matchesRegularExpression(
+        assertThat(faker.address().poBoxAddress(), 
+            matchesRegularExpression(
             "PO BOX \\d{2,5}, (?:[\\w']+(?: [\\w']+)*), \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
     }
 
@@ -153,14 +155,9 @@ public class AddressTest extends AbstractFakerTest {
     }
 
     public void fullRegularAddressTest() {
-        assertThat(faker.address().fullRegularAddress(),
-            matchesRegularExpression("\\d{2,5} (?:[\\w']+(?: [\\w']+)*, (?:[\\w']+(?: [\\w']+)*,"
+        assertThat(faker.address().fullRegularAddress(), matchesRegularExpression(
+            "\\d{2,5} (?:[\\w']+(?: [\\w']+)*, (?:[\\w']+(?: [\\w']+)*,"
                 + " \\w{2} \\d{5}(?:-\\d{4}){0,1}"));
-    }
-
-    @Test
-    public void testStreetPrefix() {
-        assertThat(faker.address().streetPrefix(), isStringWithContents());
     }
 
 }

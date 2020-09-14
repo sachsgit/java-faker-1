@@ -10,8 +10,7 @@ public class LeagueOfLegendsTest extends AbstractFakerTest {
 
     @Test
     public void champion() {
-        assertThat(faker.leagueOfLegends().champion(),
-            matchesRegularExpression("^(\\w+\\.?-?'?\\s?&?\\s?)+$"));
+        assertThat(faker.leagueOfLegends().champion(), matchesRegularExpression("^(\\w+\\.?-?'?\\s?&?\\s?)+$"));
     }
 
     @Test
@@ -26,14 +25,12 @@ public class LeagueOfLegendsTest extends AbstractFakerTest {
 
     @Test
     public void summonerSpell() {
-        assertThat(faker.leagueOfLegends().summonerSpell(),
-            matchesRegularExpression("^(\\w+\\s?!?)+$"));
+        assertThat(faker.leagueOfLegends().summonerSpell(), matchesRegularExpression("^(\\w+\\s?!?)+$"));
     }
 
     @Test
     public void masteries() {
-        assertThat(faker.leagueOfLegends().masteries(),
-            matchesRegularExpression("^(\\w+\\s?'?)+$"));
+        assertThat(faker.leagueOfLegends().masteries(), matchesRegularExpression("^(\\w+\\s?'?)+$"));
     }
 
     @Test

@@ -57,8 +57,7 @@ public class Code {
         int ct = faker.random().nextInt(6) + 1;
         switch (ct) {
             case 6:
-                return faker.number().numberBetween(0, 1) + faker.number().digit() + "-"
-                    + faker.number().digits(6);
+                return faker.number().numberBetween(0,1) + faker.number().digit() + "-" + faker.number().digits(6);
             case 5:
                 return faker.number().numberBetween(200, 699) + "-" + faker.number().digits(5);
             case 4:
@@ -66,11 +65,9 @@ public class Code {
             case 3:
                 return faker.number().numberBetween(85000, 89999) + "-" + faker.number().digits(3);
             case 2:
-                return faker.number().numberBetween(900000, 949999) + "-"
-                    + faker.number().digits(2);
+                return faker.number().numberBetween(900000,949999) + "-" + faker.number().digits(2);
             case 1:
-                return faker.number().numberBetween(9500000, 9999999) + "-"
-                    + faker.number().digits(1);
+                return faker.number().numberBetween(9500000,9999999) + "-" + faker.number().digits(1);
             default:
                 throw new IllegalStateException("Invalid random " + ct);
         }
@@ -84,15 +81,16 @@ public class Code {
     }
 
     /**
-     * @param separator
-     *            true if you want separators returned, false otherwise
+     * @param separator true if you want separators returned, false otherwise
      * @return a valid ISBN10 number with or without separators (ex. 9604250590, 960-425-059-0)
      */
     public String isbn10(boolean separator) {
         // The registration group identifier is a 1- to 5-digit number
         final StringBuilder isbn10 = new StringBuilder()
-            .append(faker.expression("#{code.isbn_group}")).append('-')
-            .append(faker.expression("#{code.isbn_registrant}")).append('-');
+            .append(faker.expression("#{code.isbn_group}"))
+            .append('-')
+            .append(faker.expression("#{code.isbn_registrant}"))
+            .append('-');
 
         final int checkDigit = isbn10CheckDigit(isbn10);
         isbn10.append(checkDigit != 10 ? checkDigit : "X");
@@ -107,17 +105,18 @@ public class Code {
     }
 
     /**
-     * @param separator
-     *            true if you want separators returned, false otherwise
-     * @return a valid ISBN13 number with or without separators (ex. 9789604250590,
-     *         978-960-425-059-0)
+     * @param separator true if you want separators returned, false otherwise
+     * @return a valid ISBN13 number with or without separators (ex. 9789604250590, 978-960-425-059-0)
      */
     public String isbn13(boolean separator) {
         // The registration group identifier is a 1- to 5-digit number
         final StringBuilder isbn13 = new StringBuilder()
-            .append(faker.expression("#{code.isbn_gs1}")).append('-')
-            .append(faker.expression("#{code.isbn_group}")).append('-')
-            .append(faker.expression("#{code.isbn_registrant}")).append('-');
+            .append(faker.expression("#{code.isbn_gs1}"))
+            .append('-')
+            .append(faker.expression("#{code.isbn_group}"))
+            .append('-')
+            .append(faker.expression("#{code.isbn_registrant}"))
+            .append('-');
 
         final int checkDigit = isbn13CheckDigit(isbn13);
         isbn13.append(checkDigit);
@@ -191,8 +190,8 @@ public class Code {
         return new String(str);
     }
 
-    private static final String[] REPORTING_BODY_IDENTIFIERS = { "01", "10", "30", "33", "35", "44",
-            "45", "49", "50", "51", "52", "53", "54", "86", "91", "98", "99" };
+    private static final String [] REPORTING_BODY_IDENTIFIERS 
+        = {"01", "10", "30", "33", "35", "44", "45", "49", "50", "51", "52", "53", "54", "86", "91", "98", "99"};
 
     public String ean8() {
         return gtin8();

@@ -5,11 +5,21 @@ import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.core.IsNot.not;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import java.lang.reflect.InvocationTargetException;
 
-import org.junit.Test;
-
 public class RelationshipTest extends AbstractFakerTest {
+
+    private Faker mockFaker;
+
+    @Before
+    public void before() {
+        super.before();
+        mockFaker = Mockito.mock(Faker.class);
+    }
 
     @Test
     public void anyTest() {
@@ -48,26 +58,26 @@ public class RelationshipTest extends AbstractFakerTest {
 
     @Test(expected = RuntimeException.class)
     public void anyWithIllegalArgumentExceptionThrown() {
-        when(faker.random()).thenThrow(new IllegalArgumentException());
-        new Relationships(faker).any();
+        when(mockFaker.random()).thenThrow(new IllegalArgumentException());
+        new Relationships(mockFaker).any();
     }
 
     @Test(expected = RuntimeException.class)
     public void anyWithSecurityExceptionThrown() {
-        when(faker.random()).thenThrow(new SecurityException());
-        new Relationships(faker).any();
+        when(mockFaker.random()).thenThrow(new SecurityException());
+        new Relationships(mockFaker).any();
     }
 
     @Test(expected = RuntimeException.class)
     public void anyWithIllegalAccessExceptionThrown() {
-        when(faker.random()).thenThrow(new IllegalAccessException());
-        new Relationships(faker).any();
+        when(mockFaker.random()).thenThrow(new IllegalAccessException());
+        new Relationships(mockFaker).any();
     }
 
     @Test(expected = RuntimeException.class)
     public void anyWithInvocationTargetExceptionThrown() {
-        when(faker.random()).thenThrow(new InvocationTargetException(new Exception()));
-        new Relationships(faker).any();
+        when(mockFaker.random()).thenThrow(new InvocationTargetException(new Exception()));
+        new Relationships(mockFaker).any();
     }
 
 }

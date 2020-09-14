@@ -38,17 +38,13 @@ public class Weather {
      * @return String that represents temperature in format 5°F
      */
     public String temperatureFahrenheit() {
-        return temperature(DEFAULT_MIN_TEMP_F, DEFAULT_MAX_TEMP_F,
-            "weather.temperature.fahrenheit");
+        return temperature(DEFAULT_MIN_TEMP_F, DEFAULT_MAX_TEMP_F, "weather.temperature.fahrenheit");
     }
 
     /**
      * Generates a random temperature celsius between two temperatures.
-     * 
-     * @param minTemperature
-     *            the minimal temperature
-     * @param maxTemperature
-     *            the maximal temperature
+     * @param minTemperature the minimal temperature
+     * @param maxTemperature the maximal temperature
      * @return String that represents temperature in format 5°C
      */
     public String temperatureCelsius(int minTemperature, int maxTemperature) {
@@ -57,11 +53,8 @@ public class Weather {
 
     /**
      * Generates a random temperature fahrenheit between two temperatures.
-     * 
-     * @param minTemperature
-     *            the minimal temperature
-     * @param maxTemperature
-     *            the maximal temperature
+     * @param minTemperature the minimal temperature
+     * @param maxTemperature the maximal temperature
      * @return String that represents temperature in format 5°F
      */
     public String temperatureFahrenheit(int minTemperature, int maxTemperature) {

@@ -14,7 +14,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
@@ -68,8 +68,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void fetchObjectShouldReturnValue() {
-        assertThat(fakeValuesService.fetchObject("property.dummy"),
-            Is.<Object>is(Arrays.asList("x", "y", "z")));
+        assertThat(fakeValuesService.fetchObject("property.dummy"), Is.<Object>is(Arrays.asList("x", "y", "z")));
     }
 
     @Test
@@ -139,7 +138,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         // then
         assertThat(actual, is("Yo!"));
         verify(dummy).hello();
-        verifyNoInteractions(faker);
+        verifyZeroInteractions(faker);
     }
 
     @Test
@@ -151,8 +150,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         doReturn("Luke Cage").when(person).name();
 
         // when
-        final String actual = fakeValuesService.resolve("property.advancedResolution", dummy,
-            faker);
+        final String actual = fakeValuesService.resolve("property.advancedResolution", dummy, faker);
 
         // then
         assertThat(actual, is("Luke Cage"));
@@ -171,8 +169,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         doReturn("Yo!").when(dummy).hello();
 
         // when
-        final String actual = fakeValuesService.resolve("property.resolutionWithList", dummy,
-            faker);
+        final String actual = fakeValuesService.resolve("property.resolutionWithList", dummy, faker);
 
         // then
         assertThat(actual, is("Yo!"));
@@ -249,14 +246,12 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void futureDateExpression() throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",
-            Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
 
         Date now = new Date();
         Date nowPlus10Days = new Date(now.getTime() + MILLIS_IN_A_DAY * 10);
 
-        Date date = dateFormat
-            .parse(fakeValuesService.expression("#{date.future '10','TimeUnit.DAYS'}", faker));
+        Date date = dateFormat.parse( fakeValuesService.expression( "#{date.future '10','TimeUnit.DAYS'}", faker ));
 
         assertThat(date.getTime(), greaterThan(now.getTime()));
         assertThat(date.getTime(), lessThan(nowPlus10Days.getTime()));
@@ -264,14 +259,12 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void pastDateExpression() throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",
-            Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
 
         Date now = new Date();
         Date nowMinus5Hours = new Date(now.getTime() - MILLIS_IN_AN_HOUR * 5);
 
-        Date date = dateFormat
-            .parse(fakeValuesService.expression("#{date.past '5','TimeUnit.HOURS'}", faker));
+        Date date = dateFormat.parse( fakeValuesService.expression( "#{date.past '5','TimeUnit.HOURS'}", faker ));
 
         assertThat(date.getTime(), greaterThan(nowMinus5Hours.getTime()));
         assertThat(date.getTime(), lessThan(now.getTime()));
@@ -279,7 +272,6 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
     @Test
     public void expressionWithFourArguments() throws ParseException {
-
         assertThat(
             fakeValuesService.expression("#{Internet.password '5','8','true','true'}", faker),
             matchesRegularExpression("[\\w\\d\\!%#$@_\\^&\\*]{5,8}"));
@@ -320,18 +312,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
         // then
         assertThat(actual, is("1 2"));
-        verifyNoInteractions(faker);
-    }
-
-    @Test
-    @SuppressWarnings("unused")
-    public void FakeValuesServiceWithNullLocaleTest() {
-        try {
-            RandomService r = new RandomService();
-            FakeValuesService f = new FakeValuesService(null, r);
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("locale is required"));
-        }
+        verifyZeroInteractions(faker);
     }
 
     public static class DummyService {
@@ -347,5 +328,4 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             return "Hello";
         }
     }
-
 }

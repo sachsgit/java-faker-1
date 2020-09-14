@@ -26,8 +26,7 @@ public class FakeValuesGroupingTest {
 
     @Test
     public void handlesOneFakeValue() {
-        assertThat(Maps.difference(fakeValuesGrouping.get("address"), addressValues.get("address"))
-            .areEqual(), equalTo(true));
+        assertThat(Maps.difference(fakeValuesGrouping.get("address"), addressValues.get("address")).areEqual(), equalTo(true));
         assertThat(fakeValuesGrouping.get("address"), is(notNullValue()));
     }
 
@@ -36,12 +35,10 @@ public class FakeValuesGroupingTest {
         FakeValues catValues = new FakeValues(Locale.ENGLISH, "cat.yml", "creature");
         fakeValuesGrouping.add(catValues);
 
-        assertThat(Maps.difference(fakeValuesGrouping.get("address"), addressValues.get("address"))
-            .areEqual(), equalTo(true));
+        assertThat(Maps.difference(fakeValuesGrouping.get("address"), addressValues.get("address")).areEqual(), equalTo(true));
         assertThat(fakeValuesGrouping.get("address"), is(notNullValue()));
 
-        assertThat(Maps.difference(fakeValuesGrouping.get("creature"), catValues.get("creature"))
-            .areEqual(), equalTo(true));
+        assertThat(Maps.difference(fakeValuesGrouping.get("creature"), catValues.get("creature")).areEqual(), equalTo(true));
         assertThat(fakeValuesGrouping.get("creature"), is(notNullValue()));
     }
 

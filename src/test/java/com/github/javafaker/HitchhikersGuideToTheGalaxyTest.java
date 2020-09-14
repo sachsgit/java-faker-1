@@ -10,14 +10,12 @@ public class HitchhikersGuideToTheGalaxyTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.hitchhikersGuideToTheGalaxy().character(),
-            matchesRegularExpression("^(\\w+(\\.?\\s?'?))+$"));
+        assertThat(faker.hitchhikersGuideToTheGalaxy().character(), matchesRegularExpression("^(\\w+(\\.?\\s?'?))+$"));
     }
 
     @Test
     public void location() {
-        assertThat(faker.hitchhikersGuideToTheGalaxy().location(),
-            matchesRegularExpression("^(\\w+\\S?\\.?\\s?'?-?)+$"));
+        assertThat(faker.hitchhikersGuideToTheGalaxy().location(), matchesRegularExpression("^(\\w+\\S?\\.?\\s?'?-?)+$"));
     }
 
     @Test
@@ -27,8 +25,7 @@ public class HitchhikersGuideToTheGalaxyTest extends AbstractFakerTest {
 
     @Test
     public void planet() {
-        assertThat(faker.hitchhikersGuideToTheGalaxy().planet(),
-            matchesRegularExpression("^(\\w+-?\\s?)+$"));
+        assertThat(faker.hitchhikersGuideToTheGalaxy().planet(), matchesRegularExpression("^(\\w+-?\\s?)+$"));
     }
 
     @Test
@@ -38,7 +35,6 @@ public class HitchhikersGuideToTheGalaxyTest extends AbstractFakerTest {
 
     @Test
     public void specie() {
-        assertThat(faker.hitchhikersGuideToTheGalaxy().specie(),
-            matchesRegularExpression("^(\\w+'?\\s?)+$"));
+        assertThat(faker.hitchhikersGuideToTheGalaxy().specie(), matchesRegularExpression("^(\\w+'?\\s?)+$"));
     }
 }

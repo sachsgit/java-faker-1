@@ -13,8 +13,7 @@ public class CommerceTest extends AbstractFakerTest {
 
     private static final String CAPITALIZED_WORD_REGEX = "[A-Z][a-z]+";
 
-    private static final String PROMOTION_CODE_REGEX = CAPITALIZED_WORD_REGEX + "(-"
-        + CAPITALIZED_WORD_REGEX + ")*";
+    private static final String PROMOTION_CODE_REGEX = CAPITALIZED_WORD_REGEX + "(-" + CAPITALIZED_WORD_REGEX + ")*";
 
     @Test
     public void testColor() {
@@ -38,25 +37,21 @@ public class CommerceTest extends AbstractFakerTest {
 
     @Test
     public void testPrice() {
-        assertThat(faker.commerce().price(),
-            matchesRegularExpression("\\d{1,3}\\" + decimalSeparator + "\\d{2}"));
+        assertThat(faker.commerce().price(), matchesRegularExpression("\\d{1,3}\\" + decimalSeparator + "\\d{2}"));
     }
 
     @Test
     public void testPriceMinMax() {
-        assertThat(faker.commerce().price(100, 1000),
-            matchesRegularExpression("\\d{3,4}\\" + decimalSeparator + "\\d{2}"));
+        assertThat(faker.commerce().price(100, 1000), matchesRegularExpression("\\d{3,4}\\" + decimalSeparator + "\\d{2}"));
     }
 
     @Test
     public void testPromotionCode() {
-        assertThat(faker.commerce().promotionCode(),
-            matchesRegularExpression(PROMOTION_CODE_REGEX + PROMOTION_CODE_REGEX + "\\d{6}"));
+        assertThat(faker.commerce().promotionCode(), matchesRegularExpression(PROMOTION_CODE_REGEX + PROMOTION_CODE_REGEX + "\\d{6}"));
     }
 
     @Test
     public void testPromotionCodeDigits() {
-        assertThat(faker.commerce().promotionCode(3),
-            matchesRegularExpression(PROMOTION_CODE_REGEX + PROMOTION_CODE_REGEX + "\\d{3}"));
+        assertThat(faker.commerce().promotionCode(3), matchesRegularExpression(PROMOTION_CODE_REGEX + PROMOTION_CODE_REGEX + "\\d{3}"));
     }
 }

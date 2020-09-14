@@ -11,8 +11,7 @@ public class RickAndMortyTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.rickAndMorty().character(),
-            matchesRegularExpression("^([\\w'-.]+ ?){2,}$"));
+        assertThat(faker.rickAndMorty().character(), matchesRegularExpression("^([\\w'-.]+ ?){2,}$"));
     }
 
     @Test

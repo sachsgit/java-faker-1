@@ -14,8 +14,7 @@ public class DemographicTest extends AbstractFakerTest {
 
     @Test
     public void educationalAttainment() {
-        assertThat(faker.demographic().educationalAttainment(),
-            matchesRegularExpression("(?U)([\\w'-]+ ?)+"));
+        assertThat(faker.demographic().educationalAttainment(), matchesRegularExpression("(?U)([\\w'-]+ ?)+"));
     }
 
     @Test

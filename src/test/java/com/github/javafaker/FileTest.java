@@ -12,8 +12,8 @@ public class FileTest extends AbstractFakerTest {
     @Test
     @Repeat(times = 10)
     public void testExtension() {
-        assertThat(faker.file().extension(), matchesRegularExpression(
-            "(flac|mp3|wav|bmp|gif|jpeg|jpg|png|tiff|css|csv|html|js|json|txt|mp4|avi|mov|webm|doc|docx|xls|xlsx|ppt|pptx|odt|ods|odp|pages|numbers|key|pdf)"));
+        assertThat(faker.file().extension(),
+                matchesRegularExpression("(flac|mp3|wav|bmp|gif|jpeg|jpg|png|tiff|css|csv|html|js|json|txt|mp4|avi|mov|webm|doc|docx|xls|xlsx|ppt|pptx|odt|ods|odp|pages|numbers|key|pdf)"));
     }
 
     @Test
@@ -25,8 +25,7 @@ public class FileTest extends AbstractFakerTest {
     @Test
     @Repeat(times = 10)
     public void testFileName() {
-        assertThat(faker.file().fileName(),
-            matchesRegularExpression("([a-z\\-_]+)(\\\\|\\/)([a-z\\-_]+)\\.([a-z0-9]+)"));
+        assertThat(faker.file().fileName(), matchesRegularExpression("([a-z\\-_]+)(\\\\|\\/)([a-z\\-_]+)\\.([a-z0-9]+)"));
     }
 
     @Test

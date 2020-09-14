@@ -9,7 +9,6 @@ public class RobinTest extends AbstractFakerTest {
 
     @Test
     public void quote() {
-        assertThat(faker.robin().quote(),
-            matchesRegularExpression("^(\\w+\\.?-?'?\\s?)+(\\(?)?(\\w+\\s?\\.?)+(\\))?$"));
+        assertThat(faker.robin().quote(), matchesRegularExpression("^(\\w+\\.?-?'?\\s?)+(\\(?)?(\\w+\\s?\\.?)+(\\))?$"));
     }
 }

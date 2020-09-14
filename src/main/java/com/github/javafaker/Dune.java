@@ -37,11 +37,24 @@ public class Dune {
     }
 
     public enum Quote {
-        GUILD_NAIVGATOR("guild_navigator"), EMPEROR("emperor"), PAUL("paul"), THUFIR(
-            "thufir"), JESSICA("jessica"), IRULAN("irulan"), MOHIAM("mohiam"), GURNEY(
-                "gurney"), LETO("leto"), STILGAR("stilgar"), LIET_KYNES("liet_kynes"), PARDOT_KYNES(
-                    "pardot_kynes"), BARON_HARKONNEN("baron_harkonnen"), PITER(
-                        "piter"), ALIA("alia"), MAPES("mapes"), DUNCAN("duncan"), YUEH("yueh");
+        GUILD_NAIVGATOR("guild_navigator"),
+        EMPEROR("emperor"),
+        PAUL("paul"),
+        THUFIR("thufir"),
+        JESSICA("jessica"),
+        IRULAN("irulan"),
+        MOHIAM("mohiam"),
+        GURNEY("gurney"),
+        LETO("leto"),
+        STILGAR("stilgar"),
+        LIET_KYNES("liet_kynes"),
+        PARDOT_KYNES("pardot_kynes"),
+        BARON_HARKONNEN("baron_harkonnen"),
+        PITER("piter"),
+        ALIA("alia"),
+        MAPES("mapes"),
+        DUNCAN("duncan"),
+        YUEH("yueh");
 
         private final String yamlKey;
 
@@ -51,8 +64,11 @@ public class Dune {
     }
 
     public enum Saying {
-        BENE_GESSERIT("bene_gesserit"), FREMEN("fremen"), MENTAT("mentat"), MUADDIB(
-            "muaddib"), ORANGE_CATHOLIC_BIBLE("orange_catholic_bible");
+        BENE_GESSERIT("bene_gesserit"),
+        FREMEN("fremen"),
+        MENTAT("mentat"),
+        MUADDIB("muaddib"),
+        ORANGE_CATHOLIC_BIBLE("orange_catholic_bible");
 
         private final String yamlKey;
 

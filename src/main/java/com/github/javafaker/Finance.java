@@ -15,11 +15,11 @@ public class Finance {
         this.faker = faker;
     }
 
-    private static final Map<String, String> countryCodeToBasicBankAccountNumberPattern = createCountryCodeToBasicBankAccountNumberPatternMap();
+    private static final Map<String, String> countryCodeToBasicBankAccountNumberPattern =
+            createCountryCodeToBasicBankAccountNumberPatternMap();
 
     public String creditCard(CreditCardType creditCardType) {
-        final String key = String.format("finance.credit_card.%s",
-            creditCardType.toString().toLowerCase());
+        final String key = String.format("finance.credit_card.%s", creditCardType.toString().toLowerCase());
         String value = faker.fakeValuesService().resolve(key, this, faker);
         final String template = faker.numerify(value);
 
@@ -38,8 +38,7 @@ public class Finance {
             luhnSum += sum(String.valueOf(digit * multiplier).split(""));
         }
         int luhnDigit = (10 - (luhnSum % 10)) % 10;
-        return template.replace('\\', ' ').replace('/', ' ').trim().replace('L',
-            String.valueOf(luhnDigit).charAt(0));
+        return template.replace('\\', ' ').replace('/', ' ').trim().replace('L', String.valueOf(luhnDigit).charAt(0));
     }
 
     public String creditCard() {
@@ -55,15 +54,13 @@ public class Finance {
     }
 
     public String iban() {
-        List<String> countryCodes = new ArrayList<String>(
-            countryCodeToBasicBankAccountNumberPattern.keySet());
+        List<String> countryCodes = new ArrayList<String>(countryCodeToBasicBankAccountNumberPattern.keySet());
         String randomCountryCode = countryCodes.get(faker.random().nextInt(countryCodes.size()));
         return iban(randomCountryCode);
     }
 
     public String iban(String countryCode) {
-        String basicBankAccountNumber = faker
-            .regexify(countryCodeToBasicBankAccountNumberPattern.get(countryCode));
+        String basicBankAccountNumber = faker.regexify(countryCodeToBasicBankAccountNumberPattern.get(countryCode));
         String checkSum = calculateIbanChecksum(countryCode, basicBankAccountNumber);
         return countryCode + checkSum + basicBankAccountNumber;
     }

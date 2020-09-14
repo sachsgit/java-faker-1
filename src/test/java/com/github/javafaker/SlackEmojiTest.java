@@ -41,8 +41,7 @@ public class SlackEmojiTest extends AbstractFakerTest {
 
     @Test
     public void objects_and_symbols() {
-        assertThat(faker.slackEmoji().objectsAndSymbols(),
-            matchesRegularExpression(EMOTICON_REGEX));
+        assertThat(faker.slackEmoji().objectsAndSymbols(), matchesRegularExpression(EMOTICON_REGEX));
     }
 
     @Test

@@ -112,7 +112,7 @@ public class Faker {
     }
 
     public Faker(Locale locale) {
-        this(locale, (Random) null);
+        this(locale, null);
     }
 
     public Faker(Random random) {
@@ -120,16 +120,8 @@ public class Faker {
     }
 
     public Faker(Locale locale, Random random) {
-        this(locale, new RandomService(random));
-    }
-
-    public Faker(Locale locale, RandomService randomService) {
-        this(new FakeValuesService(locale, randomService), randomService);
-    }
-
-    public Faker(FakeValuesService fakeValuesService, RandomService random) {
-        this.randomService = random;
-        this.fakeValuesService = fakeValuesService;
+        this.randomService = new RandomService(random);
+        this.fakeValuesService = new FakeValuesService(locale, randomService);
 
         this.ancient = new Ancient(this);
         this.app = new App(this);
@@ -235,8 +227,7 @@ public class Faker {
     /**
      * Constructs Faker instance with provided {@link Locale}.
      *
-     * @param locale
-     *            - {@link Locale}
+     * @param locale - {@link Locale}
      * @return {@link Faker#Faker(Locale)}
      */
     public static Faker instance(Locale locale) {
@@ -246,8 +237,7 @@ public class Faker {
     /**
      * Constructs Faker instance with provided {@link Random}.
      *
-     * @param random
-     *            - {@link Random}
+     * @param random - {@link Random}
      * @return {@link Faker#Faker(Random)}
      */
     public static Faker instance(Random random) {
@@ -257,10 +247,8 @@ public class Faker {
     /**
      * Constructs Faker instance with provided {@link Locale} and {@link Random}.
      *
-     * @param locale
-     *            - {@link Locale}
-     * @param random
-     *            - {@link Random}
+     * @param locale - {@link Locale}
+     * @param random - {@link Random}
      * @return {@link Faker#Faker(Locale, Random)}
      */
     public static Faker instance(Locale locale, Random random) {
@@ -268,8 +256,7 @@ public class Faker {
     }
 
     /**
-     * Returns a string with the '#' characters in the parameter replaced with random digits between
-     * 0-9 inclusive.
+     * Returns a string with the '#' characters in the parameter replaced with random digits between 0-9 inclusive.
      * <p>
      * For example, the string "ABC##EFG" could be replaced with a string like "ABC99EFG".
      *
@@ -722,11 +709,9 @@ public class Faker {
      * <li>#{number.number_between '1','10'}</li>
      * </ul>
      *
-     * @param expression
-     *            (see examples above)
+     * @param expression (see examples above)
      * @return the evaluated string expression
-     * @throws RuntimeException
-     *             if unable to evaluate the expression
+     * @throws RuntimeException if unable to evaluate the expression
      */
     public String expression(String expression) {
         return this.fakeValuesService.expression(expression, this);

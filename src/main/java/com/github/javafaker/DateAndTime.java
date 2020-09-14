@@ -25,8 +25,7 @@ public class DateAndTime {
     }
 
     /**
-     * Generates a future date from now. Note that there is a 1 second slack to avoid generating a
-     * past date.
+     * Generates a future date from now. Note that there is a 1 second slack to avoid generating a past date.
      *
      * @param atMost
      *            at most this amount of time ahead from now exclusive.
@@ -142,12 +141,7 @@ public class DateAndTime {
      */
     public Date between(Date from, Date to) throws IllegalArgumentException {
         if (to.before(from)) {
-            throw new IllegalArgumentException(
-                "Invalid date range, the upper bound date is before the lower bound.");
-        }
-
-        if (from.equals(to)) {
-            return from;
+            throw new IllegalArgumentException("Invalid date range, the upper bound date is before the lower bound.");
         }
 
         long offsetMillis = faker.random().nextLong(to.getTime() - from.getTime());
@@ -176,10 +170,8 @@ public class DateAndTime {
      */
     public Date birthday(int minAge, int maxAge) {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
-        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        Calendar from = new GregorianCalendar(currentYear - maxAge, currentMonth, currentDay);
-        Calendar to = new GregorianCalendar(currentYear - minAge, currentMonth, currentDay);
+        Calendar from = new GregorianCalendar(currentYear - maxAge, 0, 1);
+        Calendar to = new GregorianCalendar(currentYear - minAge, 11, 31);
 
         return between(from.getTime(), to.getTime());
     }

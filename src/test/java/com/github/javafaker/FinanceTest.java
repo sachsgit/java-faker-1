@@ -24,8 +24,7 @@ public class FinanceTest extends AbstractFakerTest {
 
     @Test
     public void bic() {
-        assertThat(faker.finance().bic(),
-            matchesRegularExpression("([A-Z]){4}([A-Z]){2}([0-9A-Z]){2}([0-9A-Z]{3})?"));
+        assertThat(faker.finance().bic(), matchesRegularExpression("([A-Z]){4}([A-Z]){2}([0-9A-Z]){2}([0-9A-Z]{3})?"));
     }
 
     @Test

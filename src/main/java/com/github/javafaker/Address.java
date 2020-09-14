@@ -20,8 +20,7 @@ public class Address {
     }
 
     public String streetAddress(boolean includeSecondary) {
-        String streetAddress = faker.fakeValuesService().resolve("address.street_address", this,
-            faker);
+        String streetAddress = faker.fakeValuesService().resolve("address.street_address", this, faker);
         if (includeSecondary) {
             streetAddress = streetAddress + " " + secondaryAddress();
         }
@@ -29,8 +28,7 @@ public class Address {
     }
 
     public String secondaryAddress() {
-        return faker
-            .numerify(faker.fakeValuesService().resolve("address.secondary_address", this, faker));
+        return faker.numerify(faker.fakeValuesService().resolve("address.secondary_address", this,faker));
     }
 
     public String zipCode() {
@@ -38,13 +36,11 @@ public class Address {
     }
 
     public String zipCodeByState(String stateAbbr) {
-        return faker.fakeValuesService().resolve("address.postcode_by_state." + stateAbbr, this,
-            faker);
+        return faker.fakeValuesService().resolve("address.postcode_by_state." + stateAbbr, this, faker);
     }
 
     public String countyByZipCode(String postCode) {
-        return faker.fakeValuesService().resolve("address.county_by_postcode." + postCode, this,
-            faker);
+        return faker.fakeValuesService().resolve("address.county_by_postcode." + postCode, this, faker);
     }
 
     public String streetSuffix() {
@@ -108,8 +104,7 @@ public class Address {
     }
 
     public String buildingNumber() {
-        return faker
-            .numerify(faker.fakeValuesService().resolve("address.building_number", this, faker));
+        return faker.numerify(faker.fakeValuesService().resolve("address.building_number", this, faker));
     }
 
     public String fullAddress() {
@@ -129,8 +124,7 @@ public class Address {
     }
 
     public String poBoxAddress() {
-        return faker
-            .numerify(faker.fakeValuesService().resolve("address.pobox_address", this, faker));
+        return faker.numerify(faker.fakeValuesService().resolve("address.pobox_address", this,faker));
     }
 
     public String aptAddress() {

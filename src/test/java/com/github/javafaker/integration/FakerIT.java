@@ -50,31 +50,23 @@ public class FakerIT {
 
     /**
      * a collection of Locales -> Exceptions.
-     * In the case of 'pt', city_prefix is '' by design. This test fails because it's testing that
-     * all string returning
-     * methods return a non blank string. But pt city_prefix is blank ,but the test shouldn't fail.
-     * So we add put
+     * In the case of 'pt', city_prefix is '' by design. This test fails because it's testing that all string returning
+     * methods return a non blank string. But pt city_prefix is blank ,but the test shouldn't fail. So we add put
      * exceptions like this into this collection.
      */
     private static final Map<Locale, List<String>> exceptions = Maps.newHashMap();
     static {
         // 'it' has an empty suffix list so it never returns a value
         exceptions.put(new Locale("it"), Arrays.asList("Name.suffix"));
-        exceptions.put(new Locale("es-mx"),
-            Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("es-mx"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
         exceptions.put(new Locale("pt"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
         exceptions.put(new Locale("uk"), Arrays.asList("Address.stateAbbr", "Address.streetSuffix",
             "Address.cityPrefix", "Address.citySuffix"));
-        exceptions.put(new Locale("pt-BR"),
-            Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
-        exceptions.put(new Locale("pt-br"),
-            Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
-        exceptions.put(new Locale("Pt_br"),
-            Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
-        exceptions.put(new Locale("pT_Br"),
-            Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
-        exceptions.put(new Locale("pt", "Br", "x2"),
-            Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pt-BR"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pt-br"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("Pt_br"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pT_Br"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pt", "Br", "x2"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
     }
 
     public FakerIT(Locale locale, Random random) {
@@ -92,10 +84,15 @@ public class FakerIT {
 
     @Parameterized.Parameters(name = "testing locale {0} and random {1}")
     public static Collection<Object[]> data() {
-        Object[][] data = new Object[][] { { Locale.ENGLISH, new Random() },
-                { new Locale("pt-BR"), null }, { new Locale("pt-br"), null },
-                { new Locale("Pt_br"), null }, { new Locale("pT_Br"), null },
-                { new Locale("pt", "Br", "x2"), null }, { null, new Random() }, { null, null } };
+        Object[][] data = new Object[][]{
+                {Locale.ENGLISH, new Random()},
+                {new Locale("pt-BR"), null},
+                {new Locale("pt-br"), null},
+                {new Locale("Pt_br"), null},
+                {new Locale("pT_Br"), null},
+                {new Locale("pt","Br","x2"), null},
+                {null, new Random()},
+                {null, null}};
 
         String[] ymlFiles = new File("./src/main/resources").list();
         int numberOfYmlFiles = ymlFiles.length;
@@ -195,19 +192,19 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.barcode());
     }
 
-    private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object)
-        throws Exception {
+    private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object) throws Exception {
         @SuppressWarnings("unchecked")
         Set<Method> methodsThatReturnStrings = getAllMethods(object.getClass(),
-            withModifier(Modifier.PUBLIC), withReturnType(String.class), withParametersCount(0));
+                withModifier(Modifier.PUBLIC),
+                withReturnType(String.class),
+                withParametersCount(0));
 
         for (Method method : methodsThatReturnStrings) {
             if (isExcepted(object, method)) {
                 continue;
             }
             final Object returnValue = method.invoke(object);
-            logger.info("{} {}.{} = {}", locale, object.getClass().getSimpleName().toLowerCase(),
-                method.getName(), returnValue);
+            logger.info("{} {}.{} = {}", locale, object.getClass().getSimpleName().toLowerCase(), method.getName(), returnValue);
             String failureReason = method + " on " + object;
             assertThat(failureReason, returnValue, is(instanceOf(String.class)));
             final String returnValueAsString = (String) returnValue;

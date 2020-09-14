@@ -11,14 +11,12 @@ public class HarryPotterTest extends AbstractFakerTest {
 
     @Test
     public void character() {
-        assertThat(faker.harryPotter().character(),
-            matchesRegularExpression("[A-Za-z,\\-\\.\\(\\) ]+"));
+        assertThat(faker.harryPotter().character(), matchesRegularExpression("[A-Za-z,\\-\\.\\(\\) ]+"));
     }
 
     @Test
     public void location() {
-        assertThat(faker.harryPotter().location(),
-            matchesRegularExpression("[A-Za-z0-9'\\. &,/]+"));
+        assertThat(faker.harryPotter().location(), matchesRegularExpression("[A-Za-z0-9'\\. &,/]+"));
     }
 
     @Test
@@ -28,8 +26,7 @@ public class HarryPotterTest extends AbstractFakerTest {
 
     @Test
     public void book() {
-        assertThat(faker.harryPotter().book(),
-            matchesRegularExpression("Harry Potter and the ([A-Za-z'\\-]+ ?)+"));
+        assertThat(faker.harryPotter().book(), matchesRegularExpression("Harry Potter and the ([A-Za-z'\\-]+ ?)+"));
     }
 
     @Test

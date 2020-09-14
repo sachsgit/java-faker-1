@@ -36,7 +36,8 @@ public class RandomServiceTest extends AbstractFakerTest {
     public static Collection<Object[]> data() {
         Object[][] data = new Object[][] {
                 { "RandomService(Random)", new RandomService(new Random()) },
-                { "RandomService()", new RandomService() } };
+                {"RandomService()", new RandomService()}
+        };
         return Arrays.asList(data);
     }
 
@@ -63,8 +64,7 @@ public class RandomServiceTest extends AbstractFakerTest {
     @Test
     public void testIntInRange() {
         for (int i = 1; i < 100; i++) {
-            assertThat(randomService.nextInt(-5, 5),
-                both(lessThanOrEqualTo(5)).and(greaterThanOrEqualTo(-5)));
+            assertThat(randomService.nextInt(-5, 5), both(lessThanOrEqualTo(5)).and(greaterThanOrEqualTo(-5)));
         }
     }
 

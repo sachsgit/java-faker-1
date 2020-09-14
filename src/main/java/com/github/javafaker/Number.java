@@ -35,14 +35,12 @@ public class Number {
     }
 
     /**
-     * Return a number between <em>min</em> and <em>max</em>. If
+     * Return a number between <em>min</em> and <em>max</em>.  If 
      * min == max, then min is returned. So numberBetween(2,2) will yield 2 even though
      * it doesn't make sense.
      *
-     * @param min
-     *            inclusive
-     * @param max
-     *            exclusive (unless min == max)
+     * @param min inclusive
+     * @param max exclusive (unless min == max)
      */
     public long numberBetween(long min, long max) {
         if (min == max)
@@ -53,10 +51,8 @@ public class Number {
     }
 
     /**
-     * @param numberOfDigits
-     *            the number of digits the generated value should have
-     * @param strict
-     *            whether or not the generated value should have exactly <code>numberOfDigits</code>
+     * @param numberOfDigits the number of digits the generated value should have
+     * @param strict         whether or not the generated value should have exactly <code>numberOfDigits</code>
      */
     public long randomNumber(int numberOfDigits, boolean strict) {
         long max = (long) Math.pow(10, numberOfDigits);
@@ -83,23 +79,19 @@ public class Number {
     /**
      * Returns a random double
      *
-     * @param maxNumberOfDecimals
-     *            maximum number of places
-     * @param min
-     *            minimum value
-     * @param max
-     *            maximum value
+     * @param maxNumberOfDecimals maximum number of places
+     * @param min                 minimum value
+     * @param max                 maximum value
      */
     public double randomDouble(int maxNumberOfDecimals, long min, long max) {
-        return decimalBetween(min, max).setScale(maxNumberOfDecimals, RoundingMode.HALF_EVEN)
+        return decimalBetween(min,max)
+                .setScale(maxNumberOfDecimals, RoundingMode.HALF_EVEN)
             .doubleValue();
     }
 
     /**
-     * @param min
-     *            inclusive
-     * @param max
-     *            exclusive
+     * @param min inclusive
+     * @param max exclusive
      * @return
      */
     private BigDecimal decimalBetween(long min, long max) {

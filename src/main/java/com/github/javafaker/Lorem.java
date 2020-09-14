@@ -32,19 +32,15 @@ public class Lorem {
     }
 
     public String characters(int minimumLength, int maximumLength) {
-        return characters(faker.random().nextInt(maximumLength - minimumLength) + minimumLength,
-            false);
+        return characters(faker.random().nextInt(maximumLength - minimumLength) + minimumLength, false);
     }
 
     public String characters(int minimumLength, int maximumLength, boolean includeUppercase) {
-        return characters(faker.random().nextInt(maximumLength - minimumLength) + minimumLength,
-            includeUppercase);
+        return characters(faker.random().nextInt(maximumLength - minimumLength) + minimumLength, includeUppercase);
     }
 
-    public String characters(int minimumLength, int maximumLength, boolean includeUppercase,
-        boolean includeDigit) {
-        return characters(faker.random().nextInt(maximumLength - minimumLength) + minimumLength,
-            includeUppercase, includeDigit);
+    public String characters(int minimumLength, int maximumLength, boolean includeUppercase, boolean includeDigit) {
+        return characters(faker.random().nextInt(maximumLength - minimumLength) + minimumLength, includeUppercase, includeDigit);
     }
 
     public String characters(int fixedNumberOfCharacters) {
@@ -55,8 +51,7 @@ public class Lorem {
         return characters(fixedNumberOfCharacters, includeUppercase, true);
     }
 
-    public String characters(int fixedNumberOfCharacters, boolean includeUppercase,
-        boolean includeDigit) {
+    public String characters(int fixedNumberOfCharacters, boolean includeUppercase, boolean includeDigit) {
         if (fixedNumberOfCharacters < 1) {
             return "";
         }
@@ -96,7 +91,6 @@ public class Lorem {
 
     /**
      * Create a sentence with a random number of words within the range 4..10.
-     * 
      * @return a random sentence
      */
     public String sentence() {
@@ -104,9 +98,7 @@ public class Lorem {
     }
 
     /**
-     * Create a sentence with a random number of words within the range
-     * (wordCount+1)..(wordCount+6).
-     * 
+     * Create a sentence with a random number of words within the range (wordCount+1)..(wordCount+6).
      * @param wordCount
      * @return a random sentence
      */
@@ -115,19 +107,15 @@ public class Lorem {
     }
 
     /**
-     * Create a sentence with a random number of words within the range
-     * (wordCount+1)..(wordCount+randomWordsToAdd).
-     * </p>
+     * Create a sentence with a random number of words within the range (wordCount+1)..(wordCount+randomWordsToAdd).</p>
      * 
      * Set {@code randomWordsToAdd} to 0 to generate sentences with a fixed number of words.
-     * 
      * @param wordCount
      * @param randomWordsToAdd
      * @return a random sentence
      */
     public String sentence(int wordCount, int randomWordsToAdd) {
-        int numberOfWordsToAdd = randomWordsToAdd == 0 ? 0
-            : faker.random().nextInt(randomWordsToAdd);
+        int numberOfWordsToAdd = randomWordsToAdd == 0 ? 0 : faker.random().nextInt(randomWordsToAdd);
         return capitalize(join(words(wordCount + numberOfWordsToAdd), " ") + ".");
     }
 
@@ -159,8 +147,7 @@ public class Lorem {
      * Create a string with a fixed size. Can be useful for testing
      * validator based on length string for example
      *
-     * @param numberOfLetters
-     *            size of the expected String
+     * @param numberOfLetters size of the expected String
      * @return a string with a fixed size
      */
     public String fixedString(int numberOfLetters) {
