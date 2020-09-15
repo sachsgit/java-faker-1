@@ -43,9 +43,11 @@ public class Faker {
     private final Hacker hacker;
     private final Options options;
     private final Code code;
+    private final Coin coin;
     private final Finance finance;
     private final Food food;
     private final GameOfThrones gameOfThrones;
+    private final Gender gender;
     private final DateAndTime dateAndTime;
     private final Demographic demographic;
     private final Dog dog;
@@ -94,9 +96,16 @@ public class Faker {
     private final Relationships relationships;
     private final Nation nation;
     private final Dune dune;
+    private final Babylon5 babylon5;
     private final AquaTeenHungerForce aquaTeenHungerForce;
     private final ProgrammingLanguage programmingLanguage;
-    private final Babylon5 babylon5;
+    private final Kaamelott kaamelott;
+    private final StarCraft starCraft;
+    private final BojackHorseman bojackHorseman;
+    private final Disease disease;
+    private final Basketball basketball;
+    private final Barcode barcode;
+    private final Sip sip;
 
     public Faker() {
         this(Locale.ENGLISH);
@@ -144,6 +153,7 @@ public class Faker {
         this.finance = new Finance(this);
         this.food = new Food(this);
         this.gameOfThrones = new GameOfThrones(this);
+        this.gender = new Gender(this);
         this.dateAndTime = new DateAndTime(this);
         this.demographic = new Demographic(this);
         this.dog = new Dog(this);
@@ -151,6 +161,7 @@ public class Faker {
         this.shakespeare = new Shakespeare(this);
         this.slackEmoji = new SlackEmoji(this);
         this.space = new Space(this);
+        this.coin = new Coin(this);
         this.superhero = new Superhero(this);
         this.team = new Team(this);
         this.bool = new Bool(this);
@@ -192,9 +203,16 @@ public class Faker {
         this.relationships = new Relationships(this);
         this.nation = new Nation(this);
         this.dune = new Dune(this);
+        this.babylon5 = new Babylon5(this);
         this.aquaTeenHungerForce = new AquaTeenHungerForce(this);
         this.programmingLanguage = new ProgrammingLanguage(this);
-        this.babylon5 = new Babylon5(this);
+        this.kaamelott = new Kaamelott(this);
+        this.starCraft = new StarCraft(this);
+        this.bojackHorseman = new BojackHorseman(this);
+        this.disease = new Disease(this);
+        this.basketball = new Basketball(this);
+        this.barcode = new Barcode(this);
+        this.sip = new Sip(this);
     }
 
     /**
@@ -419,6 +437,10 @@ public class Faker {
         return code;
     }
 
+    public Coin coin() {
+        return coin;
+    }
+
     public File file() {
         return file;
     }
@@ -437,6 +459,10 @@ public class Faker {
 
     public GameOfThrones gameOfThrones() {
         return gameOfThrones;
+    }
+
+    public Gender gender() {
+        return gender;
     }
 
     public DateAndTime date() {
@@ -591,22 +617,24 @@ public class Faker {
         return lebowski;
     }
 
-    public Medical medical(){
-    	return medical;
+    public Medical medical() {
+        return medical;
     }
 
     public Compass compass() {
         return compass;
     }
 
-	public Country country(){
-		return country;
-	}
+    public Country country() {
+        return country;
+    }
 
-    public Animal animal(){ return animal; }
+    public Animal animal() {
+        return animal;
+    }
 
     public BackToTheFuture backToTheFuture() {
-        return  backToTheFuture;
+        return backToTheFuture;
     }
 
     public PrincessBride princessBride() {
@@ -629,14 +657,42 @@ public class Faker {
         return aquaTeenHungerForce;
     }
 
-    public ProgrammingLanguage programmingLanguage() {
-        return programmingLanguage;
-    }
-  
     public Babylon5 babylon5() {
         return babylon5;
     }
-    
+
+    public ProgrammingLanguage programmingLanguage() {
+        return programmingLanguage;
+    }
+
+    public Kaamelott kaamelott() {
+        return kaamelott;
+    }
+
+    public StarCraft starCraft() {
+        return starCraft;
+    }
+
+    public BojackHorseman bojackHorseman() {
+        return bojackHorseman;
+    }
+
+    public Disease disease() {
+        return disease;
+    }
+
+    public Basketball basketball() {
+        return basketball;
+    }
+
+    public Barcode barcode() {
+        return barcode;
+    }
+
+    public Sip sip() {
+        return sip;
+    }
+
     public String resolve(String key) {
         return this.fakeValuesService.resolve(key, this, this);
     }

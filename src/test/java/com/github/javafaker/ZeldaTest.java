@@ -16,4 +16,5 @@ public class ZeldaTest extends AbstractFakerTest {
     public void character() {
         assertThat(faker.zelda().character(), matchesRegularExpression("(?U)([\\w'\\-.\\(\\)]+ ?)+"));
     }
+
 }

@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -13,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +23,8 @@ import com.github.javafaker.service.files.EnFile;
 import com.mifmif.common.regex.Generex;
 
 public class FakeValuesService {
-    private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?(?:'([^']+)')?(?:,'([^']+)')*\\}");
+    private static final Pattern EXPRESSION_PATTERN = Pattern.compile("#\\{([a-z0-9A-Z_.]+)\\s?((?:,?'([^']+)')*)\\}");
+    private static final Pattern EXPRESSION_ARGUMENTS_PATTERN = Pattern.compile("(?:'(.*?)')");
 
     private final Logger log = Logger.getLogger("faker");
 
@@ -104,8 +103,8 @@ public class FakeValuesService {
 
     /**
      * @return a proper {@link Locale} instance with language and country code set regardless of how
-     * it was instantiated.  new Locale("pt-br") will be normalized to a locale constructed
-     * with new Locale("pt","BR").
+     *         it was instantiated. new Locale("pt-br") will be normalized to a locale constructed
+     *         with new Locale("pt","BR").
      */
     private Locale normalizeLocale(Locale locale) {
         final String[] parts = locale.toString().split("[-\\_]");
@@ -124,11 +123,13 @@ public class FakeValuesService {
      * @return
      */
     public Object fetch(String key) {
-        List<Object> valuesArray = null;
+        List<?> valuesArray = new ArrayList<>();
         Object o = fetchObject(key);
         if (o instanceof List)
-            valuesArray = Arrays.asList(o);
-        return valuesArray == null ? null : valuesArray.get(randomService.nextInt(valuesArray.size()));
+            valuesArray = (List<?>) o;
+        return valuesArray.isEmpty() 
+            ? null 
+                : valuesArray.get(randomService.nextInt(valuesArray.size()));
     }
 
     /**
@@ -141,13 +142,6 @@ public class FakeValuesService {
         return (String) fetch(key);
     }
 
-    public List<String> castListFromObjectToString(Object o) {
-        List<Object> list = Arrays.asList(o);           
-        return list.stream()
-            .map( Object::toString )
-            .collect( Collectors.toList() );
-    }
-    
     /**
      * Safely fetches a key.
      * <p>
@@ -166,17 +160,18 @@ public class FakeValuesService {
      */
     public String safeFetch(String key, String defaultIfNull) {
         Object o = fetchObject(key);
-        if (o == null) return defaultIfNull;
+        if (o == null) 
+            return defaultIfNull;
         if (o instanceof List) {
-            List<String> values = castListFromObjectToString(o);
+            List<?> values = (List<?>)o;
             if (values.isEmpty()) {
                 return defaultIfNull;
             }
-            return values.get(randomService.nextInt(values.size()));
+            return (String)values.get(randomService.nextInt(values.size()));
         } else if (isSlashDelimitedRegex(o.toString())) {
             return String.format("#{regexify '%s'}", trimRegexSlashes(o.toString()));
         } else {
-            return (String) o;
+            return o.toString();
         }
     }
 
@@ -184,18 +179,21 @@ public class FakeValuesService {
         Object o = fetchObject(key);
         if (o == null) return defaultIfNull;
         if (o instanceof List) {
-            List<String> values = castListFromObjectToString(o);
+            List<?> values = (List<?>)o;
             if (values.isEmpty()) {
                 return defaultIfNull;
             }
-            List<String> subset = new ArrayList<>();
-            for (int i = 0; i < values.size(); i++)
-                if (values.get(i).length() == size && StringUtils.isNoneEmpty(values.get(i)))
-                    subset.add(values.get(i));
-            if (subset.isEmpty()) {
-                return defaultIfNull;
-            }
-            return subset.get(randomService.nextInt(subset.size()));
+            if (!values.get(0).toString().matches("#\\{\\w+\\}")) {
+                List<String> subset = new ArrayList<>();
+                for (int i = 0; i < values.size(); i++)
+                    if (values.get(i).toString().length() == size && StringUtils.isNoneEmpty(values.get(i).toString()))
+                        subset.add(values.get(i).toString());
+                if (subset.isEmpty()) {
+                    return defaultIfNull;
+                }
+                return subset.get(randomService.nextInt(subset.size()));
+            } else
+                return values.get(randomService.nextInt(values.size())).toString();
         } else if (isSlashDelimitedRegex(o.toString())) {
             return String.format("#{regexify '%s'}", trimRegexSlashes(o.toString()));
         } else {
@@ -219,8 +217,8 @@ public class FakeValuesService {
             for (int p = 0; currentValue != null && p < path.length; p++) {
                 String currentPath = path[p];
                 if (currentValue instanceof Map) {
-                    currentValue = ((Map<?,?>) currentValue).get(currentPath);
-                } else  {
+                    currentValue = ((Map<?, ?>) currentValue).get(currentPath);
+                } else {
                     currentValue = ((FakeValuesInterface) currentValue).get(currentPath);
                 }
             }
@@ -345,11 +343,10 @@ public class FakeValuesService {
     public String resolve(String key, Object current, Faker root, int size) {
         final String expression = safeFetch(key, null, size);
         if (expression == null) {
-            throw new ResolveToNullException(key + " with size " + size 
-                + " resulted in null expression");
+            throw new ResolveToNullException(key + " with size " + size + " resulted in null expression");
         }
 
-        return resolveExpression(expression, current, root);
+        return resolveExpression(expression, current, root, size);
     }
 
     /**
@@ -388,16 +385,41 @@ public class FakeValuesService {
         while (matcher.find()) {
             final String escapedDirective = matcher.group(0);
             final String directive = matcher.group(1);
+            final String arguments = matcher.group(2);
+            final Matcher argsMatcher = EXPRESSION_ARGUMENTS_PATTERN.matcher(arguments);
+            List<String> args = new ArrayList<>();
+            while (argsMatcher.find()) {
+                args.add(argsMatcher.group(1));
+            }
+
+            // resolve the expression and reprocess it to handle recursive templates
+            String resolved = resolveExpression(directive, args, current, root);
+            if (resolved == null) {
+                throw new ResolveToNullException("Unable to resolve " + escapedDirective + " directive.");
+            }
+
+            resolved = resolveExpression(resolved, current, root);
+            result = StringUtils.replaceOnce(result, escapedDirective, resolved);
+        }
+        return result;
+    }
+
+    protected String resolveExpression(String expression, Object current, Faker root, int size) {
+        final Matcher matcher = EXPRESSION_PATTERN.matcher(expression);
+
+        String result = expression;
+        while (matcher.find()) {
+            final String escapedDirective = matcher.group(0);
+            final String directive = matcher.group(1);
             List<String> args = new ArrayList<>();
             for (int i = 2; i < matcher.groupCount() + 1 && matcher.group(i) != null; i++) {
                 args.add(matcher.group(i));
             }
 
             // resolve the expression and reprocess it to handle recursive templates
-            String resolved = resolveExpression(directive, args, current, root);
+            String resolved = resolveExpression(directive, args, current, root, size);
             if (resolved == null) {
-                throw new ResolveToNullException("Unable to resolve " + escapedDirective 
-                    + " directive.");
+                throw new ResolveToNullException("Unable to resolve " + escapedDirective + " directive.");
             }
 
             resolved = resolveExpression(resolved, current, root);
@@ -422,7 +444,7 @@ public class FakeValuesService {
         // Name.first_name (resolve to faker.name().firstName())
         final String simpleDirective = (isDotDirective(directive) || current == null)
                 ? directive
-                : classNameToYamlName(current) + "." + directive;
+            : classNameToYamlName(current) + "." + directive;
 
         String resolved = null;
         // resolve method references on CURRENT object like #{number_between '1','10'} on Number or
@@ -438,7 +460,50 @@ public class FakeValuesService {
             resolved = safeFetch(simpleDirective, null);
         }
 
-        // "references on 'faker object like #{regexify '[a-z]'}"
+        // "resolve method references on faker object like #{regexify '[a-z]'}"
+        if (resolved == null && !isDotDirective(directive)) {
+            resolved = resolveFromMethodOn(root, directive, args);
+        }
+
+        // "Resolve Faker Object method references like #{ClassName.method_name}"
+        if (resolved == null && isDotDirective(directive)) {
+            resolved = resolveFakerObjectAndMethod(root, directive, args);
+        }
+
+        // last ditch effort.  Due to Ruby's dynamic nature, something like 'Address.street_title' will resolve
+        // because 'street_title' is a dynamic method on the Address object.  We can't do this in Java so we go
+        // thru the normal resolution above, but if we will can't resolve it, we once again do a 'safeFetch' as we
+        // did first but FIRST we change the Object reference Class.method_name with a yml style internal refernce ->
+        // class.method_name (lowercase)
+        if (resolved == null && isDotDirective(directive)) {
+            resolved = safeFetch(javaNameToYamlName(simpleDirective), null);
+        }
+
+        return resolved;
+    }
+
+    private String resolveExpression(String directive, List<String> args, Object current, Faker root, int size) {
+        // name.name (resolve locally)
+        // Name.first_name (resolve to faker.name().firstName())
+        final String simpleDirective = (isDotDirective(directive) || current == null)
+                ? directive
+                : classNameToYamlName(current) + "." + directive;
+
+        String resolved = null;
+        // resolve method references on CURRENT object like #{number_between '1','10'} on Number or
+        // #{ssn_valid} on IdNumber
+        if (!isDotDirective(directive)) {
+            resolved = resolveFromMethodOn(current, directive, args);
+        }
+
+        // simple fetch of a value from the yaml file. the directive may have been mutated
+        // such that if the current yml object is car: and directive is #{wheel} then
+        // car.wheel will be looked up in the YAML file.
+        if (resolved == null) {
+            resolved = safeFetch(simpleDirective, null, size);
+        }
+
+        // "resolve method references on faker object like #{regexify '[a-z]'}"
         if (resolved == null && !isDotDirective(directive)) {
             resolved = resolveFromMethodOn(root, directive, args);
         }
@@ -499,7 +564,6 @@ public class FakeValuesService {
                 .toLowerCase();
     }
 
-
     /**
      * Given a directive like 'firstName', attempts to resolve it to a method.  For example if obj is an instance of
      * {@link Name} then this method would return {@link Name#firstName()}.  Returns null if the directive is nested
@@ -541,8 +605,8 @@ public class FakeValuesService {
             String nestedMethodName = classAndMethod[1].replace("_", "");
             final MethodAndCoercedArgs accessor = accessor(objectWithMethodToInvoke, classAndMethod[1].replace("_", ""), args);
             if (accessor == null) {
-                throw new CannotFindMethodException("Can't find method on "
-                        + objectWithMethodToInvoke.getClass().getSimpleName()
+                throw new CannotFindMethodException(
+                    "Can't find method on " + objectWithMethodToInvoke.getClass().getSimpleName()
                         + " called " + nestedMethodName + ".");
             }
 
@@ -553,20 +617,22 @@ public class FakeValuesService {
         }
     }
 
-
     /**
      * Find an accessor by name ignoring case.
      */
     private MethodAndCoercedArgs accessor(Object onObject, String name, List<String> args) {
-        String msg = "Find accessor named " + name + " on " + onObject.getClass().getSimpleName() 
-            + " with args " + args;
+        String msg = "Find accessor named " + name + " on " + onObject.getClass().getSimpleName()
+                + " with args " + args;
         log.log(Level.FINE, msg);
 
         for (Method m : onObject.getClass().getMethods()) {
-            if (m.getName().equalsIgnoreCase(name) && m.getParameterTypes().length == args.size()) {
+            if (m.getName().equalsIgnoreCase(name)
+                    && m.getParameterTypes().length == args.size()) {
                 final List<Object> coercedArguments = coerceArguments(m, args);
+                if (coercedArguments != null) {
                 return new MethodAndCoercedArgs(m, coercedArguments);
             }
+        }
         }
 
         if (name.contains("_")) {
@@ -589,20 +655,18 @@ public class FakeValuesService {
             Class<?> toType = ClassUtils.primitiveToWrapper(accessor.getParameterTypes()[i]);
             try {
                 if (toType.isEnum()) {
-                    Method method = toType.getMethod( "valueOf", String.class );
-                    String enumArg = args.get( i ).substring( args.get( i ).indexOf( '.' ) + 1 );
-                    Object coercedArg = method.invoke( null, enumArg );
-                    coerced.add( coercedArg );
+                    Method method = toType.getMethod("valueOf", String.class);
+                    String enumArg = args.get(i).substring(args.get(i).indexOf('.') + 1);
+                    Object coercedArg = method.invoke(null, enumArg);
+                    coerced.add(coercedArg);
                 } else {
                     final Constructor<?> ctor = toType.getConstructor(String.class);
                     final Object coercedArgument = ctor.newInstance(args.get(i));
                     coerced.add(coercedArgument);
                 }
             } catch (Exception e) {
-                String msg = "Unable to coerce " + args.get(i) + " to " + toType.getSimpleName() 
-                    + " via " + toType.getSimpleName() + "(String) constructor.";
-                log.fine(msg);
-                return new ArrayList<>();
+                log.fine("Unable to coerce " + args.get(i) + " to " + toType.getSimpleName() + " via " + toType.getSimpleName() + "(String) constructor.");
+                return null;
             }
         }
         return coerced;
@@ -618,9 +682,7 @@ public class FakeValuesService {
      * shot, returning both when successful.  This saves us from doing it more than once (coercing args).
      */
     private static class MethodAndCoercedArgs {
-
         private final Method method;
-
         private final List<Object> coerced;
 
         private MethodAndCoercedArgs(Method m, List<Object> coerced) {

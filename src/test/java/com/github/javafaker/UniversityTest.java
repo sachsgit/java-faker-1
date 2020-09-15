@@ -21,4 +21,5 @@ public class UniversityTest extends AbstractFakerTest {
     public void testSuffix() {
         assertThat(faker.university().suffix(), matchesRegularExpression("\\w+"));
     }
+
 }

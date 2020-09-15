@@ -14,7 +14,7 @@ public class Lorem {
     protected Lorem(Faker faker) {
         this.faker = faker;
     }
-    
+
     public char character() {
         return character(false);
     }

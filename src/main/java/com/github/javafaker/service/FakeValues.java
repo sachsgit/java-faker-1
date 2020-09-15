@@ -13,7 +13,7 @@ public class FakeValues implements FakeValuesInterface {
     private final Locale locale;
     private final String filename;
     private final String path;
-    private Map<?,?> values;
+    private Map<?, ?> values;
 
     FakeValues(Locale locale) {
         this(locale, getFilename(locale), getFilename(locale));
@@ -45,20 +45,22 @@ public class FakeValues implements FakeValuesInterface {
     }
 
     @Override
-    public Map<?,?> get(String key) {
+    public Map<?, ?> get(String key) {
         if (values == null) {
             values = loadValues();
         }
 
-        return values == null ? null : (Map<?,?>) values.get(key);
+        return values == null ? null : (Map<?, ?>) values.get(key);
     }
 
-    private Map<?,?> loadValues() {
-        String pathWithLocaleAndFilename = File.separator + locale.getLanguage() + File.separator + this.filename;
+    private Map<?, ?> loadValues() {
+        String pathWithLocaleAndFilename = File.separator + locale.getLanguage() + File.separator
+            + this.filename;
         String pathWithFilename = File.separator + filename + ".yml";
         String pathWithLocale = File.separator + locale.getLanguage() + ".yml";
 
-        List<String> paths = Arrays.asList(pathWithLocaleAndFilename, pathWithFilename, pathWithLocale);
+        List<String> paths = Arrays.asList(pathWithLocaleAndFilename, pathWithFilename,
+            pathWithLocale);
         InputStream stream = null;
         for (String strPath : paths) {
             stream = findStream(strPath);
@@ -71,12 +73,12 @@ public class FakeValues implements FakeValuesInterface {
             return null;
         }
 
-        final Map<?,?> valuesMap = new Yaml().loadAs(stream, Map.class);
-        Map<?,?> localeBased = (Map<?,?>) valuesMap.get(locale.getLanguage());
+        final Map<?, ?> valuesMap = new Yaml().loadAs(stream, Map.class);
+        Map<?, ?> localeBased = (Map<?, ?>) valuesMap.get(locale.getLanguage());
         if (localeBased == null) {
-            localeBased = (Map<?,?>) valuesMap.get(filename);
+            localeBased = (Map<?, ?>) valuesMap.get(filename);
         }
-        return (Map<?,?>)localeBased.get("faker");
+        return (Map<?, ?>) localeBased.get("faker");
     }
 
     private InputStream findStream(String filename) {

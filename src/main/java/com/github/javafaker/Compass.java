@@ -14,9 +14,9 @@ public class Compass {
     public String abbreviation() {
         return faker.expression("#{compass.abbreviation}");
     }
-    
+
     public String azimuth() {
         return faker.expression("#{compass.azimuth}");
     }
-    
+
 }

@@ -53,4 +53,5 @@ public class Options {
     public <E> E nextElement(List<E> list) {
         return list.get(faker.random().nextInt(list.size()));
     }
+    
 }

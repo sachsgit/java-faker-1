@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.not;
 
 import org.junit.Test;
 
-public class ElderScrollsTest extends AbstractFakerTest  {
+public class ElderScrollsTest extends AbstractFakerTest {
 
     @Test
     public void testCity() {

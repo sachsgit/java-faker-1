@@ -9,12 +9,14 @@ public class ProgrammingLanguageTest extends AbstractFakerTest {
 
     @Test
     public void name() {
-        assertThat(faker.programmingLanguage().name(), matchesRegularExpression("[A-Za-z0-9 :,.+*()#/\\–\\-@πéöü'′!]+"));
+        assertThat(faker.programmingLanguage().name(),
+            matchesRegularExpression("[A-Za-z0-9 :,.+*()#/\\–\\-@πéöü'′!]+"));
     }
 
     @Test
     public void creator() {
-        assertThat(faker.programmingLanguage().creator(), matchesRegularExpression("[A-Za-z .,\\-]+"));
+        assertThat(faker.programmingLanguage().creator(),
+            matchesRegularExpression("[A-Za-z .,\\-]+"));
     }
 
 }

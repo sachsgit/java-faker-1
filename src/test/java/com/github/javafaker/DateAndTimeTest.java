@@ -32,7 +32,7 @@ public class DateAndTimeTest extends AbstractFakerTest {
     }
 
     @Test
-    public void testFutureDateWithMinimum(){
+    public void testFutureDateWithMinimum() {
         for (int i = 0; i < 1000; i++) {
             Date now = new Date();
             Date future = faker.date().future(5, 4, TimeUnit.SECONDS);
@@ -43,7 +43,7 @@ public class DateAndTimeTest extends AbstractFakerTest {
     }
 
     @Test
-    public void testPastDateWithMinimum(){
+    public void testPastDateWithMinimum() {
         for (int i = 0; i < 1000; i++) {
             Date now = new Date();
             Date past = faker.date().past(5, 4, TimeUnit.SECONDS);

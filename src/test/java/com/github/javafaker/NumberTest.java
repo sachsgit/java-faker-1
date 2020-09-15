@@ -34,7 +34,7 @@ public class NumberTest extends AbstractFakerTest {
     private static final int RANDOMIZATION_QUALITY_RANGE_START = RANDOMIZATION_QUALITY_RANGE_STEP;
     public static final int RANDOMIZATION_TESTS_MAX_NUMBERS_TO_GET = 1000;
 
-    final double individualRunGtPercentUnique= 0.8;
+    final double individualRunGtPercentUnique = 0.8;
     final double percentRunsGtUniquePercentage = 0.90;
 
     @Test
@@ -192,7 +192,7 @@ public class NumberTest extends AbstractFakerTest {
         assertThat("Calling numberBetween with min==max yields min, with 0",
                 faker.number().numberBetween(0L, 0L),
                 is(0L));
-        assertThat("Calling numberBetween with min==max yields min", 
+        assertThat("Calling numberBetween with min==max yields min",
                 faker.number().numberBetween(2L, 2L),
                 is(2L));
     }
@@ -200,9 +200,9 @@ public class NumberTest extends AbstractFakerTest {
     /**
      * Given a number of min/max ranges
      *  for each min/max range, call {@link Number#randomDouble(int, int, int)} with min/max 'n' times
-     *  calculate the uniqueness for that given min/max range.
+     * calculate the uniqueness for that given min/max range.
      * For all 'uniqueness' values
-     *  verify the percentage of 'uniqueness' ratios over 80% is 90%.
+     * verify the percentage of 'uniqueness' ratios over 80% is 90%.
      *
      * This isn't perfect but it ensures a pretty good degree of uniqueness in the random number generation.
      */
@@ -234,11 +234,11 @@ public class NumberTest extends AbstractFakerTest {
 
     /**
      * Given a number of min/max ranges
-     *  for each min/max range, call numberBetween with min/max 'n' times
-     *  calculate the uniqueness for that given min/max range.
+     * for each min/max range, call numberBetween with min/max 'n' times
+     * calculate the uniqueness for that given min/max range.
      * For all 'uniqueness' values
-     *  verify the percentage of 'uniqueness' ratios over 80% is 90%.
-     *  
+     * verify the percentage of 'uniqueness' ratios over 80% is 90%.
+     * 
      * This isn't perfect but it ensures a pretty good degree of uniqueness in the random number generation.
      */
     @Test
@@ -270,10 +270,10 @@ public class NumberTest extends AbstractFakerTest {
 
     /**
      * Given a number of min/max ranges
-     *  for each min/max range, call {@link Number#numberBetween(long, long)}  with min/max 'n' times
-     *  calculate the uniqueness for that given min/max range.
+     * for each min/max range, call {@link Number#numberBetween(long, long)} with min/max 'n' times
+     * calculate the uniqueness for that given min/max range.
      * For all 'uniqueness' values
-     *  verify the percentage of 'uniqueness' ratios over 80% is 90%.
+     * verify the percentage of 'uniqueness' ratios over 80% is 90%.
      *
      * This isn't perfect but it ensures a pretty good degree of uniqueness in the random number generation.
      */
@@ -291,7 +291,7 @@ public class NumberTest extends AbstractFakerTest {
                 });
             }
         };
-        
+
         final double percentGreaterThan80Percent = randomizationQualityTest(individualRunGtPercentUnique, minMaxRangeToUniquePercentageFunction);
         assertThat("Percentage of runs > 80% unique is gte 90%",
                 percentGreaterThan80Percent, greaterThanOrEqualTo(percentRunsGtUniquePercentage));
@@ -337,8 +337,8 @@ public class NumberTest extends AbstractFakerTest {
      * 
      * @return percent of percentUniqueRunner's results greater than the threshold
      */
-    private double randomizationQualityTest(final double threshold, 
-                                            final Function<Pair<Long,Long>,Double> percentUniqueRunner) {
+    private double randomizationQualityTest(final double threshold,
+        final Function<Pair<Long, Long>, Double> percentUniqueRunner) {
         final int rangeEnd = RANDOMIZATION_QUALITY_RANGE_END;
         final int rangeStep = RANDOMIZATION_QUALITY_RANGE_STEP;
         final int rangeStart = RANDOMIZATION_QUALITY_RANGE_START;
@@ -347,7 +347,7 @@ public class NumberTest extends AbstractFakerTest {
         final AtomicLong total = new AtomicLong();
 
         for (long l = rangeStart; l < rangeEnd; l += rangeStep) {
-            final double percentUnique = percentUniqueRunner.apply(Pair.of(-l,l));
+            final double percentUnique = percentUniqueRunner.apply(Pair.of(-l, l));
             logger.info("Range {} to {} is {} percent unique.", -l, l, percentUnique);
             if (percentUnique > threshold) {
                 greaterThanThreshold.incrementAndGet();
@@ -385,5 +385,5 @@ public class NumberTest extends AbstractFakerTest {
         if (numbersToGet == 0) numbersToGet = RANDOMIZATION_TESTS_MAX_NUMBERS_TO_GET;
         return numbersToGet;
     }
-    
+
 }

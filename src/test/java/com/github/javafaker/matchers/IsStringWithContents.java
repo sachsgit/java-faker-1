@@ -9,11 +9,11 @@ public class IsStringWithContents extends TypeSafeMatcher<String> {
 
     @Override
     protected boolean matchesSafely(String s) {
-        if (s == null) return false;
+        if (s == null)
+            return false;
 
         return s.trim().length() > 0;
     }
-
 
     @Override
     public void describeTo(Description description) {

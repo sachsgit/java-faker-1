@@ -32,7 +32,7 @@ public class Address {
     }
 
     public String zipCode() {
-        return faker.bothify(faker.fakeValuesService().resolve("address.postcode", this,faker));
+        return faker.bothify(faker.fakeValuesService().resolve("address.postcode", this, faker));
     }
 
     public String zipCodeByState(String stateAbbr) {
@@ -120,9 +120,9 @@ public class Address {
             distance = distance + " miles ";
         String direction = faker.expression("#{compass.direction}");
         String intersection = streetName() + " and " + streetName() + " intersection";
-        return distance + direction + " of the " + intersection; 
+        return distance + direction + " of the " + intersection;
     }
-    
+
     public String poBoxAddress() {
         return faker.numerify(faker.fakeValuesService().resolve("address.pobox_address", this,faker));
     }

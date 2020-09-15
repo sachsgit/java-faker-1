@@ -11,12 +11,11 @@ import com.github.javafaker.repeating.Repeat;
 public class CountryTest extends AbstractFakerTest {
 
     @Test
-    @Repeat(times=10)
+    @Repeat(times = 10)
     public void testFlag() {
         String flag = faker.country().flag();
         assertThat(flag, matchesRegularExpression("^http:\\/\\/flags.fmcdn\\.net\\/data\\/flags\\/w580\\/[a-zA-Z0-9_]+\\.png$"));
     }
-
 
     @Test
     public void testCode2() {

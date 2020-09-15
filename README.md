@@ -66,19 +66,23 @@ Fakers
 * Babylon5
 * Back To The Future
 * Aviation
+* Basketball
 * Beer
+* Bojack Horseman
 * Book
 * Bool
 * Business
 * ChuckNorris
 * Cat
 * Code
+* Coin
 * Color
 * Commerce
 * Company
 * Crypto
 * DateAndTime
 * Demographic
+* Disease
 * Dog
 * DragonBall
 * Dune
@@ -90,6 +94,7 @@ Fakers
 * Friends
 * FunnyName
 * GameOfThrones
+* Gender
 * Hacker
 * HarryPotter
 * Hipster
@@ -99,6 +104,7 @@ Fakers
 * IdNumber
 * Internet
 * Job
+* Kaamelott
 * LeagueOfLegends
 * Lebowski
 * LordOfTheRings
@@ -118,8 +124,10 @@ Fakers
 * Robin
 * RockBand
 * Shakespeare
+* Sip
 * SlackEmoji
 * Space
+* StarCraft
 * StarTrek
 * Stock
 * Superhero

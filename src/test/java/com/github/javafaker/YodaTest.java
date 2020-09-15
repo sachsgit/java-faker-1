@@ -15,5 +15,5 @@ public class YodaTest extends AbstractFakerTest {
     public void quote() {
         assertThat(faker.yoda().quote(), not(emptyOrNullString()));
     }
-    
+
 }

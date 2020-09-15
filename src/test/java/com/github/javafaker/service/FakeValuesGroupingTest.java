@@ -1,8 +1,8 @@
 package com.github.javafaker.service;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.Locale;
@@ -41,5 +41,5 @@ public class FakeValuesGroupingTest {
         assertThat(Maps.difference(fakeValuesGrouping.get("creature"), catValues.get("creature")).areEqual(), equalTo(true));
         assertThat(fakeValuesGrouping.get("creature"), is(notNullValue()));
     }
-    
+
 }

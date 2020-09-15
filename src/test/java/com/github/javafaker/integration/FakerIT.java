@@ -61,7 +61,12 @@ public class FakerIT {
         exceptions.put(new Locale("es-mx"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
         exceptions.put(new Locale("pt"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
         exceptions.put(new Locale("uk"), Arrays.asList("Address.stateAbbr", "Address.streetSuffix",
-                "Address.cityPrefix", "Address.citySuffix"));
+            "Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pt-BR"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pt-br"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("Pt_br"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pT_Br"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
+        exceptions.put(new Locale("pt", "Br", "x2"), Arrays.asList("Address.cityPrefix", "Address.citySuffix"));
     }
 
     public FakerIT(Locale locale, Random random) {
@@ -141,6 +146,7 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.finance());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.food());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.gameOfThrones());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.gender());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.hacker());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.idNumber());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.shakespeare());
@@ -150,6 +156,7 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.superhero());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.team());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.beer());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.coin());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.university());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.cat());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.lordOfTheRings());
@@ -174,9 +181,15 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.relationships());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.nation());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.dune());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.babylon5());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.aquaTeenHungerForce());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.programmingLanguage());
-        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.babylon5());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.kaamelott());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.starCraft());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.bojackHorseman());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.disease());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.basketball());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.barcode());
     }
 
     private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object) throws Exception {
@@ -197,13 +210,15 @@ public class FakerIT {
             final String returnValueAsString = (String) returnValue;
             assertThat(failureReason, returnValueAsString, not(emptyOrNullString()));
             assertThat(failureReason + " is a slash encoded regex", returnValueAsString,
-                       not(allOf(startsWith("/"), endsWith("/"))));
+                not(allOf(startsWith("/"), endsWith("/"))));
         }
     }
 
     private boolean isExcepted(Object object, Method method) {
         final List<String> classDotMethod = exceptions.get(this.locale);
-        if (classDotMethod == null) {return false;}
+        if (classDotMethod == null) {
+            return false;
+        }
         return classDotMethod.contains(object.getClass().getSimpleName() + "." + method.getName());
     }
 

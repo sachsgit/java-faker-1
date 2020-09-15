@@ -11,4 +11,5 @@ public class RockBandTest extends AbstractFakerTest {
     public void name() {
         assertThat(faker.rockBand().name(), matchesRegularExpression("([\\w'/.,&]+ ?)+"));
     }
+
 }

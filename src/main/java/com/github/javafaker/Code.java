@@ -22,11 +22,13 @@ public class Code {
      *       isbn_gs1: "some expression"
      * </code>
      * in the appropriate yml file.
+     * 
      * @return a GS1 code for an ISBN13, currently is only 978 and 979
      */
     public String isbnGs1() {
         return faker.regexify("978|979");
     }
+
     /**
      * This can be overridden by specifying
      * <code>
@@ -34,6 +36,7 @@ public class Code {
      *       isbn_group: "some expression"
      * </code>
      * in the appropriate yml file.
+     * 
      * @return an ISBN group number
      */
     public String isbnGroup() {
@@ -47,6 +50,7 @@ public class Code {
      *       isbn_registrant: "some expression"
      * </code>
      * in the appropriate yml file.
+     * 
      * @return an ISBN registrant 'element' with separator
      */
     public String isbnRegistrant() {
@@ -55,11 +59,11 @@ public class Code {
             case 6:
                 return faker.number().numberBetween(0,1) + faker.number().digit() + "-" + faker.number().digits(6);
             case 5:
-                return faker.number().numberBetween(200,699) + "-" + faker.number().digits(5);
+                return faker.number().numberBetween(200, 699) + "-" + faker.number().digits(5);
             case 4:
-                return faker.number().numberBetween(7000,8499) + "-" + faker.number().digits(4);
+                return faker.number().numberBetween(7000, 8499) + "-" + faker.number().digits(4);
             case 3:
-                return faker.number().numberBetween(85000,89999) + "-" + faker.number().digits(3);
+                return faker.number().numberBetween(85000, 89999) + "-" + faker.number().digits(3);
             case 2:
                 return faker.number().numberBetween(900000,949999) + "-" + faker.number().digits(2);
             case 1:
@@ -75,7 +79,7 @@ public class Code {
     public String isbn10() {
         return isbn10(false);
     }
-    
+
     /**
      * @param separator true if you want separators returned, false otherwise
      * @return a valid ISBN10 number with or without separators (ex. 9604250590, 960-425-059-0)
@@ -141,7 +145,7 @@ public class Code {
     }
 
     private final String stripIsbnSeparator(CharSequence t) {
-        return t.toString().replaceAll("-","");
+        return t.toString().replaceAll("-", "");
     }
 
     public String asin() {
@@ -158,7 +162,7 @@ public class Code {
         str[1] = arr.charAt(1);
 
         // Fill all the remaining numbers except for the last one with random values.
-        for (int i=2; i < len - 1; i++) {
+        for (int i = 2; i < len - 1; i++) {
             str[i] = Character.forDigit(faker.number().numberBetween(0, 9), 10);
         }
 

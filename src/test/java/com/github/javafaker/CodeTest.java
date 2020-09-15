@@ -86,11 +86,11 @@ public class CodeTest extends AbstractFakerTest {
 
         assertThat("Uses overridden expressions from test.yml", 
                 isbn10Sep, 
-                matchesRegularExpression("9971-\\d-\\d{4}-(\\d|X)"));
-        
+            matchesRegularExpression("9971-\\d-\\d{4}-(\\d|X)"));
+
         assertThat("Uses overridden expressions from test.yml",
                 isbn13Sep, 
-                matchesRegularExpression("(333|444)-9971-\\d-\\d{4}-\\d"));
+            matchesRegularExpression("(333|444)-9971-\\d-\\d{4}-\\d"));
     }
 
     @Test

@@ -14,7 +14,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
@@ -138,7 +138,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         // then
         assertThat(actual, is("Yo!"));
         verify(dummy).hello();
-        verifyNoInteractions(faker);
+        verifyZeroInteractions(faker);
     }
 
     @Test
@@ -221,13 +221,13 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
     @Test
     public void expressionWithInvalidFakerObject() {
         expressionShouldFailWith("#{ObjectNotOnFaker.methodName}",
-                "Unable to resolve #{ObjectNotOnFaker.methodName} directive.");
+            "Unable to resolve #{ObjectNotOnFaker.methodName} directive.");
     }
 
     @Test
     public void expressionWithValidFakerObjectButInvalidMethod() {
         expressionShouldFailWith("#{Name.nonExistentMethod}",
-                "Unable to resolve #{Name.nonExistentMethod} directive.");
+            "Unable to resolve #{Name.nonExistentMethod} directive.");
     }
 
     /**
@@ -241,7 +241,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
     @Test
     public void expressionWithValidFakerObjectValidMethodInvalidArgs() {
         expressionShouldFailWith("#{Number.number_between 'x','y'}",
-                "Unable to resolve #{Number.number_between 'x','y'} directive.");
+            "Unable to resolve #{Number.number_between 'x','y'} directive.");
     }
 
     @Test
@@ -249,12 +249,12 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
 
         Date now = new Date();
-        Date nowPlus10Days = new Date( now.getTime() + MILLIS_IN_A_DAY * 10 );
+        Date nowPlus10Days = new Date(now.getTime() + MILLIS_IN_A_DAY * 10);
 
         Date date = dateFormat.parse( fakeValuesService.expression( "#{date.future '10','TimeUnit.DAYS'}", faker ));
 
-        assertThat( date.getTime(), greaterThan( now.getTime() ));
-        assertThat( date.getTime(), lessThan( nowPlus10Days.getTime() ));
+        assertThat(date.getTime(), greaterThan(now.getTime()));
+        assertThat(date.getTime(), lessThan(nowPlus10Days.getTime()));
     }
 
     @Test
@@ -262,12 +262,19 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat( "EEE MMM dd HH:mm:ss z yyyy" );
 
         Date now = new Date();
-        Date nowMinus5Hours = new Date( now.getTime() - MILLIS_IN_AN_HOUR * 5 );
+        Date nowMinus5Hours = new Date(now.getTime() - MILLIS_IN_AN_HOUR * 5);
 
         Date date = dateFormat.parse( fakeValuesService.expression( "#{date.past '5','TimeUnit.HOURS'}", faker ));
 
-        assertThat( date.getTime(), greaterThan( nowMinus5Hours.getTime() ));
-        assertThat( date.getTime(), lessThan( now.getTime() ));
+        assertThat(date.getTime(), greaterThan(nowMinus5Hours.getTime()));
+        assertThat(date.getTime(), lessThan(now.getTime()));
+    }
+
+    @Test
+    public void expressionWithFourArguments() throws ParseException {
+        assertThat(
+            fakeValuesService.expression("#{Internet.password '5','8','true','true'}", faker),
+            matchesRegularExpression("[\\w\\d\\!%#$@_\\^&\\*]{5,8}"));
     }
 
     /**
@@ -291,7 +298,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             assertThat(re.getMessage(), is(errorMessage));
         }
     }
-    
+
     @Test
     public void resolveUsingTheSameKeyTwice() {
         // #{hello} -> DummyService.hello
@@ -305,7 +312,7 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
 
         // then
         assertThat(actual, is("1 2"));
-        verifyNoInteractions(faker);
+        verifyZeroInteractions(faker);
     }
 
     public static class DummyService {
@@ -321,5 +328,4 @@ public class FakeValuesServiceTest extends AbstractFakerTest {
             return "Hello";
         }
     }
-
 }

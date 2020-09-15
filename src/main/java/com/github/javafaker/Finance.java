@@ -15,7 +15,6 @@ public class Finance {
         this.faker = faker;
     }
 
-
     private static final Map<String, String> countryCodeToBasicBankAccountNumberPattern =
             createCountryCodeToBasicBankAccountNumberPatternMap();
 

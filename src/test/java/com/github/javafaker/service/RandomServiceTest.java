@@ -34,13 +34,13 @@ public class RandomServiceTest extends AbstractFakerTest {
 
     @Parameterized.Parameters(name = "Created via {0}")
     public static Collection<Object[]> data() {
-        Object[][] data = new Object[][]{
-                {"RandomService(Random)", new RandomService(new Random())},
+        Object[][] data = new Object[][] {
+                { "RandomService(Random)", new RandomService(new Random()) },
                 {"RandomService()", new RandomService()}
         };
         return Arrays.asList(data);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testPositiveBoundariesOnly() {
         randomService.nextLong(0L);
@@ -71,6 +71,11 @@ public class RandomServiceTest extends AbstractFakerTest {
     @Test
     public void testHex() {
         assertThat(randomService.hex(8), matchesRegularExpression("^[0-9A-F]{8}$"));
+    }
+
+    @Test
+    public void testDefaultHex() {
+        assertThat(randomService.hex(), matchesRegularExpression("^[0-9A-F]{8}$"));
     }
 
 }

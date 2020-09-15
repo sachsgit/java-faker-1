@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-
 public class CryptoTest extends AbstractFakerTest {
 
     @Test

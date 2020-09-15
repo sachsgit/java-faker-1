@@ -8,7 +8,7 @@ public class EnIdNumber {
             "\\d{3}-0{2}-\\d{4}",
             "\\d{3}-\\d{2}-0{4}",
             "666-\\d{2}-\\d{4}",
-            "9\\d{2}-\\d{2}-\\d{4}"};
+            "9\\d{2}-\\d{2}-\\d{4}" };
 
     public String getValidSsn(Faker f) {
         String ssn = f.regexify("[0-8]\\d{2}-\\d{2}-\\d{4}");

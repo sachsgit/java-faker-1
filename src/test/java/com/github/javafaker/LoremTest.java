@@ -4,6 +4,8 @@ import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegu
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 
@@ -98,6 +100,11 @@ public class LoremTest extends AbstractFakerTest {
     @Test
     public void testSentenceFixedNumberOfWords() {
         assertThat(faker.lorem().sentence(10, 0), matchesRegularExpression("(\\w+\\s?){10}\\."));
+    }
+
+    @Test
+    public void testWords() {
+        assertThat(faker.lorem().words(), hasSize(greaterThanOrEqualTo(1)));
     }
 
 }

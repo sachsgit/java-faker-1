@@ -21,13 +21,14 @@ public class Name {
 
     /**
      * <p>
-     *      A multipart name composed of an optional prefix, a firstname and a lastname
-     *      or other possible variances based on locale.  Examples:
-     *      <ul>
-     *          <li>James Jones Jr.</li>
-     *          <li>Julie Johnson</li>
-     *      </ul>
+     * A multipart name composed of an optional prefix, a firstname and a lastname
+     * or other possible variances based on locale. Examples:
+     * <ul>
+     * <li>James Jones Jr.</li>
+     * <li>Julie Johnson</li>
+     * </ul>
      * </p>
+     * 
      * @return a random name with given and family names and an optional suffix.
      */
     public String name() {
@@ -36,15 +37,16 @@ public class Name {
 
     /**
      * <p>
-     *      A multipart name composed of an optional prefix, a given and family name,
-     *      another 'firstname' for the middle name and an optional suffix such as Jr.
-     *      Examples:
-     *      <ul>
-     *          <li>Mrs. Ella Geraldine Fitzgerald</li>
-     *          <li>Jason Tom Sawyer Jr.</li>
-     *          <li>Helen Jessica Troy</li>
-     *      </ul>
+     * A multipart name composed of an optional prefix, a given and family name,
+     * another 'firstname' for the middle name and an optional suffix such as Jr.
+     * Examples:
+     * <ul>
+     * <li>Mrs. Ella Geraldine Fitzgerald</li>
+     * <li>Jason Tom Sawyer Jr.</li>
+     * <li>Helen Jessica Troy</li>
+     * </ul>
      * </p>
+     * 
      * @return a random name with a middle name component with optional prefix and suffix
      */
     public String nameWithMiddle() {
@@ -130,56 +132,62 @@ public class Name {
 
     /**
      * <p>
-     *     A three part title composed of a descriptor level and job.  Some examples are :
-     *     <ul>
-     *         <li>(template) {descriptor} {level} {job}</li>
-     *         <li>Lead Solutions Specialist</li>
-     *         <li>National Marketing Manager</li>
-     *         <li>Central Response Liaison</li>
-     *     </ul>
+     * A three part title composed of a descriptor level and job. Some examples are :
+     * <ul>
+     * <li>(template) {descriptor} {level} {job}</li>
+     * <li>Lead Solutions Specialist</li>
+     * <li>National Marketing Manager</li>
+     * <li>Central Response Liaison</li>
+     * </ul>
      * </p>
+     * 
      * @return a random three part job title
      */
     public String title() {
         return StringUtils.join(new String[] {
             faker.fakeValuesService().resolve("name.title.descriptor", this, faker),
-            faker.fakeValuesService().resolve("name.title.level", this, faker),
+                    faker.fakeValuesService().resolve("name.title.level", this, faker),
             faker.fakeValuesService().resolve("name.title.job", this, faker) }, " ");
     }
 
     /**
      * <p>
      *     A lowercase username composed of the first_name and last_name joined with a '.'. Some examples are:
-     *     <ul>
-     *         <li>(template) {@link #firstName()}.{@link #lastName()}</li>
-     *         <li>jim.jones</li>
-     *         <li>jason.leigh</li>
-     *         <li>tracy.jordan</li>
-     *     </ul>
+     * <ul>
+     * <li>(template) {@link #firstName()}.{@link #lastName()}</li>
+     * <li>jim.jones</li>
+     * <li>jason.leigh</li>
+     * <li>tracy.jordan</li>
+     * </ul>
      * </p>
      * @return a random two part user name.
      * @see Name#firstName()
      * @see Name#lastName()
      */
     public String username() {
-        String firstName = firstName().replaceAll("'", "").toLowerCase();
-        String lastName = lastName().replaceAll("'", "").toLowerCase();
-        return firstName + "." + lastName;
+        String username = StringUtils.join(
+                firstName().replace("'", "").toLowerCase(),
+                ".",
+                lastName().replace("'", "").toLowerCase()
+        );
+
+        return StringUtils.deleteWhitespace(username);
     }
 
     /**
      * <p>
-     *     A lowercase username composed of the first_name initial and last_name initial followed by
-     *     some random numbers.
+     * A lowercase username composed of the first_name initial and last_name initial followed by
+     * some random numbers.
      *
-     *     Some examples are:
-     *     <ul>
-     *         <li>(template) {@link #firstName()[0]}{@link #lastName()[0]}{@link RandomNumberString</li>
-     *         <li>jj01611</li>
-     *         <li>jl94416</li>
-     *         <li>tj82614</li>
-     *     </ul>
+     * Some examples are:
+     * <ul>
+     * <li>(template) {@link #firstName()[0]}{@link #lastName()[0]}{@link RandomNumberString</li>
+     * <li>jj01611</li>
+     * <li>jl94416</li>
+     * <li>tj82614</li>
+     * </ul>
      * </p>
+     * 
      * @return a random two part user name.
      * @see Name#firstName()
      * @see Name#lastName()
@@ -196,11 +204,11 @@ public class Name {
     }
 
     /**
-     * <p>
      * <p>Returns a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+</p>
      * @return a blood group such as O−, O+, A-, A+, B-, B+, AB-, AB+
      */
     public String bloodGroup() {
         return faker.fakeValuesService().resolve("name.blood_group", this, faker);
     }
+
 }

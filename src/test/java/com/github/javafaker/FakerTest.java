@@ -29,7 +29,7 @@ public class FakerTest extends AbstractFakerTest {
 
     @Test
     public void letterifyShouldGenerateUpperCaseLetters() {
-        assertThat(faker.bothify("????",true), matchesRegularExpression("[A-Z]{4}"));
+        assertThat(faker.bothify("????", true), matchesRegularExpression("[A-Z]{4}"));
     }
 
     @Test

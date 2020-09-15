@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.not;
 
 import org.junit.Test;
 
-public class ShakespeareTest  extends AbstractFakerTest{
+public class ShakespeareTest extends AbstractFakerTest {
 
     @Test
     public void testHamletQuote() {
