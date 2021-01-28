@@ -88,6 +88,7 @@ Fakers
 * Dune
 * Educator
 * Esports
+* EnglandFootBall
 * File
 * Finance
 * Food
@@ -117,6 +118,7 @@ Fakers
 * Options
 * Overwatch
 * PhoneNumber
+* Photography
 * Pokemon
 * Princess Bride
 * Relationship Terms

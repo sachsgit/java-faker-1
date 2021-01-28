@@ -100,12 +100,14 @@ public class Faker {
     private final AquaTeenHungerForce aquaTeenHungerForce;
     private final ProgrammingLanguage programmingLanguage;
     private final Kaamelott kaamelott;
+    private final Photography photography;
     private final StarCraft starCraft;
     private final BojackHorseman bojackHorseman;
     private final Disease disease;
     private final Basketball basketball;
     private final Barcode barcode;
     private final Sip sip;
+    private final EnglandFootBall englandfootball;
 
     public Faker() {
         this(Locale.ENGLISH);
@@ -207,12 +209,14 @@ public class Faker {
         this.aquaTeenHungerForce = new AquaTeenHungerForce(this);
         this.programmingLanguage = new ProgrammingLanguage(this);
         this.kaamelott = new Kaamelott(this);
+        this.photography = new Photography(this);
         this.starCraft = new StarCraft(this);
         this.bojackHorseman = new BojackHorseman(this);
         this.disease = new Disease(this);
         this.basketball = new Basketball(this);
         this.barcode = new Barcode(this);
         this.sip = new Sip(this);
+        this.englandfootball = new EnglandFootBall(this);
     }
 
     /**
@@ -669,6 +673,10 @@ public class Faker {
         return kaamelott;
     }
 
+    public Photography photography() {
+        return  photography;
+    }
+
     public StarCraft starCraft() {
         return starCraft;
     }
@@ -692,6 +700,8 @@ public class Faker {
     public Sip sip() {
         return sip;
     }
+
+    public EnglandFootBall englandfootball() { return englandfootball; }
 
     public String resolve(String key) {
         return this.fakeValuesService.resolve(key, this, this);

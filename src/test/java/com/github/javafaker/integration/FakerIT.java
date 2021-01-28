@@ -185,11 +185,13 @@ public class FakerIT {
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.aquaTeenHungerForce());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.programmingLanguage());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.kaamelott());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.photography());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.starCraft());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.bojackHorseman());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.disease());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.basketball());
         testAllMethodsThatReturnStringsActuallyReturnStrings(faker.barcode());
+        testAllMethodsThatReturnStringsActuallyReturnStrings(faker.englandfootball());
     }
 
     private void testAllMethodsThatReturnStringsActuallyReturnStrings(Object object) throws Exception {
